@@ -1,7 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.Collections;
+using System.Linq;
+using System;
 
 namespace LootTracker
 {
+    [Serializable]
     public class LootItem
     {
         //Define class Fields.
@@ -14,6 +18,7 @@ namespace LootTracker
         public int basevalue = 0;
         public int totalvalue = 0;
         public Dictionary<string, int> assignments = new Dictionary<string, int>();
+        //public Hashtable assignments = new Hashtable();
         public int assignedcount = 0;
 
         //Default constructor for initializing a new loot item.
@@ -105,9 +110,12 @@ namespace LootTracker
             assignedcount = 0;
             foreach (KeyValuePair<string, int> entry in assignments)
             {
-                assignedcount += entry.Value;
+                assignedcount += Convert.ToInt32(entry.Value);
             }
+
             unassignedcount = count - assignedcount;
         }
+
+        
     }
 }

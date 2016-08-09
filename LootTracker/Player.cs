@@ -1,5 +1,8 @@
-﻿namespace LootTracker
+﻿using System;
+
+namespace LootTracker
 {
+    [Serializable]
     public class Player
     {
         //Define class vars.

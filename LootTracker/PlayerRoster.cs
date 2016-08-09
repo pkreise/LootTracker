@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace LootTracker
 {
+    [Serializable]
     public class PlayerRoster
     {
         //Method to add a player to a player roster object.

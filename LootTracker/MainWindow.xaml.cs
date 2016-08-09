@@ -1,7 +1,10 @@
 ﻿using System.Windows;
+using System.Windows.Forms;
 using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 using System;
+using System.Data;
 
 namespace LootTracker
 {
@@ -13,51 +16,36 @@ namespace LootTracker
         public MainWindow()
         {
             InitializeComponent();
-
         }
 
-        public void MainProgram()
+        //Declare a book var of type LootBook.
+        public LootBook book;
+
+        //Event Handler for opening an existing LootBook.
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
         {
-            LootBook book = null;
-
-            if (File.Exists(@"C:\users\ddenson\desktop"))
-            {
-                //Initialize the XML handler class.
-                XmlHandler xmlhandler = new XmlHandler();
-
-                //Deserialize the XML and create a lootbook.
-                book = xmlhandler.ReadXML();
-            }
-            else
-            {
-                book = new LootBook();
-            }
-            
-            //Define test player.
-            Player player = new Player("Dean", "Frederick");
-
-            //byte[] playerimage = File.ReadAllBytes("C:\\Users\\ddenson\\Desktop\\IC848627.png");
-            //player.UpdateImage(playerimage);
-
-            //Give the test player 10000 gold.
-            player.AddGold(10000);
-
-            //Add player to PlayerRoster.
-            book.roster.AddPlayer(player);
-
-            //Define test loot item.
-            LootItem item = new LootItem("TestItem1", "Weapon", 10, 1000, 12);
-
-            //Add test loot item to lootbook.
-            if (!book.lootlist.Contains(item))
-            {
-                book.AddLootItem(item);
-            }
-            else
-            {
-                Console.WriteLine("Unable to add item.  {0} is already present in the collection.", item.itemname);
-            }
+            DataHandler handler = new DataHandler();
+            book = handler.ReadData();
         }
-    }
+
+        //Event Handler for saving the open LootBook.
+        private void MenuItem_Click_1(object sender, RoutedEventArgs e)
+        {
+            DataHandler handler = new DataHandler();
+            handler.WriteData(book);
+        }
+
+        //Event Handler for creating a new LootBook.
+        private void MenuItem_Click_2(object sender, RoutedEventArgs e)
+        {
+            book = new LootBook();
+        }
+
+        //Event Handler for adding a new player to the roster.
+        private void MenuItem_Click_3(object sender, RoutedEventArgs e)
+        {
+            Player player = new Player("Dean", "Frederick");
+            book.roster.AddPlayer(player);
+        }
     }
 }

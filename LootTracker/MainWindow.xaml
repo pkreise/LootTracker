@@ -5,8 +5,18 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:LootTracker"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
+        Title="MainWindow" Height="700" Width="1000">
     <Grid>
-        <TextBox x:Name="textBox" HorizontalAlignment="Left" Height="23" Margin="57,114,0,0" TextWrapping="Wrap" Text="SUPERCOOKAMUNGA" VerticalAlignment="Top" Width="172"/>
+        <Menu x:Name="menu" Height="25" VerticalAlignment="Top">
+            <MenuItem Header="File">
+                <MenuItem Header="Open LootBook" Click="MenuItem_Click"/>
+                <MenuItem Header="New LootBook" Click="MenuItem_Click_2"/>
+                <MenuItem Header="Save LootBook" Click="MenuItem_Click_1"/>
+            </MenuItem>
+            <MenuItem Header="Players">
+                <MenuItem Header="Add Player" Click="MenuItem_Click_3"/>
+            </MenuItem>
+            <MenuItem/>
+        </Menu>
     </Grid>
 </Window>

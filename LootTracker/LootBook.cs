@@ -1,7 +1,11 @@
 ﻿using System.Collections.Generic;
+using System;
+using System.Linq;
+
 
 namespace LootTracker
 {
+    [Serializable]
     public class LootBook
     {
         //Add a player roster to the lootbook.
@@ -24,5 +28,6 @@ namespace LootTracker
                 lootlist.Remove(lootitem);
             }
         }
+
     }
 }
