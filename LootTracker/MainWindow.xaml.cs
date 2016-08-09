@@ -14,19 +14,30 @@ namespace LootTracker
         {
             InitializeComponent();
 
-            //Initialize the XML handler class.
-            XmlHandler xmlhandler = new XmlHandler();
+        }
 
-            //Read the XML and initialize our lootbook.
-            //LootBook book = xmlhandler.ReadXML();
+        public void MainProgram()
+        {
+            LootBook book = null;
 
-            LootBook book = new LootBook();
+            if (File.Exists(@"C:\users\ddenson\desktop"))
+            {
+                //Initialize the XML handler class.
+                XmlHandler xmlhandler = new XmlHandler();
 
+                //Deserialize the XML and create a lootbook.
+                book = xmlhandler.ReadXML();
+            }
+            else
+            {
+                book = new LootBook();
+            }
+            
             //Define test player.
             Player player = new Player("Dean", "Frederick");
 
-            byte[] playerimage = File.ReadAllBytes("C:\\Users\\ddenson\\Desktop\\IC848627.png");
-            player.UpdateImage(playerimage);
+            //byte[] playerimage = File.ReadAllBytes("C:\\Users\\ddenson\\Desktop\\IC848627.png");
+            //player.UpdateImage(playerimage);
 
             //Give the test player 10000 gold.
             player.AddGold(10000);
@@ -47,5 +58,6 @@ namespace LootTracker
                 Console.WriteLine("Unable to add item.  {0} is already present in the collection.", item.itemname);
             }
         }
+    }
     }
 }
