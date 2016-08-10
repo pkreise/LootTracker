@@ -1,8 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Xml.Serialization;
-using System.Collections.Generic;
-using System.Collections;
 using System.Windows.Forms;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Runtime.Serialization;
