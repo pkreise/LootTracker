@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using System;
 
 namespace LootTracker
 {
@@ -72,6 +73,18 @@ namespace LootTracker
         private void MenuItem_Exit_Click(object sender, RoutedEventArgs e)
         {
             Close();
+        }
+
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            //Instantiate a new AddPlayer window.
+            AddItem window = new AddItem();
+
+            //Show the window.
+            window.ShowDialog();
+
+            LootItem item = new LootItem(window.textBox_Name.Text, window.comboBox_Type.Text, (Convert.ToInt16(window.textBox_Count.Text)), (Convert.ToInt16(window.textBox_BaseValue.Text)), (Convert.ToInt16(window.textBox_BaseWeight.Text)));
+            book.AddLootItem(item);
         }
     }
 }

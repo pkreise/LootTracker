@@ -18,6 +18,7 @@ namespace LootTracker
 
             //Instantiate a new instance of the SaveFileDialog.
             SaveFileDialog filepicker = new SaveFileDialog();
+            filepicker.Filter = "Data Files(*.dat)|*.DAT";
 
             //Display the filepicker to the user.
             filepicker.ShowDialog();
