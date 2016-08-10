@@ -36,13 +36,15 @@ namespace LootTracker
             }
             catch (SerializationException e)
             {
-                //Console.WriteLine("Failed to serialize. Reason: " + e.Message);
+                Console.WriteLine("Failed to serialize. Reason: " + e.Message);
                 //throw;
             }
             finally
             {
                 //close the filestream.
                 filestream.Close();
+                filepicker.Dispose();
+                filestream.Dispose();
             }
         }
         
@@ -60,6 +62,7 @@ namespace LootTracker
             if (!File.Exists(filepicker.FileName))
             {
                 book = new LootBook();
+                filepicker.Dispose();
                 return book;
             }
             else
@@ -67,6 +70,7 @@ namespace LootTracker
                 FileStream fs = new FileStream(filepicker.FileName, FileMode.Open);
                 BinaryFormatter formatter = new BinaryFormatter();
                 book = (LootBook)formatter.Deserialize(fs);
+                filepicker.Dispose();
                 return book;
             }
         }
