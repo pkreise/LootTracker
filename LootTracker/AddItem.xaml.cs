@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Text.RegularExpressions;
+using System.IO;
 
 namespace LootTracker
 {
@@ -21,11 +22,14 @@ namespace LootTracker
     public partial class AddItem : Window
     {
         public bool canceled = true;
+        byte[] imagearray;
+
 
         public AddItem()
         {
             InitializeComponent();
         }
+
 
         private void button_OK_Click(object sender, RoutedEventArgs e)
         {
@@ -49,10 +53,21 @@ namespace LootTracker
                 else
                 {
                     textBlock_Name.Foreground = Brushes.Black;
-                    Regex.Replace(textBlock_Name.Text, @"^\*", " ");
+                    textBlock_Name.Text = "Item Name";
                 }
             }
                     
+        }
+
+        private void Window_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == MouseButton.Left)
+            DragMove();
+        }
+
+        private void button_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
         }
     }
 }

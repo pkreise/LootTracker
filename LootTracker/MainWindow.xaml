@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:LootTracker"
         mc:Ignorable="d"
-        Title="MainWindow" Height="700" Width="1000" Icon="LootTracker.ico">
+        Title="MainWindow" Height="700" Width="1000" Icon="LootTracker.ico" WindowStartupLocation="CenterScreen" Loaded="Window_Loaded" AllowsTransparency="True" WindowStyle="None">
     <Grid>
         <Menu x:Name="menu" Height="25" VerticalAlignment="Top">
             <MenuItem Header="File">
@@ -24,5 +24,28 @@
                 <MenuItem Header="Add Item" Click="MenuItem_Click"/>
             </MenuItem>
         </Menu>
+        <TabControl x:Name="tabControl" Margin="10,30,10,10">
+            <TabItem Header="Items List">
+                <Grid Background="#FFE5E5E5">
+                    <ListView x:Name="listView" Margin="0,100,0,0">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Width="auto" Header="Item Name" DisplayMemberBinding="{Binding itemname}"/>
+                                <GridViewColumn Width="auto" Header="Item Type" DisplayMemberBinding="{Binding loottype}"/>
+                                <GridViewColumn Width="auto" Header="Item Count" DisplayMemberBinding="{Binding count}"/>
+                                <GridViewColumn Width="auto" Header="Unassigned Count" DisplayMemberBinding="{Binding unassignedcount}"/>
+                                <GridViewColumn Width="auto" Header="Base Weight" DisplayMemberBinding="{Binding baseweight}"/>
+                                <GridViewColumn Width="auto" Header="Total Weight" DisplayMemberBinding="{Binding totalweight}"/>
+                                <GridViewColumn Width="auto" Header="Base Value" DisplayMemberBinding="{Binding basevalue}"/>
+                                <GridViewColumn Width="auto" Header="Total Value" DisplayMemberBinding="{Binding totalvalue}"/>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Player Roster">
+                <Grid Background="#FFE5E5E5"/>
+            </TabItem>
+        </TabControl>
     </Grid>
 </Window>

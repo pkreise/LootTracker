@@ -7,28 +7,41 @@ namespace LootTracker
     public class LootItem
     {
         //Define class Fields.
-        public string itemname = null;
-        public string loottype = null;
-        public int count = 0;
-        public int unassignedcount = 0;
-        public decimal baseweight = 0;
-        public decimal totalweight = 0;
-        public int basevalue = 0;
-        public int totalvalue = 0;
-        public Dictionary<string, int> assignments = new Dictionary<string, int>();
-        //public Hashtable assignments = new Hashtable();
-        public int assignedcount = 0;
+        string _itemname = null;
+        string _loottype = null;
+        int _count = 0;
+        int _unassignedcount = 0;
+        int _assignedcount = 0;
+        decimal _baseweight = 0;
+        decimal _totalweight = 0;
+        int _basevalue = 0;
+        int _totalvalue = 0;
+        Dictionary<string, int> _assignments = new Dictionary<string, int>();
+
+        //Define properties.
+        public string itemname { get {return _itemname; }  }
+        public string loottype { get { return _loottype; } }
+        public int count { get { return _count; } }
+        public int unassignedcount { get { return _unassignedcount; } }
+        public int assignedcount { get { return _assignedcount; } }
+        public decimal baseweight { get { return _baseweight; } }
+        public decimal totalweight { get { return _totalweight; } }
+        public int basevalue { get { return _basevalue; } }
+        public int totalvalue { get { return _totalvalue; } }
+        public Dictionary<string, int> assignments { get { return _assignments; } }
+
+
 
         //Default constructor for initializing a new loot item.
         public LootItem()
         {
-            itemname = null;
-            loottype = null;
-            count = 0;
-            basevalue = 0;
-            unassignedcount = 0;
-            baseweight = 0;
-            assignments = null;
+            _itemname = null;
+            _loottype = null;
+            _count = 0;
+            _basevalue = 0;
+            _unassignedcount = 0;
+            _baseweight = 0;
+            _assignments = null;
             CalculateTotalValue();
             CalculateTotalWeight();
         }
@@ -36,12 +49,12 @@ namespace LootTracker
         //Constructor for initializing a new loot item.
         public LootItem(string ItemName, string LootType, int Count, int BaseValue, decimal BaseWeight)
         {
-            itemname = ItemName;
-            loottype = LootType;
-            count = Count;
-            basevalue = BaseValue;
-            unassignedcount = Count;
-            baseweight = BaseWeight;
+            _itemname = ItemName;
+            _loottype = LootType;
+            _count = Count;
+            _basevalue = BaseValue;
+            _unassignedcount = Count;
+            _baseweight = BaseWeight;
             CalculateTotalValue();
             CalculateTotalWeight();
         }
@@ -49,19 +62,19 @@ namespace LootTracker
         //Method to calculate total value of a loot item.
         public void CalculateTotalValue()
         {
-            totalvalue = count * basevalue;
+            _totalvalue = _count * _basevalue;
         }
 
         //Method to calculate total weight of a loot item.
         public void CalculateTotalWeight()
         {
-            totalweight = count * baseweight;
+            _totalweight = _count * _baseweight;
         }
 
         //Method to increment the count of a loot item.
         public void IncrementCount(int Count)
         {
-            count += Count;
+            _count += Count;
             CalculateTotalValue();
             CalculateTotalWeight();
             CalculateUnassignedCount();
@@ -70,13 +83,13 @@ namespace LootTracker
         //Method to decrease the count of a loot item.
         public void DecrementCount(int Count)
         {
-            if (count <= Count)
+            if (_count <= Count)
             {
-                count = 0;
+                _count = 0;
             }
             else
             {
-                count -= Count;
+                _count -= Count;
             }
             CalculateTotalValue();
             CalculateTotalWeight();
@@ -87,15 +100,15 @@ namespace LootTracker
         public void ModifiyAssignment(string PlayerName, int NewCount)
         {
             //If the player isn't in the dictionary, add the assignment.
-            if (!assignments.ContainsKey(PlayerName))
+            if (!_assignments.ContainsKey(PlayerName))
             {
-                assignments.Add(PlayerName, NewCount);
+                _assignments.Add(PlayerName, NewCount);
             }
             //Otherwise, remove them from the dictionary first then add.
             else
             {
-                assignments.Remove(PlayerName);
-                assignments.Add(PlayerName, NewCount);
+                _assignments.Remove(PlayerName);
+                _assignments.Add(PlayerName, NewCount);
             }
             
             //Re-calculate the unassigned count.
@@ -105,13 +118,13 @@ namespace LootTracker
         //Method to calculate the unassigned count after item assignment.
         public void CalculateUnassignedCount()
         {
-            assignedcount = 0;
-            foreach (KeyValuePair<string, int> entry in assignments)
+            _assignedcount = 0;
+            foreach (KeyValuePair<string, int> entry in _assignments)
             {
-                assignedcount += Convert.ToInt32(entry.Value);
+                _assignedcount += Convert.ToInt32(entry.Value);
             }
 
-            unassignedcount = count - assignedcount;
+            _unassignedcount = _count - _assignedcount;
         }
 
         

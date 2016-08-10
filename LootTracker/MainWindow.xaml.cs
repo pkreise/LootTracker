@@ -9,8 +9,10 @@ namespace LootTracker
     public partial class MainWindow : Window
     {
         //Declare vars.
-        public LootBook book;
+        public LootBook book = new LootBook();
         public string savefilepath;
+        
+        
 
         public MainWindow()
         {
@@ -85,9 +87,16 @@ namespace LootTracker
 
             if (!window.canceled)
             {
-                LootItem item = new LootItem(window.textBox_Name.Text, window.comboBox_Type.Text, (Convert.ToInt16(window.textBox_Count.Text)), (Convert.ToInt16(window.textBox_BaseValue.Text)), (Convert.ToInt16(window.textBox_BaseWeight.Text)));
+                LootItem item = new LootItem(window.textBox_Name.Text, window.comboBox_Type.Text, (Convert.ToInt32(window.textBox_Count.Text)), (Convert.ToInt32(window.textBox_BaseValue.Text)), (Convert.ToInt64(window.textBox_BaseWeight.Text)));
                 book.AddLootItem(item);
+                listView.ItemsSource = book.lootlist.ToArray();
+
             }
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            listView.ItemsSource = book.lootlist.ToArray();
         }
     }
 }
