@@ -11,41 +11,64 @@ namespace LootTracker
 {
     public class DataHandler
     {
+        //WriteData method takes data object and serializes to a binary format.
+        //Saves output to file path selected by user.
         public void WriteData(object Data)
         {
 
+            //Instantiate a new instance of the SaveFileDialog.
             SaveFileDialog filepicker = new SaveFileDialog();
+
+            //Display the filepicker to the user.
             filepicker.ShowDialog();
-            FileStream fs = new FileStream(filepicker.FileName, FileMode.Create);
+
+            //Start a new filestream using the selected file path.
+            FileStream filestream = new FileStream(filepicker.FileName, FileMode.Create);
+
+            //instantiate a formatter object to serialize the data.
             BinaryFormatter formatter = new BinaryFormatter();
+
+            //Try Catch to capture errors.
             try
             {
-                formatter.Serialize(fs, Data);
+                //Serialize the data.
+                formatter.Serialize(filestream, Data);
             }
             catch (SerializationException e)
             {
-                Console.WriteLine("Failed to serialize. Reason: " + e.Message);
-                throw;
+                //Console.WriteLine("Failed to serialize. Reason: " + e.Message);
+                //throw;
             }
             finally
             {
-                fs.Close();
+                //close the filestream.
+                filestream.Close();
             }
         }
-
+        
+        //ReadData method reads a .dat file and deserializes the data back into a LootBook object.
         public LootBook ReadData()
         {
-
+            //Instantiate an OpenFileDialog obj.
             OpenFileDialog filepicker = new OpenFileDialog();
+
+            //Prompt the user.
             filepicker.ShowDialog();
-            LootBook book = null;
-            if (File.Exists(filepicker.FileName))
+
+            LootBook book;
+
+            if (!File.Exists(filepicker.FileName))
+            {
+                book = new LootBook();
+                return book;
+            }
+            else
             {
                 FileStream fs = new FileStream(filepicker.FileName, FileMode.Open);
                 BinaryFormatter formatter = new BinaryFormatter();
                 book = (LootBook)formatter.Deserialize(fs);
+                return book;
             }
-            return book;
         }
     }
 }

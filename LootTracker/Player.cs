@@ -5,7 +5,7 @@ namespace LootTracker
     [Serializable]
     public class Player
     {
-        //Define class vars.
+        //Declare class vars.
         public string playername;
         public string charactername;
         public byte[] characterimage;

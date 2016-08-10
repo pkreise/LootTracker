@@ -18,7 +18,7 @@ namespace LootTracker
             InitializeComponent();
         }
 
-        //Declare a book var of type LootBook.
+        //Declare a var book of type LootBook.
         public LootBook book;
 
         //Event Handler for opening an existing LootBook.
