@@ -12,8 +12,10 @@
                 <MenuItem Header="New" Click="MenuItem_New_Click"/>
                 <MenuItem Header="Open" Click="MenuItem_Open_Click"/>
                 <Separator/>
-                <MenuItem Header="Save" Click="MenuItem_Save_Click"/>
+                <MenuItem Header="Save" Click="MenuItem_Save_Click" IsEnabled="False"/>
                 <MenuItem Header="SaveAs" Click="MenuItem_SaveAs_Click"/>
+                <Separator/>
+                <MenuItem Header="Exit" Click="MenuItem_Exit_Click"/>
             </MenuItem>
             <MenuItem Header="Players">
                 <MenuItem Header="Add" Click="MenuItem_Add_Click"/>

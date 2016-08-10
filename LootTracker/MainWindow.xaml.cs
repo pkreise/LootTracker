@@ -9,7 +9,7 @@ namespace LootTracker
     /// </summary>
     public partial class MainWindow : Window
     {
-        //Declare a var book of type LootBook.
+        //Declare vars.
         public LootBook book;
         public string savefilepath;
 
@@ -37,9 +37,7 @@ namespace LootTracker
         //Event Handler for creating a new LootBook.
         private void MenuItem_New_Click(object sender, RoutedEventArgs e)
         {
-            book = new LootBook();
-            
-            
+            book = new LootBook();                   
         }
 
         //Event Handler for adding a new player to the roster.
@@ -58,7 +56,7 @@ namespace LootTracker
                 //Instantiate the player object
                 Player player = new Player(window.textBox_Player.Text, window.textBox_Character.Text);
 
-                //Update the image if one was 
+                //Update the image if one was uploaded at player creation.
                 if (window.hasimage == true)
                 {
                     player.UpdateImage(window.imagearray);
@@ -71,6 +69,11 @@ namespace LootTracker
         {
             DataHandler handler = new DataHandler();
             handler.WriteData(true, book, savefilepath);
+        }
+
+        private void MenuItem_Exit_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
         }
     }
 }

@@ -80,6 +80,7 @@ namespace LootTracker
             }
 
         }
+
         //ReadData method reads a .dat file and deserializes the data back into a LootBook object.
         public LootBook ReadData()
         {
