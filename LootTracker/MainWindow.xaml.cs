@@ -1,4 +1,6 @@
 ﻿using System.Windows;
+using System;
+using System.IO;
 
 namespace LootTracker
 {
@@ -9,6 +11,7 @@ namespace LootTracker
     {
         //Declare a var book of type LootBook.
         public LootBook book;
+        public string savefilepath;
 
         public MainWindow()
         {
@@ -20,6 +23,7 @@ namespace LootTracker
         {
             DataHandler handler = new DataHandler();
             book = handler.ReadData();
+            savefilepath = handler.filepath;
         }
 
         //Event Handler for saving the open LootBook.
@@ -27,12 +31,15 @@ namespace LootTracker
         {
             DataHandler handler = new DataHandler();
             handler.WriteData(book);
+            savefilepath = handler.filepath;
         }
 
         //Event Handler for creating a new LootBook.
         private void MenuItem_New_Click(object sender, RoutedEventArgs e)
         {
             book = new LootBook();
+            
+            
         }
 
         //Event Handler for adding a new player to the roster.
@@ -62,7 +69,8 @@ namespace LootTracker
 
         private void MenuItem_Save_Click(object sender, RoutedEventArgs e)
         {
-
+            DataHandler handler = new DataHandler();
+            handler.WriteData(true, book, savefilepath);
         }
     }
 }
