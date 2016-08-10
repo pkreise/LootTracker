@@ -5,10 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:LootTracker"
         mc:Ignorable="d"
-        Title="Enter Item Details" Height="247" Width="249" Topmost="True" ResizeMode="NoResize">
+        Title="Enter Item Details" Height="247" Width="249" Topmost="True" ResizeMode="NoResize" Icon="LootTracker.ico">
     <Grid>
-        <TextBlock x:Name="textBlock" HorizontalAlignment="Left" Height="25" Margin="10,10,0,0" TextWrapping="Wrap" Text="Item Name:" VerticalAlignment="Top"/>
-        <TextBlock x:Name="textBlock1" HorizontalAlignment="Left" Height="25" Margin="10,40,0,0" TextWrapping="Wrap" Text="Item Type:" VerticalAlignment="Top"/>
+        <TextBlock x:Name="textBlock_Name" HorizontalAlignment="Left" Height="25" Margin="10,10,0,0" TextWrapping="Wrap" Text="Item Name:" VerticalAlignment="Top" Foreground="Black"/>
+        <TextBlock x:Name="textBlock_Type" HorizontalAlignment="Left" Height="25" Margin="10,40,0,0" TextWrapping="Wrap" Text="Item Type:" VerticalAlignment="Top"/>
         <TextBox x:Name="textBox_Name" HorizontalAlignment="Left" Height="25" Margin="95,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
         <ComboBox x:Name="comboBox_Type" HorizontalAlignment="Left" Height="25" Margin="95,40,0,0" VerticalAlignment="Top" Width="120">
             <ComboBoxItem Content="Ammo"/>
@@ -19,13 +19,12 @@
             <ComboBoxItem Content="Potion"/>
             <ComboBoxItem Content="Weapon"/>
         </ComboBox>
-        <TextBlock x:Name="textBlock2" HorizontalAlignment="Left" Height="25" Margin="10,70,0,0" TextWrapping="Wrap" Text="Count:" VerticalAlignment="Top"/>
-        <TextBlock x:Name="textBlock3" HorizontalAlignment="Left" Height="25" Margin="10,100,0,0" TextWrapping="Wrap" Text="Base Weight:" VerticalAlignment="Top"/>
-        <TextBlock x:Name="textBlock4" HorizontalAlignment="Left" Height="25" Margin="10,130,0,0" TextWrapping="Wrap" Text="Base Value:" VerticalAlignment="Top"/>
+        <TextBlock x:Name="textBlock_Count" HorizontalAlignment="Left" Height="25" Margin="10,70,0,0" TextWrapping="Wrap" Text="Count:" VerticalAlignment="Top"/>
+        <TextBlock x:Name="textBlock_BaseWeight" HorizontalAlignment="Left" Height="25" Margin="10,100,0,0" TextWrapping="Wrap" Text="Base Weight:" VerticalAlignment="Top"/>
+        <TextBlock x:Name="textBlock_BaseValue" HorizontalAlignment="Left" Height="25" Margin="10,130,0,0" TextWrapping="Wrap" Text="Base Value:" VerticalAlignment="Top"/>
         <TextBox x:Name="textBox_Count" HorizontalAlignment="Left" Height="25" Margin="95,70,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
         <TextBox x:Name="textBox_BaseWeight" HorizontalAlignment="Left" Height="25" Margin="95,100,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
         <TextBox x:Name="textBox_BaseValue" HorizontalAlignment="Left" Height="25" Margin="95,130,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
         <Button x:Name="button_OK" Content="OK" HorizontalAlignment="Left" Height="25" Margin="80,170,0,0" VerticalAlignment="Top" Width="80" Click="button_OK_Click"/>
-
-    </Grid>
+     </Grid>
 </Window>

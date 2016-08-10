@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Text.RegularExpressions;
 
 namespace LootTracker
 {
@@ -30,11 +31,27 @@ namespace LootTracker
         {
             //We need to validate the data types to ensure the data
             //source remains constrained.
-            if (!(textBox_Name.Text == "") && !(comboBox_Type.Text == "") && !(textBox_Count.Text == "") && !(textBox_BaseWeight.Text == "") && !(textBox_BaseValue.Text == "") )
+            if (!(textBox_Name.Text == "") && !(comboBox_Type.Text == "") && !(textBox_Count.Text == "") && !(textBox_BaseWeight.Text == "") && !(textBox_BaseValue.Text == ""))
             {
                 canceled = false;
                 Close();
-            }    
+            }
+            else
+            {
+                if (textBox_Name.Text == "")
+                {
+                    textBlock_Name.Foreground = Brushes.Red;
+                    if (!Regex.IsMatch(textBlock_Name.Text, @"^\*"))
+                    {
+                        textBlock_Name.Text = ("*" + textBlock_Name.Text);
+                    }
+                }
+                else
+                {
+                    textBlock_Name.Foreground = Brushes.Black;
+                    Regex.Replace(textBlock_Name.Text, @"^\*", " ");
+                }
+            }
                     
         }
     }

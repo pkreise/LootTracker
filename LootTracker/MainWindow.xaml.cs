@@ -83,8 +83,11 @@ namespace LootTracker
             //Show the window.
             window.ShowDialog();
 
-            LootItem item = new LootItem(window.textBox_Name.Text, window.comboBox_Type.Text, (Convert.ToInt16(window.textBox_Count.Text)), (Convert.ToInt16(window.textBox_BaseValue.Text)), (Convert.ToInt16(window.textBox_BaseWeight.Text)));
-            book.AddLootItem(item);
+            if (!window.canceled)
+            {
+                LootItem item = new LootItem(window.textBox_Name.Text, window.comboBox_Type.Text, (Convert.ToInt16(window.textBox_Count.Text)), (Convert.ToInt16(window.textBox_BaseValue.Text)), (Convert.ToInt16(window.textBox_BaseWeight.Text)));
+                book.AddLootItem(item);
+            }
         }
     }
 }
