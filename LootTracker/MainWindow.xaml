@@ -7,20 +7,6 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="700" Width="1000" Icon="LootTracker.ico" WindowStartupLocation="CenterScreen" Loaded="Window_Loaded" AllowsTransparency="True" WindowStyle="None">
     <Grid Background="#FF464646" MouseDown="Window_MouseDown">
-        <Menu x:Name="menu" Height="25" VerticalAlignment="Top" Background="#FF464646" Margin="0,75,0,0" >
-            <MenuItem Header="File" Foreground="#FFDEDEDE" FontSize="14" Background="#FF464646">
-                <MenuItem Header="New" Click="MenuItem_New_Click" FontSize="14" Background="#FF464646" />
-                <MenuItem Header="Open" Click="MenuItem_Open_Click" FontSize="14" Background="#FF464646"/>
-                <Separator/>
-                <MenuItem Header="Save" Click="MenuItem_Save_Click" IsEnabled="False" FontSize="14" Background="#FF464646"/>
-                <MenuItem Header="SaveAs" Click="MenuItem_SaveAs_Click" FontSize="14" Background="#FF464646"/>
-                <Separator/>
-                <MenuItem Header="Exit" Click="MenuItem_Exit_Click" FontSize="14" Background="#FF464646"/>
-            </MenuItem>
-            <MenuItem Header="Players" Foreground="#FFDEDEDE" FontSize="14">
-                <MenuItem Header="Add Player" Click="MenuItem_Add_Click"/>
-            </MenuItem>
-        </Menu>
         <TabControl x:Name="tabControl" Margin="10,105,10,10" BorderThickness="0">
             <TabItem Header="Items List" Background="#FFE5E5E5">
                 <Grid Background="#FF323232">
@@ -52,11 +38,12 @@
             </TabItem>
             <TabItem Header="Player Roster">
                 <Grid Background="#FFE5E5E5">
-                    <ComboBox x:Name="comboBox" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="120"/>
+                    <ComboBox x:Name="comboBox" HorizontalAlignment="Left" Margin="10,39,0,0" VerticalAlignment="Top" Width="120"/>
+                    <Button x:Name="button" Content="Button" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="75" Click="button_AddPlayer_Click"/>
                 </Grid>
             </TabItem>
         </TabControl>
-        <Button x:Name="button_Close" Content="X" VerticalAlignment="Top" Height="30" Background="#FF464646" Foreground="#FFDEDEDE" BorderThickness="0" FontFamily="Segoe UI Semibold" FontSize="14" Click="button_Click" HorizontalAlignment="Right" Width="30">
+        <Button x:Name="button_Close" Content="X" VerticalAlignment="Top" Height="30" Background="#FF464646" Foreground="#FFDEDEDE" BorderThickness="0" FontFamily="Segoe UI Semibold" FontSize="16" Click="button_Click" HorizontalAlignment="Right" Width="30">
             <Button.Style>
                 <Style TargetType="{x:Type Button}">
                     <Setter Property="Background" Value="#FF464646"/>
@@ -77,7 +64,7 @@
                 </Style>
             </Button.Style>
         </Button>
-        <Button x:Name="button_Open" Content="Open" HorizontalAlignment="Left" VerticalAlignment="Top" Width="60" FontSize="16" FontFamily="Segoe UI Semibold" BorderThickness="0" Background="#FF464646" Foreground="#FFDEDEDE" Click="MenuItem_Open_Click" Height="25">
+        <Button x:Name="button_Open" Content="Open" HorizontalAlignment="Left" VerticalAlignment="Top" Width="60" FontSize="16" FontFamily="Segoe UI Semibold" BorderThickness="0" Background="#FF464646" Foreground="#FFDEDEDE" Click="MenuItem_Open_Click" Height="25" Margin="50,0,0,0">
             <Button.Style>
                 <Style TargetType="{x:Type Button}">
                     <Setter Property="Background" Value="#FF464646"/>
@@ -98,7 +85,28 @@
                 </Style>
             </Button.Style>
         </Button>
-        <Button x:Name="button_Save" Content="Save" HorizontalAlignment="Left" Margin="60,0,0,0" VerticalAlignment="Top" Width="50" Height="25" FontSize="16" FontFamily="Segoe UI Semibold" Foreground="#FFDEDEDE" Click="MenuItem_Open_Click">
+        <Button x:Name="button_Save" Content="Save" HorizontalAlignment="Left" Margin="110,0,0,0" VerticalAlignment="Top" Width="50" Height="25" FontSize="16" FontFamily="Segoe UI Semibold" Foreground="#FFDEDEDE" Click="MenuItem_Open_Click">
+            <Button.Style>
+                <Style TargetType="{x:Type Button}">
+                    <Setter Property="Background" Value="#FF464646"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type Button}">
+                                <Border Background="{TemplateBinding Background}">
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="#FF464646"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
+        </Button>
+        <Button x:Name="button_New" Content="New" HorizontalAlignment="Left" VerticalAlignment="Top" Width="50" RenderTransformOrigin="-0.067,-0.25" Height="25" Background="#FF464646" Foreground="#FFDEDEDE" FontSize="16" FontFamily="Segoe UI Semibold" BorderThickness="0" Click="MenuItem_New_Click">
             <Button.Style>
                 <Style TargetType="{x:Type Button}">
                     <Setter Property="Background" Value="#FF464646"/>

@@ -73,10 +73,11 @@ namespace LootTracker
         private void MenuItem_New_Click(object sender, RoutedEventArgs e)
         {
             book = new LootBook();
+            listView.ItemsSource = book.lootlist;
         }
 
         //Event Handler for adding a new player to the roster.
-        private void MenuItem_Add_Click(object sender, RoutedEventArgs e)
+        private void button_AddPlayer_Click(object sender, RoutedEventArgs e)
         {
             //Instantiate a new AddPlayer window.
             AddPlayer window = new AddPlayer();

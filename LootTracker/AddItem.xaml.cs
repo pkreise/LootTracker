@@ -26,6 +26,7 @@ namespace LootTracker
             bool wgtvalid = false;
             bool valvalid = false;
 
+            //Field validation for Name.
             if (textBox_Name.Text == "")
             {
                 textBlock_Name.Foreground = Brushes.Red;
