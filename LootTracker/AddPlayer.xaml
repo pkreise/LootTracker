@@ -5,8 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:LootTracker"
         mc:Ignorable="d"
-        Title="AddPlayer" Height="300" Width="300
-        " AllowsTransparency="True" WindowStyle="None" MouseDown="Window_MouseDown" BorderThickness="1" BorderBrush="Black" WindowStartupLocation="CenterScreen">
+        Title="AddPlayer" Height="300" Width="300" AllowsTransparency="True" WindowStyle="None" MouseDown="Window_MouseDown" BorderThickness="1" BorderBrush="Black" WindowStartupLocation="CenterScreen">
     <Grid>
         <Grid.Background>
             <ImageBrush ImageSource="back.jpg" Stretch="UniformToFill" Opacity="0.25"/>
@@ -23,8 +22,8 @@
                 <Image x:Name="playerImage" Margin="-1" Stretch="UniformToFill" Height="120" Width="120"/>
             </Border>
         </Border>
-        <TextBlock x:Name="textBlock" HorizontalAlignment="Left" Margin="24,100,0,0" TextWrapping="Wrap" Text="Character Image:" VerticalAlignment="Top" Height="25" Width="121" FontSize="14" FontFamily="Segoe UI Semibold"/>
-        <Button x:Name="button1" Content="X" HorizontalAlignment="Left" Margin="275,0,0,0" VerticalAlignment="Top" Width="25" Height="25" FontSize="14" FontFamily="Segoe UI Semibold" BorderThickness="0" Click="button1_Click" TabIndex="5">
+        <TextBlock x:Name="textBlock_CharacterImage" HorizontalAlignment="Left" Margin="24,100,0,0" TextWrapping="Wrap" Text="Character Image:" VerticalAlignment="Top" Height="25" Width="121" FontSize="14" FontFamily="Segoe UI Semibold"/>
+        <Button x:Name="button_Close" Content="X" HorizontalAlignment="Left" Margin="275,0,0,0" VerticalAlignment="Top" Width="25" Height="25" FontSize="14" FontFamily="Segoe UI Semibold" BorderThickness="0" Click="button_Close_Click" TabIndex="5">
             <Button.Background>
                 <SolidColorBrush Color="#FFDDDDDD" Opacity="0"/>
             </Button.Background>

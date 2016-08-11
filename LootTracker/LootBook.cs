@@ -1,8 +1,5 @@
-﻿using System.Collections.Generic;
-using System;
+﻿using System;
 using System.Collections.ObjectModel;
-using System.Windows.Data;
-
 
 namespace LootTracker
 {
@@ -21,9 +18,6 @@ namespace LootTracker
         {
             lootlist. Add(lootitem);
         }
-
-        
-
         
         //Method to remove a loot item from the lootlist.
         public void RemoveLootItem(LootItem lootitem)
@@ -34,6 +28,5 @@ namespace LootTracker
                 
             }
         }
-
     }
 }

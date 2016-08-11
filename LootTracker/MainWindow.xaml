@@ -51,9 +51,73 @@
                 </Grid>
             </TabItem>
             <TabItem Header="Player Roster">
-                <Grid Background="#FFE5E5E5"/>
+                <Grid Background="#FFE5E5E5">
+                    <ComboBox x:Name="comboBox" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="120"/>
+                </Grid>
             </TabItem>
         </TabControl>
-        <Button x:Name="button" Content="X" VerticalAlignment="Top" Height="30" Background="#FF464646" BorderThickness="0" FontFamily="Segoe UI Semibold" FontSize="14" Click="button_Click" HorizontalAlignment="Right" Width="30"/>
+        <Button x:Name="button_Close" Content="X" VerticalAlignment="Top" Height="30" Background="#FF464646" Foreground="#FFDEDEDE" BorderThickness="0" FontFamily="Segoe UI Semibold" FontSize="14" Click="button_Click" HorizontalAlignment="Right" Width="30">
+            <Button.Style>
+                <Style TargetType="{x:Type Button}">
+                    <Setter Property="Background" Value="#FF464646"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type Button}">
+                                <Border Background="{TemplateBinding Background}">
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="#FF464646"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
+        </Button>
+        <Button x:Name="button_Open" Content="Open" HorizontalAlignment="Left" VerticalAlignment="Top" Width="60" FontSize="16" FontFamily="Segoe UI Semibold" BorderThickness="0" Background="#FF464646" Foreground="#FFDEDEDE" Click="MenuItem_Open_Click" Height="25">
+            <Button.Style>
+                <Style TargetType="{x:Type Button}">
+                    <Setter Property="Background" Value="#FF464646"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type Button}">
+                                <Border Background="{TemplateBinding Background}">
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="#FF464646"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
+        </Button>
+        <Button x:Name="button_Save" Content="Save" HorizontalAlignment="Left" Margin="60,0,0,0" VerticalAlignment="Top" Width="50" Height="25" FontSize="16" FontFamily="Segoe UI Semibold" Foreground="#FFDEDEDE" Click="MenuItem_Open_Click">
+            <Button.Style>
+                <Style TargetType="{x:Type Button}">
+                    <Setter Property="Background" Value="#FF464646"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type Button}">
+                                <Border Background="{TemplateBinding Background}">
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="#FF464646"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
+        </Button>
     </Grid>
 </Window>

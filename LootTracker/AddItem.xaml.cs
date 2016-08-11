@@ -1,18 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using System.Text.RegularExpressions;
-using System.IO;
 
 namespace LootTracker
 {
@@ -103,7 +92,7 @@ namespace LootTracker
                 else
                 {
                     textBlock_BaseWeight.Foreground = Brushes.Red;
-                    textBlock_BaseWeight.ToolTip = "Please enter a valid interger.";
+                    textBlock_BaseWeight.ToolTip = "Please enter a valid decimal.";
                     textBox_BaseWeight.Text = "";
                 }
             }
@@ -140,13 +129,15 @@ namespace LootTracker
             }
         }
 
+        //Event handler for dragging window.
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (e.ChangedButton == MouseButton.Left)
             DragMove();
         }
 
-        private void button_Click(object sender, RoutedEventArgs e)
+        //Event handler for clicking close button.
+        private void button_Close_Click(object sender, RoutedEventArgs e)
         {
             Close();
         }

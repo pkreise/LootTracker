@@ -29,6 +29,6 @@
         <TextBox x:Name="textBox_BaseWeight" HorizontalAlignment="Left" Height="25" Margin="120,150,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" FontSize="14"/>
         <TextBox x:Name="textBox_BaseValue" HorizontalAlignment="Left" Height="25" Margin="120,180,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" FontSize="14"/>
         <Button x:Name="button_OK" Content="OK" HorizontalAlignment="Left" Height="25" Margin="120,220,0,0" VerticalAlignment="Top" Width="120" Click="button_OK_Click" FontSize="14" FontFamily="Segoe UI Semibold"/>
-        <Button x:Name="button" Content="X" VerticalAlignment="Top" Height="25" BorderThickness="0" Background="White" FontFamily="Segoe UI Semibold" Click="button_Click" FontSize="16" HorizontalAlignment="Right" Width="25"/>
+        <Button x:Name="button_Close" Content="X" VerticalAlignment="Top" Height="25" BorderThickness="0" Background="White" FontFamily="Segoe UI Semibold" Click="button_Close_Click" FontSize="16" HorizontalAlignment="Right" Width="25"/>
     </Grid>
 </Window>

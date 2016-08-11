@@ -117,7 +117,7 @@ namespace LootTracker
             Close();
         }
 
-        private void button1_Click(object sender, RoutedEventArgs e)
+        private void button_Close_Click(object sender, RoutedEventArgs e)
         {
             Close();
         }

@@ -29,9 +29,7 @@ namespace LootTracker
         public int basevalue { get { return _basevalue; } }
         public int totalvalue { get { return _totalvalue; } }
         public Dictionary<string, int> assignments { get { return _assignments; } }
-
-
-
+        
         //Default constructor for initializing a new loot item.
         public LootItem()
         {
@@ -126,7 +124,5 @@ namespace LootTracker
 
             _unassignedcount = _count - _assignedcount;
         }
-
-        
     }
 }

@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace LootTracker
 {
@@ -7,10 +7,10 @@ namespace LootTracker
     public class PlayerRoster
     {
         //Initialize a new list of player objects.
-        List<Player> _playerlist = new List<Player>();
+        ObservableCollection<Player> _playerlist = new ObservableCollection<Player>();
 
         //Public property.
-        public List<Player> playerlist { get { return _playerlist; } }
+        public ObservableCollection<Player> playerlist { get { return _playerlist; } }
 
         //Method to add a player to a player roster object.
         public void AddPlayer(Player Player)
