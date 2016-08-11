@@ -7,18 +7,18 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="700" Width="1000" Icon="LootTracker.ico" WindowStartupLocation="CenterScreen" Loaded="Window_Loaded" AllowsTransparency="True" WindowStyle="None">
     <Grid Background="#FF464646" MouseDown="Window_MouseDown">
-        <TabControl x:Name="tabControl" Margin="10,105,10,10" BorderThickness="0">
-            <TabItem Header="Items List" Background="#FFE5E5E5">
-                <Grid Background="#FF323232">
-                    <ListView x:Name="listView" Background="White" Foreground="Black" GridViewColumnHeader.Click="GridViewColumnHeaderClickedHandler">
+        <TabControl x:Name="tabControl" Margin="10,30,10,10" BorderThickness="0" Foreground="#FF464646" Background="#FFDEDEDE" FontSize="14" FontFamily="Segoe UI Semibold">
+            <TabItem Header="Items List" Background="#FFDEDEDE" Foreground="#FF464646">
+                <Grid Background="#FF464646">
+                    <ListView x:Name="listView" GridViewColumnHeader.Click="GridViewColumnHeaderClickedHandler" Margin="0,26,0,0" BorderThickness="0" SelectionMode="Single" Foreground="Black">
                         <ListView.ContextMenu>
                             <ContextMenu>
-                                <MenuItem Header="New Item" Click="NewItem_Click"/>
-                                <MenuItem Header="Delete Item" Click="DeleteItem_Click"/>
+                                <MenuItem Header="New" Click="NewItem_Click"/>
+                                <MenuItem Header="Delete" Click="DeleteItem_Click"/>
                                 <Separator/>
-                                <MenuItem Header="Increment Count"/>
-                                <MenuItem Header="Decrement Count"/>
-                                <MenuItem Header="Modify Assignment" Click="ModifiyAssignment_Click"/>
+                                <MenuItem Header="Increment"/>
+                                <MenuItem Header="Decrement"/>
+                                <MenuItem Header="Assignment" Click="ModifiyAssignment_Click"/>
                             </ContextMenu>
                         </ListView.ContextMenu>
                         <ListView.View>
@@ -34,10 +34,94 @@
                             </GridView>
                         </ListView.View>
                     </ListView>
+                    <Button x:Name="button_NewItem" Content="New" HorizontalAlignment="Left" Margin="0,1,0,0" VerticalAlignment="Top" Width="48" Height="25" BorderThickness="0" Background="#FF464646" Foreground="#FFDEDEDE" FontSize="16" FontFamily="Segoe UI Semibold">
+                        <Button.Style>
+                            <Style TargetType="{x:Type Button}">
+                                <Setter Property="Background" Value="#FF464646"/>
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type Button}">
+                                            <Border Background="{TemplateBinding Background}">
+                                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                            </Border>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="#FF464646"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                    </Button>
+                    <Button x:Name="button_Delete" Content="Delete" HorizontalAlignment="Left" Margin="48,1,0,0" VerticalAlignment="Top" Width="75" Height="25" BorderThickness="0" Background="#FF464646" Foreground="#FFDEDEDE" FontSize="16" FontFamily="Segoe UI Semibold">
+                        <Button.Style>
+                            <Style TargetType="{x:Type Button}">
+                                <Setter Property="Background" Value="#FF464646"/>
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type Button}">
+                                            <Border Background="{TemplateBinding Background}">
+                                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                            </Border>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="#FF464646"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                    </Button>
+                    <Button x:Name="button_Increment" Content="Increment" HorizontalAlignment="Left" Margin="123,1,0,0" VerticalAlignment="Top" Width="95" Height="25" BorderThickness="0" Background="#FF464646" Foreground="#FFDEDEDE" FontSize="16" FontFamily="Segoe UI Semibold">
+                        <Button.Style>
+                        <Style TargetType="{x:Type Button}">
+                            <Setter Property="Background" Value="#FF464646"/>
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type Button}">
+                                        <Border Background="{TemplateBinding Background}">
+                                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#FF464646"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                        </Button.Style>
+                    </Button>
+                    <Button x:Name="button_Decrement" Content="Decrement" HorizontalAlignment="Left" Margin="218,1,0,0" VerticalAlignment="Top" Width="108" Height="25" BorderThickness="0" Background="#FF464646" Foreground="#FFDEDEDE" FontSize="16" FontFamily="Segoe UI Semibold" RenderTransformOrigin="0.046,0.8">
+                        <Button.Style>
+                            <Style TargetType="{x:Type Button}">
+                                <Setter Property="Background" Value="#FF464646"/>
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type Button}">
+                                            <Border Background="{TemplateBinding Background}">
+                                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                            </Border>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="#FF464646"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                    </Button>
                 </Grid>
             </TabItem>
             <TabItem Header="Player Roster">
-                <Grid Background="#FFE5E5E5">
+                <Grid Background="#FF464646">
                     <ComboBox x:Name="comboBox" HorizontalAlignment="Left" Margin="10,39,0,0" VerticalAlignment="Top" Width="120"/>
                     <Button x:Name="button" Content="Button" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="75" Click="button_AddPlayer_Click"/>
                 </Grid>
