@@ -6,13 +6,16 @@ namespace LootTracker
     [Serializable]
     public class PlayerRoster
     {
+        //Initialize a new list of player objects.
+        List<Player> _playerlist = new List<Player>();
+
+        //Public property.
+        public List<Player> playerlist { get { return _playerlist; } }
+
         //Method to add a player to a player roster object.
         public void AddPlayer(Player Player)
         {
-            playerlist.Add(Player);
+            _playerlist.Add(Player);
         }
-
-        //Initialize a new list of player objects.
-        public List<Player> playerlist = new List<Player>();
     }
 }

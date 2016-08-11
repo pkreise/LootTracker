@@ -5,137 +5,152 @@ namespace LootTracker
     [Serializable]
     public class Player
     {
-        //Declare class vars.
-        public string playername;
-        public string charactername;
-        public byte[] characterimage;
-        public int equipmentvalue;
-        public int wgtcarried;
-        public int astral;
-        public int platinum;
-        public int gold;
-        public int silver;
-        public int copper;
-        public double totalGP;
+        //Declare class fields.
+        string _playername;
+        string _charactername;
+        byte[] _characterimage;
+        int _equipmentvalue;
+        int _wgtcarried;
+        int _astral;
+        int _platinum;
+        int _gold;
+        int _silver;
+        int _copper;
+        double _totalGP;
+
+        //Define public properties.
+        public string playername { get { return _playername; } }
+        public string charactername { get { return _charactername; } }
+        public byte[] characterimage { get { return _characterimage; } }
+        public int equipmentvalue { get { return _equipmentvalue; } }
+        public decimal wgtcarried { get { return _wgtcarried; } }
+        public int astral { get { return _astral; } }
+        public int gold { get { return _gold; } }
+        public int platinum { get { return _platinum; } }
+        public int silver { get { return _silver; } }
+        public int copper { get { return _copper; } }
+        public double totalGP { get { return _totalGP; } }
+
+
 
         //The default constructor for creating a new player object.
         public Player()
         {
-            playername = null;
-            charactername = null;
-            equipmentvalue = 0;
-            wgtcarried = 0;
-            astral = 0;
-            platinum = 0;
-            gold = 0;
-            silver = 0;
-            copper = 0;
+            _playername = null;
+            _charactername = null;
+            _equipmentvalue = 0;
+            _wgtcarried = 0;
+            _astral = 0;
+            _platinum = 0;
+            _gold = 0;
+            _silver = 0;
+            _copper = 0;
             CalculateGP();
         }
 
         //The constructor for creating a new player object.
         public Player(string PlayerName, string CharachterName)
         {
-            playername = PlayerName;
-            charactername = CharachterName;
-            equipmentvalue = 0;
-            wgtcarried = 0;
-            astral = 0;
-            platinum = 0;
-            gold = 0;
-            silver = 0;
-            copper = 0;
+            _playername = PlayerName;
+            _charactername = CharachterName;
+            _equipmentvalue = 0;
+            _wgtcarried = 0;
+            _astral = 0;
+            _platinum = 0;
+            _gold = 0;
+            _silver = 0;
+            _copper = 0;
             CalculateGP();
         }
 
         //The constructor for rehydrating an existing player.
         public Player(string PlayerName, string CharachterName, byte[] CharacterImage, int EquipmentValue, int WgtCarried, int Astral, int Platinum, int Gold, int Silver, int Copper)
         {
-            playername = PlayerName;
-            charactername = CharachterName;
-            equipmentvalue = EquipmentValue;
-            wgtcarried = WgtCarried;
-            astral = Astral;
-            platinum = Platinum;
-            gold = Gold;
-            silver = Silver;
-            copper = Copper;
-            characterimage = CharacterImage;
+            _playername = PlayerName;
+            _charactername = CharachterName;
+            _equipmentvalue = EquipmentValue;
+            _wgtcarried = WgtCarried;
+            _astral = Astral;
+            _platinum = Platinum;
+            _gold = Gold;
+            _silver = Silver;
+            _copper = Copper;
+            _characterimage = CharacterImage;
             CalculateGP();
         }
 
         //Currency add methods.
         public void AddAstral(int Astral)
         {
-            astral += Astral;
+            _astral += Astral;
             CalculateGP();
         }
 
         public void AddPlatinum(int Platinum)
         {
-            platinum += Platinum;
+            _platinum += Platinum;
             CalculateGP();
         }
 
         public void AddGold(int Gold)
         {
-            gold += Gold;
+            _gold += Gold;
             CalculateGP();
         }
 
         public void AddSilver(int Silver)
         {
-            silver += Silver;
+            _silver += Silver;
             CalculateGP();
         }
 
         public void AddCopper(int Copper)
         {
-            copper += Copper;
+            _copper += Copper;
             CalculateGP();
         }
 
         //Currency remove methods.
         public void RemoveAstral(int Astral)
         {
-            astral -= Astral;
+            _astral -= Astral;
             CalculateGP();
         }
 
         public void RemovePlatinum(int Platinum)
         {
-            platinum -= Platinum;
+            _platinum -= Platinum;
             CalculateGP();
         }
 
         public void RemoveGold(int Gold)
         {
-            gold -= Gold;
+            _gold -= Gold;
             CalculateGP();
         }
 
         public void RemoveSilver(int Silver)
         {
-            silver -= Silver;
+            _silver -= Silver;
             CalculateGP();
         }
 
         public void RemoveCopper(int Copper)
         {
-            copper -= Copper;
+            _copper -= Copper;
             CalculateGP();
         }
 
         //TotalGP calculation method.
         public void CalculateGP()
         {
-            totalGP = ((copper * .01) + (silver * .1) + gold + (platinum * 10) + (astral * 100));
+            _totalGP = ((_copper * .01) + (_silver * .1) + _gold + (_platinum * 10) + (_astral * 100));
         }
 
         //Update Image method.
         public void UpdateImage(byte[] Image)
         {
-            characterimage = Image;
+            _characterimage = Image;
         }
     }
 }

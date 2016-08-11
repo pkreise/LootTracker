@@ -6,28 +6,35 @@
         xmlns:local="clr-namespace:LootTracker"
         mc:Ignorable="d"
         Title="MainWindow" Height="700" Width="1000" Icon="LootTracker.ico" WindowStartupLocation="CenterScreen" Loaded="Window_Loaded" AllowsTransparency="True" WindowStyle="None">
-    <Grid>
-        <Menu x:Name="menu" Height="25" VerticalAlignment="Top">
-            <MenuItem Header="File">
-                <MenuItem Header="New" Click="MenuItem_New_Click"/>
-                <MenuItem Header="Open" Click="MenuItem_Open_Click"/>
+    <Grid Background="#FF464646" MouseDown="Window_MouseDown">
+        <Menu x:Name="menu" Height="25" VerticalAlignment="Top" Background="#FF464646" Margin="0,75,0,0" >
+            <MenuItem Header="File" Foreground="#FFDEDEDE" FontSize="14" Background="#FF464646">
+                <MenuItem Header="New" Click="MenuItem_New_Click" FontSize="14" Background="#FF464646" />
+                <MenuItem Header="Open" Click="MenuItem_Open_Click" FontSize="14" Background="#FF464646"/>
                 <Separator/>
-                <MenuItem Header="Save" Click="MenuItem_Save_Click" IsEnabled="False"/>
-                <MenuItem Header="SaveAs" Click="MenuItem_SaveAs_Click"/>
+                <MenuItem Header="Save" Click="MenuItem_Save_Click" IsEnabled="False" FontSize="14" Background="#FF464646"/>
+                <MenuItem Header="SaveAs" Click="MenuItem_SaveAs_Click" FontSize="14" Background="#FF464646"/>
                 <Separator/>
-                <MenuItem Header="Exit" Click="MenuItem_Exit_Click"/>
+                <MenuItem Header="Exit" Click="MenuItem_Exit_Click" FontSize="14" Background="#FF464646"/>
             </MenuItem>
-            <MenuItem Header="Players">
+            <MenuItem Header="Players" Foreground="#FFDEDEDE" FontSize="14">
                 <MenuItem Header="Add Player" Click="MenuItem_Add_Click"/>
             </MenuItem>
-            <MenuItem Header="Items">
-                <MenuItem Header="Add Item" Click="MenuItem_Click"/>
-            </MenuItem>
         </Menu>
-        <TabControl x:Name="tabControl" Margin="10,30,10,10">
-            <TabItem Header="Items List">
-                <Grid Background="#FFE5E5E5">
-                    <ListView x:Name="listView" Margin="0,100,0,0">
+        <TabControl x:Name="tabControl" Margin="10,105,10,10" BorderThickness="0">
+            <TabItem Header="Items List" Background="#FFE5E5E5">
+                <Grid Background="#FF323232">
+                    <ListView x:Name="listView" Background="White" Foreground="Black" GridViewColumnHeader.Click="GridViewColumnHeaderClickedHandler">
+                        <ListView.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Header="New Item" Click="NewItem_Click"/>
+                                <MenuItem Header="Delete Item" Click="DeleteItem_Click"/>
+                                <Separator/>
+                                <MenuItem Header="Increment Count"/>
+                                <MenuItem Header="Decrement Count"/>
+                                <MenuItem Header="Modify Assignment" Click="ModifiyAssignment_Click"/>
+                            </ContextMenu>
+                        </ListView.ContextMenu>
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn Width="auto" Header="Item Name" DisplayMemberBinding="{Binding itemname}"/>
@@ -47,5 +54,6 @@
                 <Grid Background="#FFE5E5E5"/>
             </TabItem>
         </TabControl>
+        <Button x:Name="button" Content="X" VerticalAlignment="Top" Height="30" Background="#FF464646" BorderThickness="0" FontFamily="Segoe UI Semibold" FontSize="14" Click="button_Click" HorizontalAlignment="Right" Width="30"/>
     </Grid>
 </Window>

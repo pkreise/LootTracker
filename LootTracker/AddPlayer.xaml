@@ -5,20 +5,29 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:LootTracker"
         mc:Ignorable="d"
-        Title="AddPlayer" Height="192" Width="374">
+        Title="AddPlayer" Height="300" Width="300
+        " AllowsTransparency="True" WindowStyle="None" MouseDown="Window_MouseDown" BorderThickness="1" BorderBrush="Black" WindowStartupLocation="CenterScreen">
     <Grid>
-        <Button x:Name="button_Clear" Content="Clear" HorizontalAlignment="Left" Margin="10,115,0,0" VerticalAlignment="Top" Width="45" Height="25" Click="button_Clear_Click"/>
-        <Button x:Name="button_Browse" Content="Browse" HorizontalAlignment="Left" Margin="65,115,0,0" VerticalAlignment="Top" Width="45" Height="25" Click="button_Browse_Click"/>
-        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="100" Margin="10,10,0,0" VerticalAlignment="Top" Width="100">
-            <Image x:Name="playerImage" Margin="1,1,1,1" Stretch="UniformToFill"/>
+        <Grid.Background>
+            <ImageBrush ImageSource="back.jpg" Stretch="UniformToFill" Opacity="0.25"/>
+        </Grid.Background>
+        <Button x:Name="button_Clear" Content="Clear" HorizontalAlignment="Left" Margin="215,225,0,0" VerticalAlignment="Top" Width="55" Height="25" Click="button_Clear_Click" FontSize="14" FontFamily="Segoe UI Semibold" TabIndex="3"/>
+        <Button x:Name="button_Browse" Content="Browse" HorizontalAlignment="Left" Margin="150,225,0,0" VerticalAlignment="Top" Width="55" Height="25" Click="button_Browse_Click" FontSize="14" FontFamily="Segoe UI Semibold" TabIndex="2"/>
+        <TextBlock x:Name="textBlock_Player" HorizontalAlignment="Left" Margin="24,40,0,0" TextWrapping="Wrap" Text="Player Name:" VerticalAlignment="Top" Width="106" Height="25" FontSize="14" FontFamily="Segoe UI Semibold"/>
+        <TextBlock x:Name="textBlock_Character" HorizontalAlignment="Left" Margin="24,70,0,0" TextWrapping="Wrap" Text="Character Name:" VerticalAlignment="Top"  Height="25" Width="106" FontSize="14" FontFamily="Segoe UI Semibold"/>
+        <Button x:Name="button_OK" Content="OK" HorizontalAlignment="Left" Margin="215,263,0,0" VerticalAlignment="Top" Width="55" Height="25" IsEnabled="False" Click="button_OK_Click" FontSize="14" FontFamily="Segoe UI Semibold" TabIndex="4"/>
+        <TextBox x:Name="textBox_Player" HorizontalAlignment="Left" Height="25" Margin="150,40,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" LostFocus="textBox_Player_LostFocus" GotFocus="textBox_Player_GotFocus" TabIndex="0" FontSize="14"/>
+        <TextBox x:Name="textBox_Character" HorizontalAlignment="Left" Height="25" Margin="150,70,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" GotFocus="textBox_Character_GotFocus" LostFocus="textBox_Character_LostFocus" TabIndex="1" FontSize="14"/>
+        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="120" Margin="150,100,0,0" VerticalAlignment="Top" Width="120">
+            <Border BorderBrush="#FFABADB3" BorderThickness="1" Margin="-1" Background="White">
+                <Image x:Name="playerImage" Margin="-1" Stretch="UniformToFill" Height="120" Width="120"/>
+            </Border>
         </Border>
-        <TextBlock x:Name="textBlock_Player" HorizontalAlignment="Left" Margin="121,14,0,0" TextWrapping="Wrap" Text="Player Name:" VerticalAlignment="Top" Width="86"/>
-        <TextBlock x:Name="textBlock_Character" HorizontalAlignment="Left" Margin="121,35,0,0" TextWrapping="Wrap" Text="Character name:" VerticalAlignment="Top"/>
-        <Button x:Name="button_OK" Content="OK" HorizontalAlignment="Left" Margin="280,85,0,0" VerticalAlignment="Top" Width="55" Height="25" IsEnabled="False" Click="button_OK_Click"/>
-        <TextBox x:Name="textBox_Player" HorizontalAlignment="Left" Height="23" Margin="220,13,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" LostFocus="textBox_Player_LostFocus" GotFocus="textBox_Player_GotFocus"/>
-        <TextBox x:Name="textBox_Character" HorizontalAlignment="Left" Height="23" Margin="220,37,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" GotFocus="textBox_Character_GotFocus" LostFocus="textBox_Character_LostFocus"/>
-        <Button x:Name="button" Content="Cancel" HorizontalAlignment="Left" Margin="220,85,0,0" VerticalAlignment="Top" Width="55" Height="25" Click="button_Click"/>
-
-
+        <TextBlock x:Name="textBlock" HorizontalAlignment="Left" Margin="24,100,0,0" TextWrapping="Wrap" Text="Character Image:" VerticalAlignment="Top" Height="25" Width="121" FontSize="14" FontFamily="Segoe UI Semibold"/>
+        <Button x:Name="button1" Content="X" HorizontalAlignment="Left" Margin="275,0,0,0" VerticalAlignment="Top" Width="25" Height="25" FontSize="14" FontFamily="Segoe UI Semibold" BorderThickness="0" Click="button1_Click" TabIndex="5">
+            <Button.Background>
+                <SolidColorBrush Color="#FFDDDDDD" Opacity="0"/>
+            </Button.Background>
+        </Button>
     </Grid>
 </Window>
