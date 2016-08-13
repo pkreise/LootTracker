@@ -5,15 +5,21 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:LootTracker"
         mc:Ignorable="d"
-        Title="Enter Item Details" Height="300" Width="300" Topmost="True" ResizeMode="NoResize" Icon="LootTracker.ico" WindowStyle="None" AllowsTransparency="True" WindowStartupLocation="CenterScreen" MouseDown="Window_MouseDown" Background="White" BorderThickness="1" BorderBrush="Black">
-    <Grid x:Name="Grid_Main">
-        <Grid.Background>
-            <ImageBrush ImageSource="back.jpg" Opacity="0.25"/>
-        </Grid.Background>
-        <TextBlock x:Name="textBlock_Name" HorizontalAlignment="Left" Height="25" Margin="34,60,0,0" TextWrapping="Wrap" Text="Item Name:" VerticalAlignment="Top" FontSize="14" LineHeight="14" FontFamily="Segoe UI Semibold"/>
-        <TextBlock x:Name="textBlock_Type" HorizontalAlignment="Left" Height="25" Margin="34,90,0,0" TextWrapping="Wrap" Text="Item Type:" VerticalAlignment="Top" FontSize="14" LineHeight="14" FontFamily="Segoe UI Semibold"/>
-        <TextBox x:Name="textBox_Name" HorizontalAlignment="Left" Height="25" Margin="120,60,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" FontSize="14"/>
-        <ComboBox x:Name="comboBox_Type" HorizontalAlignment="Left" Height="25" Margin="120,90,0,0" VerticalAlignment="Top" Width="120" FontSize="14">
+        Title="Enter Item Details" Height="300" Width="276" Topmost="True" ResizeMode="NoResize" Icon="LootTracker.ico" WindowStyle="None" AllowsTransparency="True" WindowStartupLocation="CenterScreen" MouseDown="Window_MouseDown" Background="White" BorderThickness="1" BorderBrush="Black">
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="StyleDictionary.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <Grid x:Name="Grid_Main" Background="#FF464646">
+        <TextBlock x:Name="textBlock_Name" HorizontalAlignment="Left" Height="25" Margin="29,60,0,0" TextWrapping="Wrap" Text="Item Name:" VerticalAlignment="Top" FontSize="14" LineHeight="14" FontFamily="Segoe UI Semibold" Foreground="#FFDEDEDE"/>
+        <TextBlock x:Name="textBlock_Type" HorizontalAlignment="Left" Height="25" Margin="29,90,0,0" TextWrapping="Wrap" Text="Item Type:" VerticalAlignment="Top" FontSize="14" LineHeight="14" FontFamily="Segoe UI Semibold" Foreground="#FFDEDEDE"/>
+        <TextBox x:Name="textBox_Name" HorizontalAlignment="Left" Height="25" Margin="125,60,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" FontSize="14" Background="#FF464646" BorderThickness="0" Foreground="#FFDEDEDE"/>
+        <ComboBox x:Name="comboBox_Type" HorizontalAlignment="Left" Height="25" Margin="125,90,0,0" VerticalAlignment="Top" Width="120" FontSize="14" Background="#FF464646" BorderBrush="#FF464646" BorderThickness="0" VerticalContentAlignment="Center">
             <ComboBoxItem Content="Ammo"/>
             <ComboBoxItem Content="Armor"/>
             <ComboBoxItem Content="Equipment"/>
@@ -22,13 +28,13 @@
             <ComboBoxItem Content="Potion"/>
             <ComboBoxItem Content="Weapon"/>
         </ComboBox>
-        <TextBlock x:Name="textBlock_Count" HorizontalAlignment="Left" Height="25" Margin="34,120,0,0" TextWrapping="Wrap" Text="Count:" VerticalAlignment="Top" FontSize="14" LineHeight="14" FontFamily="Segoe UI Semibold"/>
-        <TextBlock x:Name="textBlock_BaseWeight" HorizontalAlignment="Left" Height="25" Margin="34,150,0,0" TextWrapping="Wrap" Text="Base Weight:" VerticalAlignment="Top" FontSize="14" LineHeight="14" FontFamily="Segoe UI Semibold"/>
-        <TextBlock x:Name="textBlock_BaseValue" HorizontalAlignment="Left" Height="25" Margin="34,180,0,0" TextWrapping="Wrap" Text="Base Value:" VerticalAlignment="Top" FontSize="14" LineHeight="14" FontFamily="Segoe UI Semibold"/>
-        <TextBox x:Name="textBox_Count" HorizontalAlignment="Left" Height="25" Margin="120,120,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" FontSize="14"/>
-        <TextBox x:Name="textBox_BaseWeight" HorizontalAlignment="Left" Height="25" Margin="120,150,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" FontSize="14"/>
-        <TextBox x:Name="textBox_BaseValue" HorizontalAlignment="Left" Height="25" Margin="120,180,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" FontSize="14"/>
-        <Button x:Name="button_OK" Content="OK" HorizontalAlignment="Left" Height="25" Margin="120,220,0,0" VerticalAlignment="Top" Width="120" Click="button_OK_Click" FontSize="14" FontFamily="Segoe UI Semibold"/>
-        <Button x:Name="button_Close" Content="X" VerticalAlignment="Top" Height="25" BorderThickness="0" Background="White" FontFamily="Segoe UI Semibold" Click="button_Close_Click" FontSize="16" HorizontalAlignment="Right" Width="25"/>
+        <TextBlock x:Name="textBlock_Count" HorizontalAlignment="Left" Height="25" Margin="29,120,0,0" TextWrapping="Wrap" Text="Count:" VerticalAlignment="Top" FontSize="14" LineHeight="14" FontFamily="Segoe UI Semibold" Foreground="#FFDEDEDE"/>
+        <TextBlock x:Name="textBlock_BaseWeight" HorizontalAlignment="Left" Height="25" Margin="29,150,0,0" TextWrapping="Wrap" Text="Base Weight:" VerticalAlignment="Top" FontSize="14" LineHeight="14" FontFamily="Segoe UI Semibold" Foreground="#FFDEDEDE"/>
+        <TextBlock x:Name="textBlock_BaseValue" HorizontalAlignment="Left" Height="25" Margin="29,180,0,0" TextWrapping="Wrap" Text="Base Value:" VerticalAlignment="Top" FontSize="14" LineHeight="14" FontFamily="Segoe UI Semibold" Foreground="#FFDEDEDE"/>
+        <TextBox x:Name="textBox_Count" HorizontalAlignment="Left" Height="25" Margin="125,120,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" FontSize="14" Background="#FF464646" BorderThickness="0" Foreground="#FFDEDEDE"/>
+        <TextBox x:Name="textBox_BaseWeight" HorizontalAlignment="Left" Height="25" Margin="125,150,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" FontSize="14" Background="#FF464646" BorderThickness="0" Foreground="#FFDEDEDE"/>
+        <TextBox x:Name="textBox_BaseValue" HorizontalAlignment="Left" Height="25" Margin="125,180,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" FontSize="14" Background="#FF464646" BorderThickness="0" Foreground="#FFDEDEDE"/>
+        <Button x:Name="button_OK" Content="OK" HorizontalAlignment="Left" Height="25" Margin="85,225,0,0" VerticalAlignment="Top" Width="120" Click="button_OK_Click" Style="{StaticResource button_Menu}" Foreground="#FFDEDEDE"/>
+        <Button x:Name="button_Close" Content="X" VerticalAlignment="Top" Height="25" Click="button_Close_Click" HorizontalAlignment="Right" Width="25" Style="{StaticResource button_Menu}" Foreground="#FFDEDEDE"/>
     </Grid>
 </Window>

@@ -14,8 +14,8 @@ namespace LootTracker
     public partial class MainWindow : Window
     {
         //Declare vars.
-        public string savefilepath;
-        public LootBook book = new LootBook();        
+        string savefilepath;
+        LootBook book = new LootBook();
         GridViewColumnHeader _lastHeaderClicked = null;
         ListSortDirection _lastDirection = ListSortDirection.Ascending;
 
@@ -38,8 +38,7 @@ namespace LootTracker
             headerlookup.Add("Total Weight", "totalweight");
             headerlookup.Add("Base Value", "basevalue");
             headerlookup.Add("Total Value", "totalvalue");
-            //headerlookup.Add("Item Assignments", "assignments");
-
+            
             //Create a dataview and clear.
             ICollectionView dataView = CollectionViewSource.GetDefaultView(listView.ItemsSource);
             dataView.SortDescriptions.Clear();
@@ -136,32 +135,47 @@ namespace LootTracker
             listView.ItemsSource = book.lootlist;
         }
 
-        //Event handler to enable window dragging.
+
+        /// <summary>
+        /// Event handler to enable window dragging.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (e.ChangedButton == MouseButton.Left)
                 DragMove();
         }
-
-        //Event for clicking the close button.
+        
+        /// <summary>
+        /// Event handler for clicking the mainwindow close button.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void button_Click(object sender, RoutedEventArgs e)
         {
             App.Current.Shutdown();
         }
-
-        //Event handler for deleting an item from the list view.
+        
+        /// <summary>
+        /// Event handler for deleting an item from the list view.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void DeleteItem_Click(object sender, RoutedEventArgs e)
         {
-            int index = listView.SelectedIndex;
-            if (!(book.lootlist.Count == 0) && !(index == -1))
-            {
-                book.RemoveLootItem(book.lootlist[index]);
-            }
+            book.RemoveLootItem((listView.SelectedItem as LootItem));
+            button_Delete.IsEnabled = false;
+            button_Assignments.IsEnabled = false;
 
         }
-        
-        //Event handler for clicking listview headers (sort)
-        void GridViewColumnHeaderClickedHandler(object sender, RoutedEventArgs e)
+
+        /// <summary>
+        /// Event handler for clicking listview headers (sort)
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void GridViewColumnHeader_Clicked(object sender, RoutedEventArgs e)
         {
             GridViewColumnHeader headerClicked = e.OriginalSource as GridViewColumnHeader;
             ListSortDirection direction;
@@ -194,7 +208,12 @@ namespace LootTracker
                 }
             }
         }
-
+                
+        /// <summary>
+        /// Event Handler for clicking the assignement context menu item or tool bar button.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ModifiyAssignment_Click(object sender, RoutedEventArgs e)
         {
             int index = listView.SelectedIndex;
@@ -202,6 +221,17 @@ namespace LootTracker
             {
                 book.lootlist[index].ModifiyAssignment("Dean", 2);
             }
+        }
+
+        private void listView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            button_Delete.IsEnabled = true;
+            button_Assignments.IsEnabled = true;
+        }
+
+        private void comboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            AstralVal.Text = 
         }
     }
 }

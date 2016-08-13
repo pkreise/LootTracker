@@ -28,5 +28,10 @@ namespace LootTracker
                 
             }
         }
+
+        internal void RemoveLootItem(object tempitem)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -5,12 +5,21 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:LootTracker"
         mc:Ignorable="d"
-        Title="MainWindow" Height="700" Width="1000" Icon="LootTracker.ico" WindowStartupLocation="CenterScreen" Loaded="Window_Loaded" AllowsTransparency="True" WindowStyle="None">
+       Title="WoTR Loot Tracker" Height="700" Width="1000" Icon="LootTracker.ico" WindowStartupLocation="CenterScreen" Loaded="Window_Loaded" AllowsTransparency="True" WindowStyle="None">
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="StyleDictionary.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+
     <Grid Background="#FF464646" MouseDown="Window_MouseDown">
-        <TabControl x:Name="tabControl" Margin="10,30,10,10" BorderThickness="0" Foreground="#FF464646" Background="#FFDEDEDE" FontSize="14" FontFamily="Segoe UI Semibold">
-            <TabItem Header="Items List" Background="#FFDEDEDE" Foreground="#FF464646">
+        <TabControl x:Name="tabControl" Margin="10,39,10,10" BorderThickness="0,2,0,0" Foreground="#FF464646" Background="#FF464646" FontSize="14" FontFamily="Segoe UI Semibold">
+            <TabItem Header="Items" Background="#FFDEDEDE" Foreground="Black" Width="80">
                 <Grid Background="#FF464646">
-                    <ListView x:Name="listView" GridViewColumnHeader.Click="GridViewColumnHeaderClickedHandler" Margin="0,26,0,0" BorderThickness="0" SelectionMode="Single" Foreground="Black">
+                    <ListView x:Name="listView" GridViewColumnHeader.Click="GridViewColumnHeader_Clicked" Margin="0,26,-7,0" BorderThickness="0" SelectionMode="Single" Foreground="Black" ItemContainerStyle="{StaticResource myItemStyle}" FontFamily="Segoe UI" SelectionChanged="listView_SelectionChanged" FontSize="15">
                         <ListView.ContextMenu>
                             <ContextMenu>
                                 <MenuItem Header="New" Click="NewItem_Click"/>
@@ -23,7 +32,7 @@
                         </ListView.ContextMenu>
                         <ListView.View>
                             <GridView>
-                                <GridViewColumn Width="auto" Header="Item Name" DisplayMemberBinding="{Binding itemname}"/>
+                                <GridViewColumn Width="auto" Header="Item Name" DisplayMemberBinding="{Binding itemname}" />
                                 <GridViewColumn Width="auto" Header="Item Type" DisplayMemberBinding="{Binding loottype}"/>
                                 <GridViewColumn Width="auto" Header="Item Count" DisplayMemberBinding="{Binding count}"/>
                                 <GridViewColumn Width="auto" Header="Unassigned Count" DisplayMemberBinding="{Binding unassignedcount}"/>
@@ -34,182 +43,58 @@
                             </GridView>
                         </ListView.View>
                     </ListView>
-                    <Button x:Name="button_NewItem" Content="New" HorizontalAlignment="Left" Margin="0,1,0,0" VerticalAlignment="Top" Width="48" Height="25" BorderThickness="0" Background="#FF464646" Foreground="#FFDEDEDE" FontSize="16" FontFamily="Segoe UI Semibold">
-                        <Button.Style>
-                            <Style TargetType="{x:Type Button}">
-                                <Setter Property="Background" Value="#FF464646"/>
-                                <Setter Property="Template">
-                                    <Setter.Value>
-                                        <ControlTemplate TargetType="{x:Type Button}">
-                                            <Border Background="{TemplateBinding Background}">
-                                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                            </Border>
-                                        </ControlTemplate>
-                                    </Setter.Value>
-                                </Setter>
-                                <Style.Triggers>
-                                    <Trigger Property="IsMouseOver" Value="True">
-                                        <Setter Property="Background" Value="#FF464646"/>
-                                    </Trigger>
-                                </Style.Triggers>
-                            </Style>
-                        </Button.Style>
-                    </Button>
-                    <Button x:Name="button_Delete" Content="Delete" HorizontalAlignment="Left" Margin="48,1,0,0" VerticalAlignment="Top" Width="75" Height="25" BorderThickness="0" Background="#FF464646" Foreground="#FFDEDEDE" FontSize="16" FontFamily="Segoe UI Semibold">
-                        <Button.Style>
-                            <Style TargetType="{x:Type Button}">
-                                <Setter Property="Background" Value="#FF464646"/>
-                                <Setter Property="Template">
-                                    <Setter.Value>
-                                        <ControlTemplate TargetType="{x:Type Button}">
-                                            <Border Background="{TemplateBinding Background}">
-                                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                            </Border>
-                                        </ControlTemplate>
-                                    </Setter.Value>
-                                </Setter>
-                                <Style.Triggers>
-                                    <Trigger Property="IsMouseOver" Value="True">
-                                        <Setter Property="Background" Value="#FF464646"/>
-                                    </Trigger>
-                                </Style.Triggers>
-                            </Style>
-                        </Button.Style>
-                    </Button>
-                    <Button x:Name="button_Increment" Content="Increment" HorizontalAlignment="Left" Margin="123,1,0,0" VerticalAlignment="Top" Width="95" Height="25" BorderThickness="0" Background="#FF464646" Foreground="#FFDEDEDE" FontSize="16" FontFamily="Segoe UI Semibold">
-                        <Button.Style>
-                        <Style TargetType="{x:Type Button}">
-                            <Setter Property="Background" Value="#FF464646"/>
-                            <Setter Property="Template">
-                                <Setter.Value>
-                                    <ControlTemplate TargetType="{x:Type Button}">
-                                        <Border Background="{TemplateBinding Background}">
-                                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                        </Border>
-                                    </ControlTemplate>
-                                </Setter.Value>
-                            </Setter>
-                            <Style.Triggers>
-                                <Trigger Property="IsMouseOver" Value="True">
-                                    <Setter Property="Background" Value="#FF464646"/>
-                                </Trigger>
-                            </Style.Triggers>
-                        </Style>
-                        </Button.Style>
-                    </Button>
-                    <Button x:Name="button_Decrement" Content="Decrement" HorizontalAlignment="Left" Margin="218,1,0,0" VerticalAlignment="Top" Width="108" Height="25" BorderThickness="0" Background="#FF464646" Foreground="#FFDEDEDE" FontSize="16" FontFamily="Segoe UI Semibold" RenderTransformOrigin="0.046,0.8">
-                        <Button.Style>
-                            <Style TargetType="{x:Type Button}">
-                                <Setter Property="Background" Value="#FF464646"/>
-                                <Setter Property="Template">
-                                    <Setter.Value>
-                                        <ControlTemplate TargetType="{x:Type Button}">
-                                            <Border Background="{TemplateBinding Background}">
-                                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                            </Border>
-                                        </ControlTemplate>
-                                    </Setter.Value>
-                                </Setter>
-                                <Style.Triggers>
-                                    <Trigger Property="IsMouseOver" Value="True">
-                                        <Setter Property="Background" Value="#FF464646"/>
-                                    </Trigger>
-                                </Style.Triggers>
-                            </Style>
-                        </Button.Style>
-                    </Button>
+                    <Button x:Name="button_NewItem" Content="New" HorizontalAlignment="Left" Margin="0,1,0,0" VerticalAlignment="Top" Width="48" Height="25" Foreground="#FFDEDEDE" Style="{StaticResource mybutton}" Click="NewItem_Click"/>
+                    <Button x:Name="button_Delete" Content="Delete" HorizontalAlignment="Left" Margin="48,1,0,0" VerticalAlignment="Top" Width="75" Height="25" Foreground="#FFDEDEDE" Style="{StaticResource mybutton}" Click="DeleteItem_Click" IsEnabled="False"/>
+                    <Button x:Name="button_Increment" Content="+" HorizontalAlignment="Left" Margin="223,1,0,0" VerticalAlignment="Top" Width="30" Height="25" Foreground="#FFDEDEDE" Style="{StaticResource mybutton}"/>
+                    <Button x:Name="button_Decrement" Content="-" HorizontalAlignment="Left" Margin="253,1,0,0" VerticalAlignment="Top" Width="30" Height="25" Foreground="#FFDEDEDE" Style="{StaticResource mybutton}"/>
+                    <Button x:Name="button_Assignments" Content="Assigments" HorizontalAlignment="Left" Margin="123,0,0,0" VerticalAlignment="Top" Width="100" Height="26" Style="{StaticResource mybutton}" Foreground="#FFDEDEDE" IsEnabled="False"/>
                 </Grid>
             </TabItem>
-            <TabItem Header="Player Roster">
-                <Grid Background="#FF464646">
-                    <ComboBox x:Name="comboBox" HorizontalAlignment="Left" Margin="10,39,0,0" VerticalAlignment="Top" Width="120"/>
-                    <Button x:Name="button" Content="Button" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="75" Click="button_AddPlayer_Click"/>
+            <TabItem Header="Roster" Width="80">
+                <Grid Margin="0,1,0,-1">
+                    <ComboBox x:Name="comboBox_Player" HorizontalAlignment="Left" Margin="10,30,0,0" VerticalAlignment="Top" Width="250" Height="35" BorderThickness="0,0,0,2" Foreground="#FF464646" SelectionChanged="comboBox_SelectionChanged">
+                        <ComboBox.Background>
+                            <SolidColorBrush Color="#FF464646" Opacity="0"/>
+                        </ComboBox.Background>
+                    </ComboBox>
+                    <Button x:Name="button" Content="New" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Click="button_AddPlayer_Click" Style="{StaticResource mybutton}" Foreground="#FFDEDEDE" Height="25"/>
+                    <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="250" Margin="10,76,0,0" VerticalAlignment="Top" Width="250">
+                        <Image x:Name="image" Margin="-1,-1,1,1"/>
+                    </Border>
+                    <TextBlock x:Name="textBlock" Margin="336,96,0,0" TextWrapping="Wrap" Text="Astral" Foreground="#FFDEDEDE" FontSize="16" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" LineHeight="22"/>
+                    <TextBlock x:Name="textBlock_Copy" HorizontalAlignment="Left" Margin="336,271,0,0" TextWrapping="Wrap" Text="Total GP" VerticalAlignment="Top" Foreground="#FFDEDEDE" FontSize="16" Height="30"/>
+                    <TextBlock x:Name="textBlock_Copy1" Margin="336,236,0,0" TextWrapping="Wrap" Text="Copper" Foreground="#FFDEDEDE" FontSize="16" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" LineHeight="22" Width="65"/>
+                    <TextBlock x:Name="textBlock_Copy2" Margin="336,201,0,0" TextWrapping="Wrap" Text="Silver" Foreground="#FFDEDEDE" FontSize="16" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" LineHeight="22"/>
+                    <TextBlock x:Name="textBlock_Copy3" Margin="336,166,0,0" TextWrapping="Wrap" Text="Gold" Foreground="#FFDEDEDE" FontSize="16" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" LineHeight="22"/>
+                    <TextBlock x:Name="textBlock_Copy4" Margin="336,131,0,0" TextWrapping="Wrap" Text="Platinum" Foreground="#FFDEDEDE" FontSize="16" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" LineHeight="22"/>
+                    <Button x:Name="button1" Content="+" Margin="501,92,0,0" Width="25" Height="30" Style="{StaticResource button_Menu}" Foreground="#FFDEDEDE" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <Button x:Name="button1_astral_dec" Content="-" Margin="416,197,0,0" Width="25" BorderThickness="0" Style="{StaticResource button_Menu}" Foreground="#FFDEDEDE" FontFamily="Segoe UI Black" FontWeight="Bold" FontSize="20" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <Button x:Name="button1_plat_dec" Content="-" Margin="416,232,0,0" Width="25" BorderThickness="0" Style="{StaticResource button_Menu}" Foreground="#FFDEDEDE" FontFamily="Segoe UI Black" FontWeight="Bold" FontSize="20" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <Button x:Name="button1_gold_dec" Content="-" Margin="416,162,0,0" Width="25" BorderThickness="0" Style="{StaticResource button_Menu}" Foreground="#FFDEDEDE" FontFamily="Segoe UI Black" FontWeight="Bold" FontSize="20" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <Button x:Name="button1_sil_dec" Content="-" Margin="416,127,0,0" Width="25" BorderThickness="0" Style="{StaticResource button_Menu}" Foreground="#FFDEDEDE" FontFamily="Segoe UI Black" FontWeight="Bold" FontSize="20" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <Button x:Name="button1_cop_dec" Content="-" Margin="416,92,0,0" Width="25" BorderThickness="0" Style="{StaticResource button_Menu}" Foreground="#FFDEDEDE" FontFamily="Segoe UI Black" FontWeight="Bold" FontSize="20" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <Button x:Name="button1_Copy5" Content="+" Margin="501,232,0,0" Width="25" Height="30" Style="{StaticResource button_Menu}" Foreground="#FFDEDEDE" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <Button x:Name="button1_Copy6" Content="+" Margin="501,197,0,0" Width="25" Height="30" Style="{StaticResource button_Menu}" Foreground="#FFDEDEDE" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <Button x:Name="button1_Copy7" Content="+" Margin="501,162,0,0" Width="25" Height="30" Style="{StaticResource button_Menu}" Foreground="#FFDEDEDE" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <Button x:Name="button1_Copy8" Content="+" Margin="501,127,0,0" Width="25" Height="30" Style="{StaticResource button_Menu}" Foreground="#FFDEDEDE" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <TextBox x:Name="textBox_Copy" Height="30" Margin="446,92,0,0" Text="0" Width="50" SpellCheck.IsEnabled="True" HorizontalAlignment="Left" VerticalAlignment="Top" Background="#FF464646" BorderThickness="0" Foreground="#FFDEDEDE" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                    <TextBox x:Name="textBox_Copy1" Height="30" Margin="446,232,0,0" Text="0" Width="50" SpellCheck.IsEnabled="True" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="#FFDEDEDE" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="#FF464646" BorderThickness="0"/>
+                    <TextBox x:Name="textBox_Copy2" Height="30" Margin="446,197,0,0" Text="0" Width="50" SpellCheck.IsEnabled="True" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="#FFDEDEDE" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="#FF464646" BorderThickness="0"/>
+                    <TextBox x:Name="textBox_Copy3" Height="30" Margin="446,162,0,0" Text="0" Width="50" SpellCheck.IsEnabled="True" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="#FFDEDEDE" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="#FF464646" BorderThickness="0"/>
+                    <TextBox x:Name="textBox_Copy4" Height="30" Margin="446,127,0,0" Text="0" Width="50" SpellCheck.IsEnabled="True" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="#FFDEDEDE" BorderThickness="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="#FF464646"/>
+                    <TextBlock x:Name="AstralVal" HorizontalAlignment="Left" Margin="281,98,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Height="30" Foreground="#FFDEDEDE" LineHeight="22" Width="50"/>
+                    <TextBlock x:Name="CoppVal" HorizontalAlignment="Left" Margin="281,238,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Height="30" Foreground="#FFDEDEDE" LineHeight="22" Width="50"/>
+                    <TextBlock x:Name="SilVal" HorizontalAlignment="Left" Margin="281,203,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Height="30" Foreground="#FFDEDEDE" LineHeight="22" Width="50"/>
+                    <TextBlock x:Name="GolVal" HorizontalAlignment="Left" Margin="281,168,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Height="30" Foreground="#FFDEDEDE" LineHeight="22" Width="50"/>
+                    <TextBlock x:Name="PlatVal" HorizontalAlignment="Left" Margin="281,133,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Height="30" Foreground="#FFDEDEDE" LineHeight="22" Width="50"/>
+                    <TextBlock x:Name="TotalVal" HorizontalAlignment="Left" Margin="281,271,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Height="30" Foreground="#FFDEDEDE" LineHeight="22" Width="50"/>
                 </Grid>
             </TabItem>
+            <TextBlock x:Name="textBlock1" Height="100" TextWrapping="Wrap" Text="TextBlock" Width="100"/>
         </TabControl>
-        <Button x:Name="button_Close" Content="X" VerticalAlignment="Top" Height="30" Background="#FF464646" Foreground="#FFDEDEDE" BorderThickness="0" FontFamily="Segoe UI Semibold" FontSize="16" Click="button_Click" HorizontalAlignment="Right" Width="30">
-            <Button.Style>
-                <Style TargetType="{x:Type Button}">
-                    <Setter Property="Background" Value="#FF464646"/>
-                    <Setter Property="Template">
-                        <Setter.Value>
-                            <ControlTemplate TargetType="{x:Type Button}">
-                                <Border Background="{TemplateBinding Background}">
-                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                </Border>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                    <Style.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Background" Value="#FF464646"/>
-                        </Trigger>
-                    </Style.Triggers>
-                </Style>
-            </Button.Style>
-        </Button>
-        <Button x:Name="button_Open" Content="Open" HorizontalAlignment="Left" VerticalAlignment="Top" Width="60" FontSize="16" FontFamily="Segoe UI Semibold" BorderThickness="0" Background="#FF464646" Foreground="#FFDEDEDE" Click="MenuItem_Open_Click" Height="25" Margin="50,0,0,0">
-            <Button.Style>
-                <Style TargetType="{x:Type Button}">
-                    <Setter Property="Background" Value="#FF464646"/>
-                    <Setter Property="Template">
-                        <Setter.Value>
-                            <ControlTemplate TargetType="{x:Type Button}">
-                                <Border Background="{TemplateBinding Background}">
-                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                </Border>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                    <Style.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Background" Value="#FF464646"/>
-                        </Trigger>
-                    </Style.Triggers>
-                </Style>
-            </Button.Style>
-        </Button>
-        <Button x:Name="button_Save" Content="Save" HorizontalAlignment="Left" Margin="110,0,0,0" VerticalAlignment="Top" Width="50" Height="25" FontSize="16" FontFamily="Segoe UI Semibold" Foreground="#FFDEDEDE" Click="MenuItem_Open_Click">
-            <Button.Style>
-                <Style TargetType="{x:Type Button}">
-                    <Setter Property="Background" Value="#FF464646"/>
-                    <Setter Property="Template">
-                        <Setter.Value>
-                            <ControlTemplate TargetType="{x:Type Button}">
-                                <Border Background="{TemplateBinding Background}">
-                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                </Border>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                    <Style.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Background" Value="#FF464646"/>
-                        </Trigger>
-                    </Style.Triggers>
-                </Style>
-            </Button.Style>
-        </Button>
-        <Button x:Name="button_New" Content="New" HorizontalAlignment="Left" VerticalAlignment="Top" Width="50" RenderTransformOrigin="-0.067,-0.25" Height="25" Background="#FF464646" Foreground="#FFDEDEDE" FontSize="16" FontFamily="Segoe UI Semibold" BorderThickness="0" Click="MenuItem_New_Click">
-            <Button.Style>
-                <Style TargetType="{x:Type Button}">
-                    <Setter Property="Background" Value="#FF464646"/>
-                    <Setter Property="Template">
-                        <Setter.Value>
-                            <ControlTemplate TargetType="{x:Type Button}">
-                                <Border Background="{TemplateBinding Background}">
-                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                </Border>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                    <Style.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Background" Value="#FF464646"/>
-                        </Trigger>
-                    </Style.Triggers>
-                </Style>
-            </Button.Style>
-        </Button>
+        <Button x:Name="button_Close" Content="X" VerticalAlignment="Top" Height="35" Foreground="#FFDEDEDE" Click="button_Click" HorizontalAlignment="Right" Width="30" Style="{StaticResource button_Menu}"/>
+        <Button x:Name="button_Open" Content="Open" HorizontalAlignment="Left" VerticalAlignment="Top" Width="70" Foreground="#FFDEDEDE" Click="MenuItem_Open_Click" Height="35" Margin="60,2,0,0" Style="{StaticResource button_Menu}"/>
+        <Button x:Name="button_Save" Content="Save" HorizontalAlignment="Left" Margin="130,2,0,0" VerticalAlignment="Top" Width="65" Height="35" Foreground="#FFDEDEDE" Click="MenuItem_SaveAs_Click" Style="{StaticResource button_Menu}"/>
+        <Button x:Name="button_New" Content="New" HorizontalAlignment="Left" VerticalAlignment="Top" Width="60" Height="35" Foreground="#FFDEDEDE" Click="MenuItem_New_Click"  Margin="0,2,0,0" Style="{StaticResource button_Menu}"/>
     </Grid>
 </Window>

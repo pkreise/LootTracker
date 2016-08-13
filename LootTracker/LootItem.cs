@@ -44,6 +44,8 @@ namespace LootTracker
             CalculateTotalWeight();
         }
 
+
+
         //Constructor for initializing a new loot item.
         public LootItem(string ItemName, string LootType, int Count, int BaseValue, decimal BaseWeight)
         {

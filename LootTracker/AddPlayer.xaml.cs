@@ -56,54 +56,6 @@ namespace LootTracker
             playerImage.Source = null;
         }
 
-        private void textBox_Player_LostFocus(object sender, RoutedEventArgs e)
-        {
-            if (!(textBox_Character.Text == "") && !(textBox_Player.Text == ""))
-            { 
-                button_OK.IsEnabled = true;
-            }
-            else
-            {
-                button_OK.IsEnabled = false;
-            }
-        }
-
-        private void textBox_Player_GotFocus(object sender, RoutedEventArgs e)
-        {
-            if (!(textBox_Character.Text == "") && !(textBox_Player.Text == ""))
-            {
-                button_OK.IsEnabled = true;
-            }
-            else
-            {
-                button_OK.IsEnabled = false;
-            }
-        }
-
-        private void textBox_Character_GotFocus(object sender, RoutedEventArgs e)
-        {
-            if (!(textBox_Character.Text == "") && !(textBox_Player.Text == ""))
-            {
-                button_OK.IsEnabled = true;
-            }
-            else
-            {
-                button_OK.IsEnabled = false;
-            }
-        }
-
-        private void textBox_Character_LostFocus(object sender, RoutedEventArgs e)
-        {
-            if (!(textBox_Character.Text == "") && !(textBox_Player.Text == ""))
-            {
-                button_OK.IsEnabled = true;
-            }
-            else
-            {
-                button_OK.IsEnabled = false;
-            }
-        }
-
         private void button_OK_Click(object sender, RoutedEventArgs e)
         {
             //Working here!!!!
@@ -127,7 +79,7 @@ namespace LootTracker
             if (textBox_Character.Text == "")
             {
                 textBlock_Character.Foreground = Brushes.Red;
-                textBlock_Character.ToolTip = "Please enter a Player name.";
+                textBlock_Character.ToolTip = "Please enter a Character name.";
             }
             else
             {

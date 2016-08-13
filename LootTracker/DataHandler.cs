@@ -8,7 +8,7 @@ namespace LootTracker
 {
     public class DataHandler
     {
-
+        //Fields.
         public string filepath;
 
         //WriteData method takes data object and serializes to a binary format.
