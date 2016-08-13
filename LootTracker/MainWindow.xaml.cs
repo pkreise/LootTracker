@@ -231,7 +231,7 @@ namespace LootTracker
 
         private void comboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            AstralVal.Text = 
+            AstralVal.Text = null; 
         }
     }
 }
