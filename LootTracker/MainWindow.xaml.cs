@@ -13,7 +13,7 @@ namespace LootTracker
     /// </summary>
     public partial class MainWindow : Window
     {
-        //Declare vars.
+        //Declare class fields.
         string savefilepath;
         LootBook book = new LootBook();
         GridViewColumnHeader _lastHeaderClicked = null;
@@ -23,6 +23,28 @@ namespace LootTracker
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        /// <summary>
+        /// Event handler for main window onload event.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            listView.ItemsSource = book.lootlist;
+            comboBox_Player.ItemsSource = book.roster.playerlist;
+        }
+
+        /// <summary>
+        /// Event handler to enable window dragging.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Window_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == MouseButton.Left)
+                DragMove();
         }
 
         //Sorting method for the listview.
@@ -58,6 +80,8 @@ namespace LootTracker
             book = handler.ReadData();
             savefilepath = handler.filepath;
             listView.ItemsSource = book.lootlist;
+            comboBox_Player.ItemsSource = book.roster.playerlist;
+            comboBox_Player.SelectedIndex = -1;
         }
 
         //Event Handler for saving the open LootBook.
@@ -73,6 +97,8 @@ namespace LootTracker
         {
             book = new LootBook();
             listView.ItemsSource = book.lootlist;
+            comboBox_Player.SelectedIndex = -1;
+            comboBox_Player.ItemsSource = book.roster.playerlist;
         }
 
         //Event Handler for adding a new player to the roster.
@@ -128,24 +154,6 @@ namespace LootTracker
                 book.AddLootItem(item);
             }
         }
-
-        //Event handler for main window onload event.
-        private void Window_Loaded(object sender, RoutedEventArgs e)
-        {
-            listView.ItemsSource = book.lootlist;
-        }
-
-
-        /// <summary>
-        /// Event handler to enable window dragging.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Window_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            if (e.ChangedButton == MouseButton.Left)
-                DragMove();
-        }
         
         /// <summary>
         /// Event handler for clicking the mainwindow close button.
@@ -167,6 +175,8 @@ namespace LootTracker
             book.RemoveLootItem((listView.SelectedItem as LootItem));
             button_Delete.IsEnabled = false;
             button_Assignments.IsEnabled = false;
+            button_Increment.IsEnabled = false;
+            button_Decrement.IsEnabled = false;
 
         }
 
@@ -223,15 +233,36 @@ namespace LootTracker
             }
         }
 
+        /// <summary>
+        /// Event handler for enabling items when an item is selected from the list view.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void listView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             button_Delete.IsEnabled = true;
             button_Assignments.IsEnabled = true;
+            button_Increment.IsEnabled = true;
+            button_Decrement.IsEnabled = true;
         }
 
+        /// <summary>
+        /// Event handler for populating player data when a player is selected.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void comboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            AstralVal.Text = null; 
+            if (!(comboBox_Player.SelectedIndex == -1))
+            {
+                Player selectedplayer = comboBox_Player.SelectedItem as Player;
+                AstralVal.Text = selectedplayer.astral.ToString();
+                PlatVal.Text = selectedplayer.platinum.ToString();
+                GolVal.Text = selectedplayer.gold.ToString();
+                SilVal.Text = selectedplayer.silver.ToString();
+                CoppVal.Text = selectedplayer.copper.ToString();
+                TotalVal.Text = selectedplayer.totalGP.ToString();
+            }
         }
     }
 }

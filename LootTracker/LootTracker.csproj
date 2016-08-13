@@ -79,7 +79,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="IValueConverter.cs" />
+    <Compile Include="BackgroundConverter.cs" />
     <Compile Include="LootBook.cs" />
     <Compile Include="LootItem.cs" />
     <Compile Include="MainWindow.xaml.cs">
