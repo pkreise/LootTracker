@@ -136,18 +136,20 @@
     <!-- Style definition for dark ComboBoxItem-->
     <Style x:Key="mySimpleComboBoxItem" TargetType="{x:Type ComboBoxItem}">
         <Setter Property="SnapsToDevicePixels" Value="true"/>
-        <Setter Property="Background" Value="{StaticResource darkgray_back}"/>
-        <Setter Property="Foreground" Value="{StaticResource lightgray_fore}"/>
+        <Setter Property="Background" Value="{StaticResource lightgray_fore}"/>
+        <Setter Property="Foreground" Value="{StaticResource darkgray_back}"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ComboBoxItem}">
                     <Grid SnapsToDevicePixels="true">
-                        <Border x:Name="Border" Background="{StaticResource darkgray_back}" BorderThickness="0"/>
-                        <ContentPresenter HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                        <Border x:Name="Border" Background="{StaticResource lightgray_fore}" BorderThickness="0">
+                            <Label x:Name="Label" Foreground="{StaticResource darkgray_back}" Content="{Binding}"/>
+                        </Border>
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsHighlighted" Value="true">
                             <Setter Property="Background" Value="{StaticResource semiblack_back}" TargetName="Border"/>
+                            <Setter Property="Foreground" Value="{StaticResource lightgray_fore}" TargetName="Label"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

@@ -14,8 +14,10 @@ namespace LootTracker
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            ListViewItem item = (ListViewItem)value;
+            ListViewItem item = value as ListViewItem;
+            
             ListView listView = ItemsControl.ItemsControlFromItemContainer(item) as ListView;
+            
 
             // Get the index of a ListViewItem
             int index = listView.ItemContainerGenerator.IndexFromContainer(item);

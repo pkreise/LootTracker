@@ -56,7 +56,7 @@
                 <Grid Margin="0,1,0,-1">
                     <Button x:Name="button_AddPlayer" Content="Add" HorizontalAlignment="Left" VerticalAlignment="Top" Width="53" Click="button_AddPlayer_Click" Style="{StaticResource mybutton}" Foreground="#FFDEDEDE" Height="30" Margin="0"/>
                     <Button x:Name="button_RemovePlayer" Content="Remove" HorizontalAlignment="Left" VerticalAlignment="Top" Width="85" Click="button_AddPlayer_Click" Style="{StaticResource mybutton}" Foreground="#FFDEDEDE" Height="30" Margin="53,0,0,0"/>
-                    <ComboBox x:Name="comboBox_Player" HorizontalAlignment="Left" Margin="143,0,0,0" VerticalAlignment="Top" Width="185" Height="30" BorderThickness="0" SelectionChanged="comboBox_SelectionChanged" Style="{StaticResource ComboBox_Dark}" ItemContainerStyle="{StaticResource mySimpleComboBoxItem}" Foreground="{DynamicResource lightgray_fore}"/>
+                    <ComboBox x:Name="comboBox_Player" HorizontalAlignment="Left" Margin="143,0,0,0" VerticalAlignment="Top" Width="185" Height="30" BorderThickness="0" SelectionChanged="comboBox_SelectionChanged" Style="{StaticResource ComboBox_Dark}" ItemContainerStyle="{StaticResource mySimpleComboBoxItem}" Foreground="{DynamicResource lightgray_fore}" DisplayMemberPath="displayname"/>
                     <Border BorderBrush="{StaticResource lightgray_fore}" BorderThickness="1" HorizontalAlignment="Left" Height="209" Margin="10,53,0,0" VerticalAlignment="Top" Width="209">
                         <Image x:Name="image_PlayerImage" Margin="0" Stretch="UniformToFill"/>
                     </Border>
