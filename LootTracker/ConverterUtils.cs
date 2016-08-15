@@ -22,11 +22,11 @@ namespace LootTracker
 
             if (index % 2 == 0)
             {
-                return "#FFDEDEDE";
-            }
-            else
-            {
                 return "#FF464646";
+            }
+            else if (true)
+            {
+                return "#FFDEDEDE";
             }
         }
 
@@ -51,11 +51,11 @@ namespace LootTracker
 
             if (index % 2 == 0)
             {
-                return "#FF464646";
+                return "#FFDEDEDE";
             }
             else
             {
-                return "#FFDEDEDE";
+                return "#FF464646";
             }
         }
 
