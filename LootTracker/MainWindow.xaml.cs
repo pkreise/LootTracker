@@ -5,6 +5,8 @@ using System.Windows.Data;
 using System.ComponentModel;
 using System.Windows.Controls;
 using System.Collections.Generic;
+using System.IO;
+using System.Windows.Media.Imaging;
 
 namespace LootTracker
 {
@@ -95,7 +97,7 @@ namespace LootTracker
             savefilepath = handler.filepath;
             listView.ItemsSource = book.lootlist;
             comboBox_Player.ItemsSource = book.playerlist;
-            comboBox_Player.SelectedIndex = -1;
+            comboBox_Player.SelectedIndex = 0;
         }
 
         //Event Handler for saving the open LootBook.
@@ -270,7 +272,23 @@ namespace LootTracker
         {
             if (!(comboBox_Player.SelectedIndex == -1))
             {
-                UpdateGP(comboBox_Player.SelectedItem as Player);
+                Player player = comboBox_Player.SelectedItem as Player;
+                UpdateGP(player);
+
+                //If the player has an image, we should display it.
+                if (player.hasimage)
+                {
+                    MemoryStream ms = new MemoryStream(player.characterimage);
+                    BitmapImage bitmap = new BitmapImage();
+                    bitmap.BeginInit();
+                    bitmap.StreamSource = ms;
+                    bitmap.EndInit();
+                    image_PlayerImage.Source = bitmap;
+                }
+                else
+                {
+                    image_PlayerImage.Source = null;
+                }
             }
         }
 

@@ -11,6 +11,7 @@ namespace LootTracker
         string _charactername;
         string _displayname;
         byte[] _characterimage;
+        bool _hasimage;
         int _equipmentvalue;
         int _wgtcarried;
         int _astral;
@@ -26,6 +27,7 @@ namespace LootTracker
         public string charactername { get { return _charactername; } }
         public string displayname { get { return _displayname; } }
         public byte[] characterimage { get { return _characterimage; } }
+        public bool hasimage { get { return _hasimage; } }
         public int equipmentvalue { get { return _equipmentvalue; } }
         public decimal wgtcarried { get { return _wgtcarried; } }
         public int astral { get { return _astral; } }
@@ -66,22 +68,6 @@ namespace LootTracker
             _copper = 0;
             CalculateGP();
             GenerateDisplayName();
-        }
-
-        //The constructor for rehydrating an existing player.
-        public Player(string PlayerName, string CharachterName, byte[] CharacterImage, int EquipmentValue, int WgtCarried, int Astral, int Platinum, int Gold, int Silver, int Copper)
-        {
-            _playername = PlayerName;
-            _charactername = CharachterName;
-            _equipmentvalue = EquipmentValue;
-            _wgtcarried = WgtCarried;
-            _astral = Astral;
-            _platinum = Platinum;
-            _gold = Gold;
-            _silver = Silver;
-            _copper = Copper;
-            _characterimage = CharacterImage;
-            CalculateGP();
         }
 
         //Currency add methods.
@@ -156,6 +142,7 @@ namespace LootTracker
         public void UpdateImage(byte[] Image)
         {
             _characterimage = Image;
+            _hasimage = true;
         }
 
         private void GenerateDisplayName()

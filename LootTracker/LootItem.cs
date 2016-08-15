@@ -11,6 +11,7 @@ namespace LootTracker
         string _loottype = null;
         int _count = 0;
         int _unassignedcount = 0;
+        int _unassignedvalue = 0;
         int _assignedcount = 0;
         decimal _baseweight = 0;
         decimal _totalweight = 0;
@@ -24,6 +25,7 @@ namespace LootTracker
         public int count { get { return _count; } }
         public int unassignedcount { get { return _unassignedcount; } }
         public int assignedcount { get { return _assignedcount; } }
+        public int unassignedvalue { get { return _unassignedvalue; } }
         public decimal baseweight { get { return _baseweight; } }
         public decimal totalweight { get { return _totalweight; } }
         public int basevalue { get { return _basevalue; } }
@@ -44,8 +46,6 @@ namespace LootTracker
             CalculateTotalWeight();
         }
 
-
-
         //Constructor for initializing a new loot item.
         public LootItem(string ItemName, string LootType, int Count, int BaseValue, decimal BaseWeight)
         {
@@ -65,6 +65,12 @@ namespace LootTracker
             _totalvalue = _count * _basevalue;
         }
 
+        //Method to calculate total value of a loot item.
+        public void CalculateUnassignedValue()
+        {
+            _unassignedvalue = _unassignedcount * _basevalue;
+        }
+
         //Method to calculate total weight of a loot item.
         public void CalculateTotalWeight()
         {
@@ -78,9 +84,10 @@ namespace LootTracker
             CalculateTotalValue();
             CalculateTotalWeight();
             CalculateUnassignedCount();
+            CalculateUnassignedValue();
         }
 
-        //Method to decrease the count of a loot item.
+        //Method to decrement the count of a loot item.
         public void DecrementCount(int Count)
         {
             if (_count <= Count)
@@ -94,25 +101,27 @@ namespace LootTracker
             CalculateTotalValue();
             CalculateTotalWeight();
             CalculateUnassignedCount();
+            CalculateUnassignedValue();
         }
 
         //Method to modify ownership of the items.
-        public void ModifiyAssignment(string PlayerName, int NewCount)
+        public void ModifiyAssignment(string PlayerName, int Count)
         {
             //If the player isn't in the dictionary, add the assignment.
             if (!_assignments.ContainsKey(PlayerName))
             {
-                _assignments.Add(PlayerName, NewCount);
+                _assignments.Add(PlayerName, Count);
             }
-            //Otherwise, remove them from the dictionary first then add.
+            //Otherwise, remove them from the dictionary first, then add.
             else
             {
                 _assignments.Remove(PlayerName);
-                _assignments.Add(PlayerName, NewCount);
+                _assignments.Add(PlayerName, Count);
             }
             
-            //Re-calculate the unassigned count.
+            //Re-calculate the unassigned count and value.
             CalculateUnassignedCount();
+            CalculateUnassignedValue();
         }
 
         //Method to calculate the unassigned count after item assignment.
