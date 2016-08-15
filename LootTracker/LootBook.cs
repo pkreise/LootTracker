@@ -1,37 +1,71 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.IO;
+using System.Windows;
 
 namespace LootTracker
 {
     [Serializable]
     public class LootBook
     {
-        //Add a player roster to the lootbook.
-        public PlayerRoster roster = new PlayerRoster();
 
-        //Add a list of loot items to the lootbook.
-        public ObservableCollection<LootItem> lootlist = new ObservableCollection<LootItem>();
-        
+        //Initialize a new list of players and loot items.
+        ObservableCollection<Player> _playerlist = new ObservableCollection<Player>();
+        ObservableCollection<LootItem> _lootlist = new ObservableCollection<LootItem>();
 
-        //Method to add a loot item to the lootlist.
-        public void AddLootItem(LootItem lootitem)
+        //Public properties.
+        public ObservableCollection<Player> playerlist { get { return _playerlist; } }
+        public ObservableCollection<LootItem> lootlist { get { return _lootlist; } }
+
+        public LootBook()
         {
-            lootlist. Add(lootitem);
+            //Add a default "party" player to the lootbook.
+            Player party = new Player("Party", "Party");
+
+            //Get the default party image.
+            Uri uri = new Uri("pack://application:,,,/party.jpg");
+            var info = Application.GetResourceStream(uri);
+            var memoryStream = new MemoryStream();
+            info.Stream.CopyTo(memoryStream);
+            byte[] image =  memoryStream.ToArray();
+
+            //Add the image to the party character.
+            party.UpdateImage(image);
+
+            //Add the player to the playerlist.
+            AddPlayer(party);
+        }
+
+        //Method to add a player to a player roster object.
+        public void AddPlayer(Player p)
+        {
+            _playerlist.Add(p);
+        }
+
+        //Method to remove a loot item from the lootlist.
+        public void RemovePlayer(Player p)
+        {
+            if (_playerlist.Contains(p))
+            {
+                _playerlist.Remove(p);
+
+            }
+        }
+        
+        //Method to add a loot item to the lootlist.
+        public void AddLootItem(LootItem l)
+        {
+            _lootlist. Add(l);
         }
         
         //Method to remove a loot item from the lootlist.
-        public void RemoveLootItem(LootItem lootitem)
+        public void RemoveLootItem(LootItem l)
         {
-            if (lootlist.Contains(lootitem))
+            if (_lootlist.Contains(l))
             {
-                lootlist.Remove(lootitem);
+                _lootlist.Remove(l);
                 
             }
-        }
-
-        internal void RemoveLootItem(object tempitem)
-        {
-            throw new NotImplementedException();
         }
     }
 }

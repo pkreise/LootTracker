@@ -3,43 +3,54 @@
                     xmlns:local="clr-namespace:LootTracker"
                     xmlns:d="http://schemas.microsoft.com/expression/interactivedesigner/2006">
 
-    <!--ResourceKey for the converter class-->
-    <local:BackgroundConverter x:Key="myConverter"/>
-    
-    <!--Style definition for list view items-->
+    <!--ResourceKeys for the converter classes-->
+    <local:B_Converter x:Key="b_converter"/>
+    <local:F_Converter x:Key="f_converter"/>
+
+    <!--Brushes-->
+    <SolidColorBrush x:Key="darkgray_back" Color="#FF464646"/>
+    <SolidColorBrush x:Key="lightgray_fore" Color="#FFDEDEDE"/>
+    <SolidColorBrush x:Key="semiblack_back" Color="#FF343434"/>
+
+    <!--Style definition for listview items-->
     <Style x:Key="myItemStyle" TargetType="{x:Type ListViewItem}">
+        <Setter Property="FontFamily" Value="Segoe UI"/>
+        <Setter Property="FontSize" Value="16"/>
         <Setter Property="Background">
             <Setter.Value>
-                <Binding RelativeSource="{RelativeSource Self}" Converter="{StaticResource myConverter}"/>
+                <Binding RelativeSource="{RelativeSource Self}" Converter="{StaticResource b_converter}"/>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Foreground">
+            <Setter.Value>
+                <Binding RelativeSource="{RelativeSource Self}" Converter="{StaticResource f_converter}"/>
             </Setter.Value>
         </Setter>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ListViewItem}">
-                    <Border
-                         BorderBrush="Transparent"
-                         BorderThickness="0"
-                         Background="{TemplateBinding Background}">
-                        <GridViewRowPresenter HorizontalAlignment="Stretch" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Width="Auto" Margin="0" Content="{TemplateBinding Content}"/>
+                    <Border BorderBrush="Transparent" BorderThickness="0" Background="{TemplateBinding Background}">
+                        <GridViewRowPresenter HorizontalAlignment="Stretch" VerticalAlignment="Center" Width="Auto" Margin="0" Content="{TemplateBinding Content}"/>
                     </Border>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Background" Value="DarkGray"/>
+                <Setter Property="Background" Value="Black"/>
                 <Setter Property="Foreground" Value="White"/>
             </Trigger>
             <Trigger Property="IsSelected" Value="True">
                 <Setter Property="Background" Value="Black"/>
                 <Setter Property="Foreground" Value="White"/>
+                <Setter Property="FontWeight" Value="Bold"/>
             </Trigger>
         </Style.Triggers>
     </Style>
 
     <!--Stle definition for standard size button-->
     <Style x:Key="mybutton" TargetType="{x:Type Button}">
-        <Setter Property="Background" Value="#FF464646"/>
+        <Setter Property="Background" Value="{StaticResource darkgray_back}"/>
         <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="FontSize" Value="16"/>
         <Setter Property="FontFamily" Value="Segoe UI Semibold"/>
@@ -47,21 +58,21 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Button}">
                     <Border Background="{TemplateBinding Background}">
-                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Stretch"/>
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,-6,0,0"/>
                     </Border>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Background" Value="#FF343434"/>
+                <Setter Property="Background" Value="{StaticResource semiblack_back}"/>
             </Trigger>
         </Style.Triggers>
     </Style>
 
     <!--Stle definition for large size button-->
     <Style x:Key="button_Menu" TargetType="{x:Type Button}">
-        <Setter Property="Background" Value="#FF464646"/>
+        <Setter Property="Background" Value="{StaticResource darkgray_back}"/>
         <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="FontSize" Value="20"/>
         <Setter Property="FontFamily" Value="Segoe UI Semibold"/>
@@ -69,20 +80,23 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Button}">
                     <Border Background="{TemplateBinding Background}">
-                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Stretch"/>
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,-6,0,0"/>
                     </Border>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Background" Value="#FF343434"/>
+                <Setter Property="Background" Value="{StaticResource semiblack_back}"/>
             </Trigger>
         </Style.Triggers>
     </Style>
 
-
+    <!--Style definition for dark combo box.-->
     <Style x:Key="ComboBox_Dark" TargetType="{x:Type ComboBox}">
+        <Setter Property="DisplayMemberPath" Value="displayname"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="FontSize" Value="16"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ComboBox">
@@ -95,18 +109,18 @@
                                             <ColumnDefinition Width="5*" />
                                             <ColumnDefinition Width="*" />
                                         </Grid.ColumnDefinitions>
-                                        <Border x:Name="Border"  Grid.ColumnSpan="2" Background="#FFDEDEDE" BorderThickness="0"/>
-                                        <Border Grid.Column="0" Margin="1"  Background="#FFDEDEDE" BorderThickness="0"/>
-                                        <Path x:Name="Arrow" Grid.Column="1"  Fill="#FF464646" HorizontalAlignment="Center" VerticalAlignment="Center" Data="M 0 0 L 4 4 L 8 0 Z"/>
+                                        <Border x:Name="Border"  Grid.ColumnSpan="2" Background="{DynamicResource darkgray_back}" BorderThickness="0"/>
+                                        <Border Grid.Column="0" Margin="1"  Background="{DynamicResource darkgray_back}" BorderThickness="0"/>
+                                        <Path x:Name="Arrow" Grid.Column="1"  Fill="{DynamicResource lightgray_fore}" HorizontalAlignment="Center" VerticalAlignment="Center" Data="M 0 0 L 4 4 L 8 0 Z"/>
                                     </Grid>
                                 </ControlTemplate>
                             </ToggleButton.Template>
                         </ToggleButton>
-                        <ContentPresenter Name="ContentSite" IsHitTestVisible="False"  Content="{TemplateBinding SelectionBoxItem}" ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}" ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}" Margin="3"  />
-                        <TextBox x:Name="PART_EditableTextBox" Visibility="Hidden" IsReadOnly="{TemplateBinding IsReadOnly}" Foreground="#FF464646"/>
+                        <ContentPresenter Name="ContentSite" IsHitTestVisible="False"  Content="{TemplateBinding SelectionBoxItem}" ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}" ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}" VerticalAlignment="Center" Margin="0,-4,0,0" HorizontalAlignment="Center"/>
+                        <TextBox x:Name="PART_EditableTextBox" Visibility="Hidden" IsReadOnly="True" Foreground="{StaticResource lightgray_fore}"/>
                         <Popup Name="Popup" Placement="Bottom" IsOpen="{TemplateBinding IsDropDownOpen}" AllowsTransparency="True"  Focusable="False" PopupAnimation="Slide">
                             <Grid  Name="DropDown" SnapsToDevicePixels="True" MinWidth="{TemplateBinding ActualWidth}" MaxHeight="{TemplateBinding MaxDropDownHeight}">
-                                <Border x:Name="DropDownBorder" Background="#FFDEDEDE"/>
+                                <Border x:Name="DropDownBorder" Background="{StaticResource lightgray_fore}"/>
                                 <ScrollViewer SnapsToDevicePixels="True">
                                     <StackPanel IsItemsHost="True"/>
                                 </ScrollViewer>
@@ -116,36 +130,61 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-        <Style.Triggers>
-        </Style.Triggers>
     </Style>
 
-
-    <!-- Simple ComboBoxItem - This is used for each item inside of the ComboBox. You can change the selected color of each item below-->
-    <Style x:Key="SimpleComboBoxItem_test" TargetType="{x:Type ComboBoxItem}">
+    <!-- Style definition for dark ComboBoxItem-->
+    <Style x:Key="mySimpleComboBoxItem" TargetType="{x:Type ComboBoxItem}">
         <Setter Property="SnapsToDevicePixels" Value="true"/>
-        <Setter Property="Foreground" Value="green"/>
+        <Setter Property="Background" Value="{StaticResource darkgray_back}"/>
+        <Setter Property="Foreground" Value="{StaticResource lightgray_fore}"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ComboBoxItem}">
                     <Grid SnapsToDevicePixels="true">
-                        <Border x:Name="Border" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}"/>
-                        <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        <Border x:Name="Border" Background="{StaticResource darkgray_back}" BorderThickness="0"/>
+                        <ContentPresenter HorizontalAlignment="Left" VerticalAlignment="Center"/>
                     </Grid>
                     <ControlTemplate.Triggers>
-
-                        <!-- Change IsHighlighted SelectedBackgroundBrush to set the selection color for the items -->
                         <Trigger Property="IsHighlighted" Value="true">
-                            <Setter Property="Background" Value="{DynamicResource SelectedBackgroundBrush}" TargetName="Border"/>
+                            <Setter Property="Background" Value="white" TargetName="Border"/>
                         </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 
-                        <Trigger Property="IsEnabled" Value="false">
+    <!--Style defintion for tabitems-->
+    <Style x:Key="SimpleTabItem" TargetType="{x:Type TabItem}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type TabItem}">
+                    <Grid>
+                        <Border Margin="0,0,-4,0" x:Name="Border" Background="{DynamicResource LightBrush}" BorderBrush="{DynamicResource SolidBorderBrush}" BorderThickness="1,1,1,1" CornerRadius="2,12,0,0">
+                            <ContentPresenter HorizontalAlignment="Center" Margin="12,2,12,2" x:Name="ContentSite" VerticalAlignment="Center" RecognizesAccessKey="True" ContentSource="Header"/>
+                        </Border>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="Panel.ZIndex" Value="100"/>
+                            <Setter Property="Background" Value="{DynamicResource WindowBackgroundBrush}" TargetName="Border"/>
+                            <Setter Property="BorderThickness" Value="1,1,1,0" TargetName="Border"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Background" Value="{DynamicResource DisabledBackgroundBrush}" TargetName="Border"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource DisabledBorderBrush}" TargetName="Border"/>
                             <Setter Property="Foreground" Value="{DynamicResource DisabledForegroundBrush}"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+    </Style>
+
+    <!--Style defition for list view headers-->
+    <Style x:Key="headers" TargetType="{x:Type GridViewColumnHeader}">
+        <Setter Property="Background" Value="{StaticResource lightgray_fore}"/>
+        <Setter Property="Foreground" Value="{StaticResource darkgray_back}"/>
     </Style>
 
 </ResourceDictionary>

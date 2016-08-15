@@ -9,6 +9,7 @@ namespace LootTracker
         //Declare class fields.
         string _playername;
         string _charactername;
+        string _displayname;
         byte[] _characterimage;
         int _equipmentvalue;
         int _wgtcarried;
@@ -19,9 +20,11 @@ namespace LootTracker
         int _copper;
         double _totalGP;
 
+
         //Define public properties.
         public string playername { get { return _playername; } }
         public string charactername { get { return _charactername; } }
+        public string displayname { get { return _displayname; } }
         public byte[] characterimage { get { return _characterimage; } }
         public int equipmentvalue { get { return _equipmentvalue; } }
         public decimal wgtcarried { get { return _wgtcarried; } }
@@ -62,6 +65,7 @@ namespace LootTracker
             _silver = 0;
             _copper = 0;
             CalculateGP();
+            GenerateDisplayName();
         }
 
         //The constructor for rehydrating an existing player.
@@ -143,7 +147,7 @@ namespace LootTracker
         }
 
         //TotalGP calculation method.
-        public void CalculateGP()
+        private void CalculateGP()
         {
             _totalGP = ((_copper * .01) + (_silver * .1) + _gold + (_platinum * 10) + (_astral * 100));
         }
@@ -152,6 +156,11 @@ namespace LootTracker
         public void UpdateImage(byte[] Image)
         {
             _characterimage = Image;
+        }
+
+        private void GenerateDisplayName()
+        {
+            _displayname = string.Concat(_playername, " - ", _charactername);
         }
     }
 }

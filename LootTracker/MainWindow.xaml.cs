@@ -23,7 +23,9 @@ namespace LootTracker
         public MainWindow()
         {
             InitializeComponent();
+            this.DataContext = this;
         }
+
 
         /// <summary>
         /// Event handler for main window onload event.
@@ -33,7 +35,8 @@ namespace LootTracker
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             listView.ItemsSource = book.lootlist;
-            comboBox_Player.ItemsSource = book.roster.playerlist;
+            comboBox_Player.ItemsSource = book.playerlist;
+            comboBox_Player.SelectedIndex = 0;
         }
 
         /// <summary>
@@ -73,6 +76,17 @@ namespace LootTracker
             dataView.Refresh();
         }
 
+        //Method to update player statistic elements.
+        private void UpdateGP(Player p)
+        {
+            AstVal.Text = p.astral.ToString();
+            PltVal.Text = p.platinum.ToString();
+            GldVal.Text = p.gold.ToString();
+            SilVal.Text = p.silver.ToString();
+            CopVal.Text = p.copper.ToString();
+            TtlVal.Text = p.totalGP.ToString();
+        }
+        
         //Event Handler for opening an existing LootBook.
         private void MenuItem_Open_Click(object sender, RoutedEventArgs e)
         {
@@ -80,7 +94,7 @@ namespace LootTracker
             book = handler.ReadData();
             savefilepath = handler.filepath;
             listView.ItemsSource = book.lootlist;
-            comboBox_Player.ItemsSource = book.roster.playerlist;
+            comboBox_Player.ItemsSource = book.playerlist;
             comboBox_Player.SelectedIndex = -1;
         }
 
@@ -98,7 +112,8 @@ namespace LootTracker
             book = new LootBook();
             listView.ItemsSource = book.lootlist;
             comboBox_Player.SelectedIndex = -1;
-            comboBox_Player.ItemsSource = book.roster.playerlist;
+            comboBox_Player.ItemsSource = book.playerlist;
+            comboBox_Player.SelectedIndex = 0;
         }
 
         //Event Handler for adding a new player to the roster.
@@ -122,7 +137,7 @@ namespace LootTracker
                 {
                     player.UpdateImage(window.imagearray);
                 }
-                book.roster.AddPlayer(player);
+                book.AddPlayer(player);
             }
         }
 
@@ -255,14 +270,155 @@ namespace LootTracker
         {
             if (!(comboBox_Player.SelectedIndex == -1))
             {
-                Player selectedplayer = comboBox_Player.SelectedItem as Player;
-                AstralVal.Text = selectedplayer.astral.ToString();
-                PlatVal.Text = selectedplayer.platinum.ToString();
-                GolVal.Text = selectedplayer.gold.ToString();
-                SilVal.Text = selectedplayer.silver.ToString();
-                CoppVal.Text = selectedplayer.copper.ToString();
-                TotalVal.Text = selectedplayer.totalGP.ToString();
+                UpdateGP(comboBox_Player.SelectedItem as Player);
             }
         }
+
+        private void button_ast_inc_Click(object sender, RoutedEventArgs e)
+        {
+            if (!(comboBox_Player.SelectedIndex == -1))
+            {
+                (comboBox_Player.SelectedItem as Player).AddAstral(Convert.ToInt32(textBox_ast_int.Text));
+                UpdateGP(comboBox_Player.SelectedItem as Player);
+            }
+            textBox_ast_int.Text = "0";
+        }
+        private void button_ast_dec_Click(object sender, RoutedEventArgs e)
+        {
+            if (!(comboBox_Player.SelectedIndex == -1))
+            {
+                (comboBox_Player.SelectedItem as Player).RemoveAstral(Convert.ToInt32(textBox_ast_int.Text));
+                UpdateGP(comboBox_Player.SelectedItem as Player);
+            }
+            textBox_ast_int.Text = "0";
+        }
+        private void textBox_ast_int_LostFocus(object sender, RoutedEventArgs e)
+        {
+            try { Convert.ToInt32(textBox_ast_int.Text); }
+            catch { textBox_ast_int.Text = "0"; }
+
+        }
+        private void textBox_ast_int_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            (sender as TextBox).SelectAll();
+        }
+
+        private void button_plt_inc_Click(object sender, RoutedEventArgs e)
+        {
+            if (!(comboBox_Player.SelectedIndex == -1))
+            {
+                (comboBox_Player.SelectedItem as Player).AddPlatinum(Convert.ToInt32(textBox_plt_int.Text));
+                UpdateGP(comboBox_Player.SelectedItem as Player);
+            }
+            textBox_plt_int.Text = "0";
+        }
+        private void button_plt_dec_Click(object sender, RoutedEventArgs e)
+        {
+            if (!(comboBox_Player.SelectedIndex == -1))
+            {
+                (comboBox_Player.SelectedItem as Player).RemovePlatinum(Convert.ToInt32(textBox_plt_int.Text));
+                UpdateGP(comboBox_Player.SelectedItem as Player);
+            }
+            textBox_plt_int.Text = "0";
+        }
+        private void textBox_plt_int_LostFocus(object sender, RoutedEventArgs e)
+        {
+            try { Convert.ToInt32(textBox_plt_int.Text); }
+            catch { textBox_plt_int.Text = "0"; }
+
+        }
+        private void textBox_plt_int_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            (sender as TextBox).SelectAll();
+        }
+
+        private void button_gld_inc_Click(object sender, RoutedEventArgs e)
+        {
+            if (!(comboBox_Player.SelectedIndex == -1))
+            {
+                (comboBox_Player.SelectedItem as Player).AddGold(Convert.ToInt32(textBox_gld_int.Text));
+                UpdateGP(comboBox_Player.SelectedItem as Player);
+            }
+            textBox_gld_int.Text = "0";
+        }
+        private void button_gld_dec_Click(object sender, RoutedEventArgs e)
+        {
+            if (!(comboBox_Player.SelectedIndex == -1))
+            {
+                (comboBox_Player.SelectedItem as Player).RemoveGold(Convert.ToInt32(textBox_gld_int.Text));
+                UpdateGP(comboBox_Player.SelectedItem as Player);
+            }
+            textBox_gld_int.Text = "0";
+        }
+        private void textBox_gld_int_LostFocus(object sender, RoutedEventArgs e)
+        {
+            try { Convert.ToInt32(textBox_gld_int.Text); }
+            catch { textBox_gld_int.Text = "0"; }
+
+        }
+        private void textBox_gld_int_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            (sender as TextBox).SelectAll();
+        }
+
+        private void button_sil_inc_Click(object sender, RoutedEventArgs e)
+        {
+            if (!(comboBox_Player.SelectedIndex == -1))
+            {
+                (comboBox_Player.SelectedItem as Player).AddSilver(Convert.ToInt32(textBox_sil_int.Text));
+                UpdateGP(comboBox_Player.SelectedItem as Player);
+            }
+            textBox_sil_int.Text = "0";
+        }
+        private void button_sil_dec_Click(object sender, RoutedEventArgs e)
+        {
+            if (!(comboBox_Player.SelectedIndex == -1))
+            {
+                (comboBox_Player.SelectedItem as Player).RemoveSilver(Convert.ToInt32(textBox_sil_int.Text));
+                UpdateGP(comboBox_Player.SelectedItem as Player);
+            }
+            textBox_sil_int.Text = "0";
+        }
+        private void textBox_sil_int_LostFocus(object sender, RoutedEventArgs e)
+        {
+            try { Convert.ToInt32(textBox_sil_int.Text); }
+            catch { textBox_sil_int.Text = "0"; }
+
+        }
+        private void textBox_sil_int_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            (sender as TextBox).SelectAll();
+        }
+
+        private void button_cop_inc_Click(object sender, RoutedEventArgs e)
+        {
+            if (!(comboBox_Player.SelectedIndex == -1))
+            {
+                (comboBox_Player.SelectedItem as Player).AddCopper(Convert.ToInt32(textBox_cop_int.Text));
+                UpdateGP(comboBox_Player.SelectedItem as Player);
+            }
+            textBox_cop_int.Text = "0";
+        }
+        private void button_cop_dec_Click(object sender, RoutedEventArgs e)
+        {
+            if (!(comboBox_Player.SelectedIndex == -1))
+            {
+                (comboBox_Player.SelectedItem as Player).RemoveCopper(Convert.ToInt32(textBox_cop_int.Text));
+                UpdateGP(comboBox_Player.SelectedItem as Player);
+            }
+            textBox_cop_int.Text = "0";
+        }
+        private void textBox_cop_int_LostFocus(object sender, RoutedEventArgs e)
+        {
+            try { Convert.ToInt32(textBox_cop_int.Text); }
+            catch { textBox_cop_int.Text = "0"; }
+
+        }
+        private void textBox_cop_int_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            (sender as TextBox).SelectAll();
+        }
+
+
     }
 }

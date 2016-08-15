@@ -56,6 +56,7 @@ namespace LootTracker
             playerImage.Source = null;
         }
 
+        //Event handler for clicking the OK button.
         private void button_OK_Click(object sender, RoutedEventArgs e)
         {
             //Working here!!!!

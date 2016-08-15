@@ -79,7 +79,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="BackgroundConverter.cs" />
+    <Compile Include="ConverterUtils.cs" />
     <Compile Include="LootBook.cs" />
     <Compile Include="LootItem.cs" />
     <Compile Include="MainWindow.xaml.cs">
@@ -97,7 +97,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Player.cs" />
-    <Compile Include="PlayerRoster.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -129,6 +128,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="back.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="party.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

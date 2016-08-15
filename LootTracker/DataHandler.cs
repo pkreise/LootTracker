@@ -15,6 +15,7 @@ namespace LootTracker
         //Saves output to file path selected by user.
         public void WriteData(object Data)
         {
+            FileStream filestream;
 
             //Instantiate a new instance of the SaveFileDialog.
             SaveFileDialog filepicker = new SaveFileDialog();
@@ -24,7 +25,15 @@ namespace LootTracker
             filepicker.ShowDialog();
 
             //Start a new filestream using the selected file path.
-            FileStream filestream = new FileStream(filepicker.FileName, FileMode.Create);
+            if (string.IsNullOrEmpty(filepicker.FileName))
+            {
+                return;
+            }
+            else
+            {
+                filestream = new FileStream(filepicker.FileName, FileMode.Create);
+            }
+           
 
             filepath = filepicker.FileName;
 
