@@ -19,7 +19,7 @@
         <TextBlock x:Name="textBlock_Name" HorizontalAlignment="Left" Height="25" Margin="19,35,0,0" TextWrapping="Wrap" Text="Item Name:" VerticalAlignment="Top" FontSize="14" LineHeight="14" FontFamily="Segoe UI Semibold" Foreground="#FFDEDEDE"/>
         <TextBlock x:Name="textBlock_Type" HorizontalAlignment="Left" Height="25" Margin="19,65,0,0" TextWrapping="Wrap" Text="Item Type:" VerticalAlignment="Top" FontSize="14" LineHeight="14" FontFamily="Segoe UI Semibold" Foreground="#FFDEDEDE"/>
         <TextBox x:Name="textBox_Name" HorizontalAlignment="Left" Height="25" Margin="106,35,0,0" VerticalAlignment="Top" Width="120" FontSize="14" Background="#FF464646" BorderThickness="0" Foreground="#FFDEDEDE"/>
-        <ComboBox x:Name="comboBox_Type" HorizontalAlignment="Left" Height="25" Margin="106,65,0,0" VerticalAlignment="Top" Width="120" FontSize="14" Background="#FF464646" BorderBrush="#FF464646" BorderThickness="0" VerticalContentAlignment="Center" Style="{DynamicResource ComboBox_Dark}" ItemContainerStyle="{StaticResource mySimpleComboBoxItem}" >
+        <ComboBox x:Name="comboBox_Type" HorizontalAlignment="Left" Height="25" Margin="106,65,0,0" VerticalAlignment="Top" Width="120" FontSize="14" Background="#FF464646" BorderBrush="#FF464646" BorderThickness="0" VerticalContentAlignment="Center" Style="{DynamicResource ComboBox_Dark_2}" ItemContainerStyle="{StaticResource mySimpleComboBoxItem_2}" Foreground="{DynamicResource lightgray_fore}">
             <ComboBoxItem Content="Ammo"/>
             <ComboBoxItem Content="Armor"/>
             <ComboBoxItem Content="Equipment"/>

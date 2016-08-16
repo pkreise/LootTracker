@@ -17,15 +17,16 @@ namespace LootTracker
     {
         //Declare class fields.
         string savefilepath;
-        LootBook book = new LootBook();
+        LootBook _book = new LootBook();
         GridViewColumnHeader _lastHeaderClicked = null;
         ListSortDirection _lastDirection = ListSortDirection.Ascending;
 
+        //Class properties.
+        public LootBook book { get { return _book; } set { _book = value; } }
         //MainWindow entry point.
         public MainWindow()
         {
             InitializeComponent();
-            this.DataContext = this;
         }
 
 
@@ -37,7 +38,7 @@ namespace LootTracker
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             listView.ItemsSource = book.lootlist;
-            comboBox_Player.ItemsSource = book.playerlist;
+            comboBox_Player.ItemsSource = _book.playerlist;
             comboBox_Player.SelectedIndex = 0;
         }
 
@@ -93,10 +94,10 @@ namespace LootTracker
         private void MenuItem_Open_Click(object sender, RoutedEventArgs e)
         {
             DataHandler handler = new DataHandler();
-            book = handler.ReadData();
+            _book = handler.ReadData();
             savefilepath = handler.filepath;
-            listView.ItemsSource = book.lootlist;
-            comboBox_Player.ItemsSource = book.playerlist;
+            listView.ItemsSource = _book.lootlist;
+            comboBox_Player.ItemsSource = _book.playerlist;
             comboBox_Player.SelectedIndex = 0;
         }
 
@@ -104,17 +105,17 @@ namespace LootTracker
         private void MenuItem_SaveAs_Click(object sender, RoutedEventArgs e)
         {
             DataHandler handler = new DataHandler();
-            handler.WriteData(book);
+            handler.WriteData(_book);
             savefilepath = handler.filepath;
         }
 
         //Event Handler for creating a new LootBook.
         private void MenuItem_New_Click(object sender, RoutedEventArgs e)
         {
-            book = new LootBook();
-            listView.ItemsSource = book.lootlist;
+            _book = new LootBook();
+            listView.ItemsSource = _book.lootlist;
             comboBox_Player.SelectedIndex = -1;
-            comboBox_Player.ItemsSource = book.playerlist;
+            comboBox_Player.ItemsSource = _book.playerlist;
             comboBox_Player.SelectedIndex = 0;
         }
 
@@ -139,7 +140,7 @@ namespace LootTracker
                 {
                     player.UpdateImage(window.imagearray);
                 }
-                book.AddPlayer(player);
+                _book.AddPlayer(player);
             }
         }
 
@@ -147,7 +148,7 @@ namespace LootTracker
         private void MenuItem_Save_Click(object sender, RoutedEventArgs e)
         {
             DataHandler handler = new DataHandler();
-            handler.WriteData(true, book, savefilepath);
+            handler.WriteData(true, _book, savefilepath);
         }
 
         //Event handler for clicking the exit menu item.
@@ -168,7 +169,7 @@ namespace LootTracker
             if (!window.canceled)
             {
                 LootItem item = new LootItem(window.textBox_Name.Text, window.comboBox_Type.Text, (Convert.ToInt32(window.textBox_Count.Text)), (Convert.ToInt32(window.textBox_BaseValue.Text)), (Convert.ToDecimal(window.textBox_BaseWeight.Text)));
-                book.AddLootItem(item);
+                _book.AddLootItem(item);
             }
         }
         
@@ -189,7 +190,7 @@ namespace LootTracker
         /// <param name="e"></param>
         private void DeleteItem_Click(object sender, RoutedEventArgs e)
         {
-            book.RemoveLootItem((listView.SelectedItem as LootItem));
+            _book.RemoveLootItem((listView.SelectedItem as LootItem));
             button_Delete.IsEnabled = false;
             button_Assignments.IsEnabled = false;
             button_Increment.IsEnabled = false;
@@ -244,9 +245,9 @@ namespace LootTracker
         private void ModifiyAssignment_Click(object sender, RoutedEventArgs e)
         {
             int index = listView.SelectedIndex;
-            if (!(book.lootlist.Count == 0) && !(index == -1))
+            if (!(_book.lootlist.Count == 0) && !(index == -1))
             {
-                book.lootlist[index].ModifiyAssignment("Dean", 2);
+                _book.lootlist[index].ModifiyAssignment("Dean", 2);
             }
         }
 
@@ -320,6 +321,24 @@ namespace LootTracker
         {
             (sender as TextBox).SelectAll();
         }
+        private void button_ast_inc_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            Player p = (comboBox_Player.SelectedItem as Player);
+            if (!(comboBox_Player.SelectedIndex == -1))
+            {
+                p.AddAstral(1);
+                UpdateGP(p);
+            }
+        }
+        private void button_ast_dec_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            Player p = (comboBox_Player.SelectedItem as Player);
+            if (!(comboBox_Player.SelectedIndex == -1) && (p.astral > 0))
+            {
+                p.RemoveAstral(1);
+                UpdateGP(p);
+            }
+        }
 
         private void button_plt_inc_Click(object sender, RoutedEventArgs e)
         {
@@ -348,6 +367,24 @@ namespace LootTracker
         private void textBox_plt_int_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             (sender as TextBox).SelectAll();
+        }
+        private void button_plt_inc_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            Player p = (comboBox_Player.SelectedItem as Player);
+            if (!(comboBox_Player.SelectedIndex == -1))
+            {
+                p.AddPlatinum(1);
+                UpdateGP(p);
+            }
+        }
+        private void button_plt_dec_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            Player p = (comboBox_Player.SelectedItem as Player);
+            if (!(comboBox_Player.SelectedIndex == -1) && (p.platinum > 0))
+            {
+                p.RemovePlatinum(1);
+                UpdateGP(p);
+            }
         }
 
         private void button_gld_inc_Click(object sender, RoutedEventArgs e)
@@ -378,6 +415,24 @@ namespace LootTracker
         {
             (sender as TextBox).SelectAll();
         }
+        private void button_gld_inc_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            Player p = (comboBox_Player.SelectedItem as Player);
+            if (!(comboBox_Player.SelectedIndex == -1))
+            {
+                p.AddGold(1);
+                UpdateGP(p);
+            }
+        }
+        private void button_gld_dec_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            Player p = (comboBox_Player.SelectedItem as Player);
+            if (!(comboBox_Player.SelectedIndex == -1) && (p.gold > 0))
+            {
+                p.RemoveGold(1);
+                UpdateGP(p);
+            }
+        }
 
         private void button_sil_inc_Click(object sender, RoutedEventArgs e)
         {
@@ -406,6 +461,24 @@ namespace LootTracker
         private void textBox_sil_int_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             (sender as TextBox).SelectAll();
+        }
+        private void button_sil_inc_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            Player p = (comboBox_Player.SelectedItem as Player);
+            if (!(comboBox_Player.SelectedIndex == -1))
+            {
+                p.AddSilver(1);
+                UpdateGP(p);
+            }
+        }
+        private void button_sil_dec_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            Player p = (comboBox_Player.SelectedItem as Player);
+            if (!(comboBox_Player.SelectedIndex == -1) && (p.silver > 0))
+            {
+                p.RemoveSilver(1);
+                UpdateGP(p);
+            }
         }
 
         private void button_cop_inc_Click(object sender, RoutedEventArgs e)
@@ -436,7 +509,50 @@ namespace LootTracker
         {
             (sender as TextBox).SelectAll();
         }
+        private void button_cop_inc_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            Player p = (comboBox_Player.SelectedItem as Player);
+            if (!(comboBox_Player.SelectedIndex == -1))
+            {
+                p.AddCopper(1);
+                UpdateGP(p);
+            }
+        }
+        private void button_cop_dec_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            Player p = (comboBox_Player.SelectedItem as Player);
+            if (!(comboBox_Player.SelectedIndex == -1) && (p.copper > 0))
+            {
+                p.RemoveCopper(1);
+                UpdateGP(p);
+            }
+        }
 
 
+
+
+        private void button_Assignments_Click(object sender, RoutedEventArgs e)
+        {
+
+            Window1 window_Assign = new Window1(_book.playerlist,(listView.SelectedItem as LootItem));
+            window_Assign.ShowDialog();
+        }
+
+        private void button_RemovePlayer_Click(object sender, RoutedEventArgs e)
+        {
+            book.RemovePlayer(comboBox_Player.SelectedItem as Player);
+            comboBox_Player.SelectedIndex = 0;
+        }
+
+        private void button_ast_inc_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            Player p = (comboBox_Player.SelectedItem as Player);
+            if (!(comboBox_Player.SelectedIndex == -1))
+            {
+                p.AddAstral(10);
+                UpdateGP(p);
+            }
+        }
+    
     }
 }

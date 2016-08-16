@@ -23,7 +23,7 @@ namespace LootTracker
             Player party = new Player("Party", "Party");
 
             //Get the default party image.
-            Uri uri = new Uri("pack://application:,,,/party.jpg");
+            Uri uri = new Uri("pack://application:,,,/party2.jpg");
             var info = Application.GetResourceStream(uri);
             var memoryStream = new MemoryStream();
             info.Stream.CopyTo(memoryStream);

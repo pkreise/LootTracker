@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Collections.ObjectModel;
 
 namespace LootTracker
 {
@@ -20,20 +21,21 @@ namespace LootTracker
     public partial class Window1 : Window
     {
 
-        LootBook book;
+        ObservableCollection<Player> _players;
+        LootItem _loot;
 
-        public Window1(LootBook b)
+        public LootItem loot { get { return _loot; } }
+
+        public Window1(ObservableCollection<Player> players, LootItem loot)
         {
             InitializeComponent();
-            this.book = b;
+            _players = players;
+            _loot = loot;
         }
         
-        public void AddPlayerToWindow()
+        private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            foreach (Player p in book.playerlist)
-            {
-
-            }
+            combobox_Player.ItemsSource = _players;
         }
     }
 }
