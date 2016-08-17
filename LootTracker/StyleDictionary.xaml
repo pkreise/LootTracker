@@ -6,6 +6,7 @@
     <!--ResourceKeys for the converter classes-->
     <local:B_Converter x:Key="b_converter"/>
     <local:F_Converter x:Key="f_converter"/>
+    <local:D_Converter x:Key="d_converter"/>
 
     <!--Brushes-->
     <SolidColorBrush x:Key="darkgray_back" Color="#FF464646"/>
@@ -52,7 +53,6 @@
     <!--Stle definition for standard size button-->
     <Style x:Key="mybutton" TargetType="{x:Type Button}">
         <Setter Property="Background" Value="{StaticResource darkgray_back}"/>
-        <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="FontSize" Value="16"/>
         <Setter Property="FontFamily" Value="Segoe UI Semibold"/>
         <Setter Property="Template">
@@ -74,7 +74,7 @@
     <!--Stle definition for large size button-->
     <Style x:Key="button_Menu" TargetType="{x:Type Button}">
         <Setter Property="Background" Value="{StaticResource darkgray_back}"/>
-        <Setter Property="BorderThickness" Value="0"/>
+
         <Setter Property="FontSize" Value="20"/>
         <Setter Property="FontFamily" Value="Segoe UI Semibold"/>
         <Setter Property="Template">
@@ -103,23 +103,31 @@
             <Setter.Value>
                 <ControlTemplate TargetType="ComboBox">
                     <Grid>
-                        <ToggleButton Grid.Column="2" Focusable="false" IsChecked="{Binding Path=IsDropDownOpen,Mode=TwoWay,RelativeSource={RelativeSource TemplatedParent}}" >
+                        <ToggleButton x:Name="button_Toggle" Grid.Column="2" Focusable="false" IsChecked="{Binding Path=IsDropDownOpen,Mode=TwoWay,RelativeSource={RelativeSource TemplatedParent}}" >
                             <ToggleButton.Template>
                                 <ControlTemplate>
-                                    <Grid>
+                                    <Grid x:Name="grid_Button">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="1*" />
-                                            <ColumnDefinition Width="12*" />
+                                            <ColumnDefinition Width="8*" />
                                         </Grid.ColumnDefinitions>
-                                        <Border x:Name="Border"  Grid.ColumnSpan="2" Background="{DynamicResource darkgray_back}" BorderThickness="0"/>
-                                        <Border Grid.Column="1" Margin="1"  Background="{DynamicResource darkgray_back}" BorderThickness="0"/>
+                                        <Border x:Name="Border_0" Grid.ColumnSpan="2" Background="{DynamicResource darkgray_back}" BorderThickness="0"/>
+                                        <Border x:Name="Border_1"  Grid.Column="1" Margin="1"  Background="{DynamicResource darkgray_back}" BorderThickness="0"/>
+                                        <Border x:Name="Border_2" Grid.Column="0" Background="{DynamicResource darkgray_back}" BorderThickness="0" BorderBrush="{StaticResource lightgray_fore}"/>
                                         <Path x:Name="Arrow" Grid.Column="0"  Fill="{DynamicResource lightgray_fore}" HorizontalAlignment="Center" VerticalAlignment="Center" Data="M 0 0 L 4 4 L 8 0 Z"/>
                                     </Grid>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="true">
+                                            <Setter Property="Background" Value="{StaticResource semiblack_back}" TargetName="Border_0"/>
+                                            <Setter Property="Background" Value="{StaticResource semiblack_back}" TargetName="Border_1"/>
+                                            <Setter Property="Background" Value="{StaticResource semiblack_back}" TargetName="Border_2"/>
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
                                 </ControlTemplate>
                             </ToggleButton.Template>
                         </ToggleButton>
-                        <ContentPresenter Name="ContentSite" IsHitTestVisible="False"  Content="{TemplateBinding SelectionBoxItem}" ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}" ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}" VerticalAlignment="Center" Margin="25,-4,0,0" HorizontalAlignment="Left" Width="Auto"/>
-                        <TextBox x:Name="PART_EditableTextBox" Visibility="Hidden" IsReadOnly="True" Foreground="{StaticResource lightgray_fore}"/>
+                        <ContentPresenter Name="ContentSite" IsHitTestVisible="False"  Content="{TemplateBinding SelectionBoxItem}" ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}" ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}" VerticalAlignment="Center" Margin="35,-4,0,0" HorizontalAlignment="Left" Width="Auto"/>
+                        <TextBox x:Name="PART_EditableTextBox" Visibility="Hidden" IsReadOnly="True" Foreground="{StaticResource lightgray_fore}" Opacity="0"/>
                         <Popup Name="Popup" Placement="Bottom" IsOpen="{TemplateBinding IsDropDownOpen}" AllowsTransparency="True"  Focusable="False" PopupAnimation="Slide">
                             <Grid  Name="DropDown" SnapsToDevicePixels="True" MinWidth="{TemplateBinding ActualWidth}" MaxHeight="{TemplateBinding MaxDropDownHeight}" >
                                 <Border x:Name="DropDownBorder" Background="{StaticResource lightgray_fore}"/>
@@ -129,7 +137,7 @@
                             </Grid>
                         </Popup>
                     </Grid>
-                </ControlTemplate>
+            </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>

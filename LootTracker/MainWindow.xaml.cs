@@ -18,11 +18,16 @@ namespace LootTracker
         //Declare class fields.
         string savefilepath;
         LootBook _book = new LootBook();
+
+        bool windowLoaded;
+        
         GridViewColumnHeader _lastHeaderClicked = null;
         ListSortDirection _lastDirection = ListSortDirection.Ascending;
 
-        //Class properties.
-        public LootBook book { get { return _book; } set { _book = value; } }
+        CollectionView view_items;
+        
+
+
         //MainWindow entry point.
         public MainWindow()
         {
@@ -37,9 +42,31 @@ namespace LootTracker
         /// <param name="e"></param>
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            listView.ItemsSource = book.lootlist;
+
+            listView.ItemsSource = _book.lootlist;
+            listView_Player.ItemsSource = _book.lootlist;
             comboBox_Player.ItemsSource = _book.playerlist;
             comboBox_Player.SelectedIndex = 0;
+
+            view_items = (CollectionView)CollectionViewSource.GetDefaultView(listView.ItemsSource);
+            windowLoaded = true;
+        }
+
+        private bool PlayerLootFilter(object item)
+        {
+            if (item == null)
+            {
+                return false;
+            }
+
+            if ((item as LootItem).assignments.ContainsKey((comboBox_Player.SelectedItem as Player).playername))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         /// <summary>
@@ -82,11 +109,11 @@ namespace LootTracker
         //Method to update player statistic elements.
         private void UpdateGP(Player p)
         {
-            AstVal.Text = p.astral.ToString();
-            PltVal.Text = p.platinum.ToString();
-            GldVal.Text = p.gold.ToString();
-            SilVal.Text = p.silver.ToString();
-            CopVal.Text = p.copper.ToString();
+            AstVal.Text = p.ast.ToString();
+            PltVal.Text = p.plt.ToString();
+            GldVal.Text = p.gld.ToString();
+            SilVal.Text = p.sil.ToString();
+            CopVal.Text = p.cop.ToString();
             TtlVal.Text = p.totalGP.ToString();
         }
         
@@ -97,8 +124,10 @@ namespace LootTracker
             _book = handler.ReadData();
             savefilepath = handler.filepath;
             listView.ItemsSource = _book.lootlist;
+            listView_Player.ItemsSource = _book.lootlist;
             comboBox_Player.ItemsSource = _book.playerlist;
             comboBox_Player.SelectedIndex = 0;
+            view_items = (CollectionView)CollectionViewSource.GetDefaultView(listView.ItemsSource);
         }
 
         //Event Handler for saving the open LootBook.
@@ -114,9 +143,11 @@ namespace LootTracker
         {
             _book = new LootBook();
             listView.ItemsSource = _book.lootlist;
+            listView_Player.ItemsSource = _book.lootlist;
             comboBox_Player.SelectedIndex = -1;
             comboBox_Player.ItemsSource = _book.playerlist;
             comboBox_Player.SelectedIndex = 0;
+            view_items = (CollectionView)CollectionViewSource.GetDefaultView(listView.ItemsSource);   
         }
 
         //Event Handler for adding a new player to the roster.
@@ -160,7 +191,7 @@ namespace LootTracker
         //Event handler for clicking the new item menu item.
         private void NewItem_Click(object sender, RoutedEventArgs e)
         {
-            //Instantiate a new AddPlayer window.
+            //Instantiate a new AddItem window.
             AddItem window = new AddItem();
 
             //Show the window.
@@ -171,6 +202,8 @@ namespace LootTracker
                 LootItem item = new LootItem(window.textBox_Name.Text, window.comboBox_Type.Text, (Convert.ToInt32(window.textBox_Count.Text)), (Convert.ToInt32(window.textBox_BaseValue.Text)), (Convert.ToDecimal(window.textBox_BaseWeight.Text)));
                 _book.AddLootItem(item);
             }
+
+            view_items.Refresh();
         }
         
         /// <summary>
@@ -295,21 +328,81 @@ namespace LootTracker
 
         private void button_ast_inc_Click(object sender, RoutedEventArgs e)
         {
-            if (!(comboBox_Player.SelectedIndex == -1))
+            if (comboBox_Player.SelectedIndex != -1)
             {
-                (comboBox_Player.SelectedItem as Player).AddAstral(Convert.ToInt32(textBox_ast_int.Text));
-                UpdateGP(comboBox_Player.SelectedItem as Player);
+                Player p = comboBox_Player.SelectedItem as Player;
+                if ((Convert.ToInt32(textBox_ast_int.Text) > 0))
+                {
+                    p.Addast(Convert.ToInt32(textBox_ast_int.Text));
+                    UpdateGP(p);
+                    textBox_ast_int.Text = "0";
+                }
+                else
+                {
+                    p.Addast(1);
+                    UpdateGP(p);
+                }
+                
             }
-            textBox_ast_int.Text = "0";
+                
         }
         private void button_ast_dec_Click(object sender, RoutedEventArgs e)
         {
+             if (comboBox_Player.SelectedIndex != -1)
+            {
+                Player p = comboBox_Player.SelectedItem as Player;
+                if ((Convert.ToInt32(textBox_ast_int.Text) > 0))
+                {
+                    if (((Convert.ToInt32(textBox_ast_int.Text)) - (Convert.ToInt32(AstVal.Text))) < 0)
+                    {
+                        p.Removeast(Convert.ToInt32(textBox_ast_int.Text));
+                        UpdateGP(p);
+                        textBox_ast_int.Text = "0";
+                    }
+                    else
+                    {
+                        p.Removeast(Convert.ToInt32(AstVal.Text));
+                        UpdateGP(p);
+                        textBox_ast_int.Text = "0";
+                    }
+                }
+                else
+                {
+                    if ((Convert.ToInt32(AstVal.Text)) > 0)
+                    {
+                        p.Removeast(1);
+                        UpdateGP(p);
+                    }
+                    
+                }
+
+            }
+        }
+        private void button_ast_inc_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
+        {
             if (!(comboBox_Player.SelectedIndex == -1))
             {
-                (comboBox_Player.SelectedItem as Player).RemoveAstral(Convert.ToInt32(textBox_ast_int.Text));
-                UpdateGP(comboBox_Player.SelectedItem as Player);
+                Player p = (comboBox_Player.SelectedItem as Player);
+                p.Addast(10);
+                UpdateGP(p);
             }
-            textBox_ast_int.Text = "0";
+        }
+        private void button_ast_dec_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            if (!(comboBox_Player.SelectedIndex == -1))
+            {
+                Player p = (comboBox_Player.SelectedItem as Player);
+                if ((10 - (Convert.ToInt32(AstVal.Text))) < 0)
+                {
+                    p.Removeast(10);
+                    UpdateGP(p);
+                }
+                else
+                {
+                    p.Removeast(Convert.ToInt32(AstVal.Text));
+                    UpdateGP(p);
+                }
+            }
         }
         private void textBox_ast_int_LostFocus(object sender, RoutedEventArgs e)
         {
@@ -321,42 +414,84 @@ namespace LootTracker
         {
             (sender as TextBox).SelectAll();
         }
-        private void button_ast_inc_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            Player p = (comboBox_Player.SelectedItem as Player);
-            if (!(comboBox_Player.SelectedIndex == -1))
-            {
-                p.AddAstral(1);
-                UpdateGP(p);
-            }
-        }
-        private void button_ast_dec_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            Player p = (comboBox_Player.SelectedItem as Player);
-            if (!(comboBox_Player.SelectedIndex == -1) && (p.astral > 0))
-            {
-                p.RemoveAstral(1);
-                UpdateGP(p);
-            }
-        }
 
         private void button_plt_inc_Click(object sender, RoutedEventArgs e)
         {
-            if (!(comboBox_Player.SelectedIndex == -1))
+            if (comboBox_Player.SelectedIndex != -1)
             {
-                (comboBox_Player.SelectedItem as Player).AddPlatinum(Convert.ToInt32(textBox_plt_int.Text));
-                UpdateGP(comboBox_Player.SelectedItem as Player);
+                Player p = comboBox_Player.SelectedItem as Player;
+                if ((Convert.ToInt32(textBox_plt_int.Text) > 0))
+                {
+                    p.Addplt(Convert.ToInt32(textBox_plt_int.Text));
+                    UpdateGP(p);
+                    textBox_plt_int.Text = "0";
+                }
+                else
+                {
+                    p.Addplt(1);
+                    UpdateGP(p);
+                }
+
             }
-            textBox_plt_int.Text = "0";
+
         }
         private void button_plt_dec_Click(object sender, RoutedEventArgs e)
         {
+            if (comboBox_Player.SelectedIndex != -1)
+            {
+                Player p = comboBox_Player.SelectedItem as Player;
+                if ((Convert.ToInt32(textBox_plt_int.Text) > 0))
+                {
+                    if (((Convert.ToInt32(textBox_plt_int.Text)) - (Convert.ToInt32(PltVal.Text))) < 0)
+                    {
+                        p.Removeplt(Convert.ToInt32(textBox_plt_int.Text));
+                        UpdateGP(p);
+                        textBox_plt_int.Text = "0";
+                    }
+                    else
+                    {
+                        p.Removeplt(Convert.ToInt32(PltVal.Text));
+                        UpdateGP(p);
+                        textBox_plt_int.Text = "0";
+                    }
+                }
+                else
+                {
+                    if ((Convert.ToInt32(PltVal.Text)) > 0)
+                    {
+                        p.Removeplt(1);
+                        UpdateGP(p);
+                    }
+
+                }
+
+            }
+        }
+        private void button_plt_inc_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
+        {
             if (!(comboBox_Player.SelectedIndex == -1))
             {
-                (comboBox_Player.SelectedItem as Player).RemovePlatinum(Convert.ToInt32(textBox_plt_int.Text));
-                UpdateGP(comboBox_Player.SelectedItem as Player);
+                Player p = (comboBox_Player.SelectedItem as Player);
+                p.Addplt(10);
+                UpdateGP(p);
             }
-            textBox_plt_int.Text = "0";
+        }
+        private void button_plt_dec_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            if (!(comboBox_Player.SelectedIndex == -1))
+            {
+                Player p = (comboBox_Player.SelectedItem as Player);
+                if ((10 - (Convert.ToInt32(PltVal.Text))) < 0)
+                {
+                    p.Removeplt(10);
+                    UpdateGP(p);
+                }
+                else
+                {
+                    p.Removeplt(Convert.ToInt32(PltVal.Text));
+                    UpdateGP(p);
+                }
+            }
         }
         private void textBox_plt_int_LostFocus(object sender, RoutedEventArgs e)
         {
@@ -368,42 +503,84 @@ namespace LootTracker
         {
             (sender as TextBox).SelectAll();
         }
-        private void button_plt_inc_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            Player p = (comboBox_Player.SelectedItem as Player);
-            if (!(comboBox_Player.SelectedIndex == -1))
-            {
-                p.AddPlatinum(1);
-                UpdateGP(p);
-            }
-        }
-        private void button_plt_dec_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            Player p = (comboBox_Player.SelectedItem as Player);
-            if (!(comboBox_Player.SelectedIndex == -1) && (p.platinum > 0))
-            {
-                p.RemovePlatinum(1);
-                UpdateGP(p);
-            }
-        }
 
         private void button_gld_inc_Click(object sender, RoutedEventArgs e)
         {
-            if (!(comboBox_Player.SelectedIndex == -1))
+            if (comboBox_Player.SelectedIndex != -1)
             {
-                (comboBox_Player.SelectedItem as Player).AddGold(Convert.ToInt32(textBox_gld_int.Text));
-                UpdateGP(comboBox_Player.SelectedItem as Player);
+                Player p = comboBox_Player.SelectedItem as Player;
+                if ((Convert.ToInt32(textBox_gld_int.Text) > 0))
+                {
+                    p.Addgld(Convert.ToInt32(textBox_gld_int.Text));
+                    UpdateGP(p);
+                    textBox_gld_int.Text = "0";
+                }
+                else
+                {
+                    p.Addgld(1);
+                    UpdateGP(p);
+                }
+
             }
-            textBox_gld_int.Text = "0";
+
         }
         private void button_gld_dec_Click(object sender, RoutedEventArgs e)
         {
+            if (comboBox_Player.SelectedIndex != -1)
+            {
+                Player p = comboBox_Player.SelectedItem as Player;
+                if ((Convert.ToInt32(textBox_gld_int.Text) > 0))
+                {
+                    if (((Convert.ToInt32(textBox_gld_int.Text)) - (Convert.ToInt32(GldVal.Text))) < 0)
+                    {
+                        p.Removegld(Convert.ToInt32(textBox_gld_int.Text));
+                        UpdateGP(p);
+                        textBox_gld_int.Text = "0";
+                    }
+                    else
+                    {
+                        p.Removegld(Convert.ToInt32(GldVal.Text));
+                        UpdateGP(p);
+                        textBox_gld_int.Text = "0";
+                    }
+                }
+                else
+                {
+                    if ((Convert.ToInt32(GldVal.Text)) > 0)
+                    {
+                        p.Removegld(1);
+                        UpdateGP(p);
+                    }
+
+                }
+
+            }
+        }
+        private void button_gld_inc_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
+        {
             if (!(comboBox_Player.SelectedIndex == -1))
             {
-                (comboBox_Player.SelectedItem as Player).RemoveGold(Convert.ToInt32(textBox_gld_int.Text));
-                UpdateGP(comboBox_Player.SelectedItem as Player);
+                Player p = (comboBox_Player.SelectedItem as Player);
+                p.Addgld(10);
+                UpdateGP(p);
             }
-            textBox_gld_int.Text = "0";
+        }
+        private void button_gld_dec_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            if (!(comboBox_Player.SelectedIndex == -1))
+            {
+                Player p = (comboBox_Player.SelectedItem as Player);
+                if ((10 - (Convert.ToInt32(GldVal.Text))) < 0)
+                {
+                    p.Removegld(10);
+                    UpdateGP(p);
+                }
+                else
+                {
+                    p.Removegld(Convert.ToInt32(GldVal.Text));
+                    UpdateGP(p);
+                }
+            }
         }
         private void textBox_gld_int_LostFocus(object sender, RoutedEventArgs e)
         {
@@ -415,42 +592,84 @@ namespace LootTracker
         {
             (sender as TextBox).SelectAll();
         }
-        private void button_gld_inc_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            Player p = (comboBox_Player.SelectedItem as Player);
-            if (!(comboBox_Player.SelectedIndex == -1))
-            {
-                p.AddGold(1);
-                UpdateGP(p);
-            }
-        }
-        private void button_gld_dec_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            Player p = (comboBox_Player.SelectedItem as Player);
-            if (!(comboBox_Player.SelectedIndex == -1) && (p.gold > 0))
-            {
-                p.RemoveGold(1);
-                UpdateGP(p);
-            }
-        }
 
         private void button_sil_inc_Click(object sender, RoutedEventArgs e)
         {
-            if (!(comboBox_Player.SelectedIndex == -1))
+            if (comboBox_Player.SelectedIndex != -1)
             {
-                (comboBox_Player.SelectedItem as Player).AddSilver(Convert.ToInt32(textBox_sil_int.Text));
-                UpdateGP(comboBox_Player.SelectedItem as Player);
+                Player p = comboBox_Player.SelectedItem as Player;
+                if ((Convert.ToInt32(textBox_sil_int.Text) > 0))
+                {
+                    p.Addsil(Convert.ToInt32(textBox_sil_int.Text));
+                    UpdateGP(p);
+                    textBox_sil_int.Text = "0";
+                }
+                else
+                {
+                    p.Addsil(1);
+                    UpdateGP(p);
+                }
+
             }
-            textBox_sil_int.Text = "0";
+
         }
         private void button_sil_dec_Click(object sender, RoutedEventArgs e)
         {
+            if (comboBox_Player.SelectedIndex != -1)
+            {
+                Player p = comboBox_Player.SelectedItem as Player;
+                if ((Convert.ToInt32(textBox_sil_int.Text) > 0))
+                {
+                    if (((Convert.ToInt32(textBox_sil_int.Text)) - (Convert.ToInt32(SilVal.Text))) < 0)
+                    {
+                        p.Removesil(Convert.ToInt32(textBox_sil_int.Text));
+                        UpdateGP(p);
+                        textBox_sil_int.Text = "0";
+                    }
+                    else
+                    {
+                        p.Removesil(Convert.ToInt32(SilVal.Text));
+                        UpdateGP(p);
+                        textBox_sil_int.Text = "0";
+                    }
+                }
+                else
+                {
+                    if ((Convert.ToInt32(SilVal.Text)) > 0)
+                    {
+                        p.Removesil(1);
+                        UpdateGP(p);
+                    }
+
+                }
+
+            }
+        }
+        private void button_sil_inc_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
+        {
             if (!(comboBox_Player.SelectedIndex == -1))
             {
-                (comboBox_Player.SelectedItem as Player).RemoveSilver(Convert.ToInt32(textBox_sil_int.Text));
-                UpdateGP(comboBox_Player.SelectedItem as Player);
+                Player p = (comboBox_Player.SelectedItem as Player);
+                p.Addsil(10);
+                UpdateGP(p);
             }
-            textBox_sil_int.Text = "0";
+        }
+        private void button_sil_dec_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            if (!(comboBox_Player.SelectedIndex == -1))
+            {
+                Player p = (comboBox_Player.SelectedItem as Player);
+                if ((10 - (Convert.ToInt32(SilVal.Text))) < 0)
+                {
+                    p.Removesil(10);
+                    UpdateGP(p);
+                }
+                else
+                {
+                    p.Removesil(Convert.ToInt32(SilVal.Text));
+                    UpdateGP(p);
+                }
+            }
         }
         private void textBox_sil_int_LostFocus(object sender, RoutedEventArgs e)
         {
@@ -462,42 +681,84 @@ namespace LootTracker
         {
             (sender as TextBox).SelectAll();
         }
-        private void button_sil_inc_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            Player p = (comboBox_Player.SelectedItem as Player);
-            if (!(comboBox_Player.SelectedIndex == -1))
-            {
-                p.AddSilver(1);
-                UpdateGP(p);
-            }
-        }
-        private void button_sil_dec_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            Player p = (comboBox_Player.SelectedItem as Player);
-            if (!(comboBox_Player.SelectedIndex == -1) && (p.silver > 0))
-            {
-                p.RemoveSilver(1);
-                UpdateGP(p);
-            }
-        }
 
         private void button_cop_inc_Click(object sender, RoutedEventArgs e)
         {
-            if (!(comboBox_Player.SelectedIndex == -1))
+            if (comboBox_Player.SelectedIndex != -1)
             {
-                (comboBox_Player.SelectedItem as Player).AddCopper(Convert.ToInt32(textBox_cop_int.Text));
-                UpdateGP(comboBox_Player.SelectedItem as Player);
+                Player p = comboBox_Player.SelectedItem as Player;
+                if ((Convert.ToInt32(textBox_cop_int.Text) > 0))
+                {
+                    p.Addcop(Convert.ToInt32(textBox_cop_int.Text));
+                    UpdateGP(p);
+                    textBox_cop_int.Text = "0";
+                }
+                else
+                {
+                    p.Addcop(1);
+                    UpdateGP(p);
+                }
+
             }
-            textBox_cop_int.Text = "0";
+
         }
         private void button_cop_dec_Click(object sender, RoutedEventArgs e)
         {
+            if (comboBox_Player.SelectedIndex != -1)
+            {
+                Player p = comboBox_Player.SelectedItem as Player;
+                if ((Convert.ToInt32(textBox_cop_int.Text) > 0))
+                {
+                    if (((Convert.ToInt32(textBox_cop_int.Text)) - (Convert.ToInt32(CopVal.Text))) < 0)
+                    {
+                        p.Removecop(Convert.ToInt32(textBox_cop_int.Text));
+                        UpdateGP(p);
+                        textBox_cop_int.Text = "0";
+                    }
+                    else
+                    {
+                        p.Removecop(Convert.ToInt32(CopVal.Text));
+                        UpdateGP(p);
+                        textBox_cop_int.Text = "0";
+                    }
+                }
+                else
+                {
+                    if ((Convert.ToInt32(CopVal.Text)) > 0)
+                    {
+                        p.Removecop(1);
+                        UpdateGP(p);
+                    }
+
+                }
+
+            }
+        }
+        private void button_cop_inc_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
+        {
             if (!(comboBox_Player.SelectedIndex == -1))
             {
-                (comboBox_Player.SelectedItem as Player).RemoveCopper(Convert.ToInt32(textBox_cop_int.Text));
-                UpdateGP(comboBox_Player.SelectedItem as Player);
+                Player p = (comboBox_Player.SelectedItem as Player);
+                p.Addcop(10);
+                UpdateGP(p);
             }
-            textBox_cop_int.Text = "0";
+        }
+        private void button_cop_dec_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            if (!(comboBox_Player.SelectedIndex == -1))
+            {
+                Player p = (comboBox_Player.SelectedItem as Player);
+                if ((10 - (Convert.ToInt32(CopVal.Text))) < 0)
+                {
+                    p.Removecop(10);
+                    UpdateGP(p);
+                }
+                else
+                {
+                    p.Removecop(Convert.ToInt32(CopVal.Text));
+                    UpdateGP(p);
+                }
+            }
         }
         private void textBox_cop_int_LostFocus(object sender, RoutedEventArgs e)
         {
@@ -509,50 +770,45 @@ namespace LootTracker
         {
             (sender as TextBox).SelectAll();
         }
-        private void button_cop_inc_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            Player p = (comboBox_Player.SelectedItem as Player);
-            if (!(comboBox_Player.SelectedIndex == -1))
-            {
-                p.AddCopper(1);
-                UpdateGP(p);
-            }
-        }
-        private void button_cop_dec_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            Player p = (comboBox_Player.SelectedItem as Player);
-            if (!(comboBox_Player.SelectedIndex == -1) && (p.copper > 0))
-            {
-                p.RemoveCopper(1);
-                UpdateGP(p);
-            }
-        }
-
+        
 
 
 
         private void button_Assignments_Click(object sender, RoutedEventArgs e)
         {
-
-            Window1 window_Assign = new Window1(_book.playerlist,(listView.SelectedItem as LootItem));
+            LootItem originalitem = listView.SelectedItem as LootItem;
+            Window1 window_Assign = new Window1(_book.playerlist, originalitem);
             window_Assign.ShowDialog();
+
+            if (window_Assign.isCancelled == false)
+            {
+                originalitem.assignments = window_Assign.loot.assignments;
+                originalitem.CalculateUnassignedCount();
+                originalitem.CalculateUnassignedCount();
+                view_items.Refresh();
+            }
         }
 
         private void button_RemovePlayer_Click(object sender, RoutedEventArgs e)
         {
-            book.RemovePlayer(comboBox_Player.SelectedItem as Player);
+            _book.RemovePlayer(comboBox_Player.SelectedItem as Player);
             comboBox_Player.SelectedIndex = 0;
         }
 
-        private void button_ast_inc_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
+        private void tabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            Player p = (comboBox_Player.SelectedItem as Player);
-            if (!(comboBox_Player.SelectedIndex == -1))
+            view_items = (CollectionView)CollectionViewSource.GetDefaultView(listView.ItemsSource);
+            if (windowLoaded)
             {
-                p.AddAstral(10);
-                UpdateGP(p);
+                if (tabControl.SelectedIndex == 0)
+                {
+                    view_items.Filter = null;
+                }
+                else if (tabControl.SelectedIndex == 1)
+                {
+                    view_items.Filter = PlayerLootFilter;
+                }
             }
         }
-    
     }
 }

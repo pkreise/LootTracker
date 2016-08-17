@@ -14,11 +14,11 @@ namespace LootTracker
         bool _hasimage;
         int _equipmentvalue;
         int _wgtcarried;
-        int _astral;
-        int _platinum;
-        int _gold;
-        int _silver;
-        int _copper;
+        int _ast;
+        int _plt;
+        int _gld;
+        int _sil;
+        int _cop;
         double _totalGP;
 
 
@@ -30,11 +30,11 @@ namespace LootTracker
         public bool hasimage { get { return _hasimage; } }
         public int equipmentvalue { get { return _equipmentvalue; } }
         public decimal wgtcarried { get { return _wgtcarried; } }
-        public int astral { get { return _astral; } }
-        public int gold { get { return _gold; } }
-        public int platinum { get { return _platinum; } }
-        public int silver { get { return _silver; } }
-        public int copper { get { return _copper; } }
+        public int ast { get { return _ast; } }
+        public int gld { get { return _gld; } }
+        public int plt { get { return _plt; } }
+        public int sil { get { return _sil; } }
+        public int cop { get { return _cop; } }
         public double totalGP { get { return _totalGP; } }
 
 
@@ -46,11 +46,11 @@ namespace LootTracker
             _charactername = null;
             _equipmentvalue = 0;
             _wgtcarried = 0;
-            _astral = 0;
-            _platinum = 0;
-            _gold = 0;
-            _silver = 0;
-            _copper = 0;
+            _ast = 0;
+            _plt = 0;
+            _gld = 0;
+            _sil = 0;
+            _cop = 0;
             CalculateGP();
         }
 
@@ -61,81 +61,81 @@ namespace LootTracker
             _charactername = CharachterName;
             _equipmentvalue = 0;
             _wgtcarried = 0;
-            _astral = 0;
-            _platinum = 0;
-            _gold = 0;
-            _silver = 0;
-            _copper = 0;
+            _ast = 0;
+            _plt = 0;
+            _gld = 0;
+            _sil = 0;
+            _cop = 0;
             CalculateGP();
             GenerateDisplayName();
         }
 
         //Currency add methods.
-        public void AddAstral(int Astral)
+        public void Addast(int Astral)
         {
-            _astral += Astral;
+            _ast += Astral;
             CalculateGP();
         }
 
-        public void AddPlatinum(int Platinum)
+        public void Addplt(int Platinum)
         {
-            _platinum += Platinum;
+            _plt += Platinum;
             CalculateGP();
         }
 
-        public void AddGold(int Gold)
+        public void Addgld(int Gold)
         {
-            _gold += Gold;
+            _gld += Gold;
             CalculateGP();
         }
 
-        public void AddSilver(int Silver)
+        public void Addsil(int Silver)
         {
-            _silver += Silver;
+            _sil += Silver;
             CalculateGP();
         }
 
-        public void AddCopper(int Copper)
+        public void Addcop(int Copper)
         {
-            _copper += Copper;
+            _cop += Copper;
             CalculateGP();
         }
 
         //Currency remove methods.
-        public void RemoveAstral(int Astral)
+        public void Removeast(int Astral)
         {
-            _astral -= Astral;
+            _ast -= Astral;
             CalculateGP();
         }
 
-        public void RemovePlatinum(int Platinum)
+        public void Removeplt(int Platinum)
         {
-            _platinum -= Platinum;
+            _plt -= Platinum;
             CalculateGP();
         }
 
-        public void RemoveGold(int Gold)
+        public void Removegld(int Gold)
         {
-            _gold -= Gold;
+            _gld -= Gold;
             CalculateGP();
         }
 
-        public void RemoveSilver(int Silver)
+        public void Removesil(int Silver)
         {
-            _silver -= Silver;
+            _sil -= Silver;
             CalculateGP();
         }
 
-        public void RemoveCopper(int Copper)
+        public void Removecop(int Copper)
         {
-            _copper -= Copper;
+            _cop -= Copper;
             CalculateGP();
         }
 
         //TotalGP calculation method.
         private void CalculateGP()
         {
-            _totalGP = ((_copper * .01) + (_silver * .1) + _gold + (_platinum * 10) + (_astral * 100));
+            _totalGP = ((_cop * .01) + (_sil * .1) + _gld + (_plt * 10) + (_ast * 100));
         }
 
         //Update Image method.

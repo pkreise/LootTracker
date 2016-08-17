@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Media;
@@ -66,4 +67,36 @@ namespace LootTracker
             throw new NotImplementedException();
         }
      }
+
+    public sealed class D_Converter : IMultiValueConverter
+    {
+        public object Convert(object[] values, Type targettype, object parameter, CultureInfo culture)
+        {
+            LootItem item = (LootItem)values[0];
+            Player player = (Player)values[1];
+            if (item.assignments.ContainsKey(player.playername))
+            {
+                return item.assignments[(player.playername)];
+            }
+            else
+            {
+                return 0;
+            } 
+        }
+
+        object[] ConvertBack(object values, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+
+        object IMultiValueConverter.Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+
+        object[] IMultiValueConverter.ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
 }

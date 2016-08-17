@@ -30,7 +30,7 @@ namespace LootTracker
         public decimal totalweight { get { return _totalweight; } }
         public int basevalue { get { return _basevalue; } }
         public int totalvalue { get { return _totalvalue; } }
-        public Dictionary<string, int> assignments { get { return _assignments; } }
+        public Dictionary<string, int> assignments { get { return _assignments; } set { _assignments = value; } }
         
         //Default constructor for initializing a new loot item.
         public LootItem()
