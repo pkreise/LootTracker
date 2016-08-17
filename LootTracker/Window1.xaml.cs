@@ -24,7 +24,6 @@ namespace LootTracker
         ObservableCollection<Player> _players;
         LootItem _loot;
         bool _isCancelled = false;
-
         public LootItem loot { get { return _loot; } }
         public bool isCancelled { get { return _isCancelled; } }
 
@@ -34,8 +33,7 @@ namespace LootTracker
             _players = players;
             _loot = loot;
         }
-
-
+        
         private void UpdateHeader()
         {
             textBlock_Item.Text = loot.itemname;
@@ -59,11 +57,6 @@ namespace LootTracker
             
         }
 
-        /// <summary>
-        /// Event handler to enable window dragging.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (e.ChangedButton == MouseButton.Left)
@@ -75,8 +68,7 @@ namespace LootTracker
             combobox_Player.ItemsSource = _players;
             UpdateHeader();
         }
-
-
+        
         private void button_Close_Click(object sender, RoutedEventArgs e)
         {
             _isCancelled = true;
@@ -90,7 +82,15 @@ namespace LootTracker
 
         private void textBox_LostFocus(object sender, RoutedEventArgs e)
         {
-
+            try
+            {
+                int i = Convert.ToInt32(textBox_Count.Text);
+                if (i < 0 )
+                {
+                    textBox_Count.Text = "0";
+                }
+            }
+            catch { textBox_Count.Text = "0"; }
         }
 
         private void combobox_Player_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -147,6 +147,7 @@ namespace LootTracker
             }
             UpdateHeader();
         }
+
         private void button_dec_Click(object sender, RoutedEventArgs e)
         {
             if (combobox_Player.SelectedIndex != -1)
@@ -185,10 +186,6 @@ namespace LootTracker
             }
             UpdateHeader();
         }
-
-
-
-        
     }
 }
     

@@ -7,6 +7,7 @@ using System.Windows.Controls;
 using System.Collections.Generic;
 using System.IO;
 using System.Windows.Media.Imaging;
+using System.Windows.Forms;
 
 namespace LootTracker
 {
@@ -18,28 +19,17 @@ namespace LootTracker
         //Declare class fields.
         string savefilepath;
         LootBook _book = new LootBook();
-
         bool windowLoaded;
-        
         GridViewColumnHeader _lastHeaderClicked = null;
         ListSortDirection _lastDirection = ListSortDirection.Ascending;
-
         CollectionView view_items;
         
-
-
         //MainWindow entry point.
         public MainWindow()
         {
             InitializeComponent();
         }
-
-
-        /// <summary>
-        /// Event handler for main window onload event.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
 
@@ -69,11 +59,6 @@ namespace LootTracker
             }
         }
 
-        /// <summary>
-        /// Event handler to enable window dragging.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (e.ChangedButton == MouseButton.Left)
@@ -206,21 +191,11 @@ namespace LootTracker
             view_items.Refresh();
         }
         
-        /// <summary>
-        /// Event handler for clicking the mainwindow close button.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void button_Click(object sender, RoutedEventArgs e)
         {
             App.Current.Shutdown();
         }
         
-        /// <summary>
-        /// Event handler for deleting an item from the list view.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void DeleteItem_Click(object sender, RoutedEventArgs e)
         {
             _book.RemoveLootItem((listView.SelectedItem as LootItem));
@@ -228,14 +203,8 @@ namespace LootTracker
             button_Assignments.IsEnabled = false;
             button_Increment.IsEnabled = false;
             button_Decrement.IsEnabled = false;
-
         }
 
-        /// <summary>
-        /// Event handler for clicking listview headers (sort)
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void GridViewColumnHeader_Clicked(object sender, RoutedEventArgs e)
         {
             GridViewColumnHeader headerClicked = e.OriginalSource as GridViewColumnHeader;
@@ -270,11 +239,6 @@ namespace LootTracker
             }
         }
                 
-        /// <summary>
-        /// Event Handler for clicking the assignement context menu item or tool bar button.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void ModifiyAssignment_Click(object sender, RoutedEventArgs e)
         {
             int index = listView.SelectedIndex;
@@ -284,11 +248,6 @@ namespace LootTracker
             }
         }
 
-        /// <summary>
-        /// Event handler for enabling items when an item is selected from the list view.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void listView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             button_Delete.IsEnabled = true;
@@ -297,11 +256,16 @@ namespace LootTracker
             button_Decrement.IsEnabled = true;
         }
 
-        /// <summary>
-        /// Event handler for populating player data when a player is selected.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        private BitmapImage GetBitmap(byte[] Image)
+        {
+            MemoryStream ms = new MemoryStream(Image);
+            BitmapImage bitmap = new BitmapImage();
+            bitmap.BeginInit();
+            bitmap.StreamSource = ms;
+            bitmap.EndInit();
+            return bitmap;
+        }
+
         private void comboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (!(comboBox_Player.SelectedIndex == -1))
@@ -312,12 +276,7 @@ namespace LootTracker
                 //If the player has an image, we should display it.
                 if (player.hasimage)
                 {
-                    MemoryStream ms = new MemoryStream(player.characterimage);
-                    BitmapImage bitmap = new BitmapImage();
-                    bitmap.BeginInit();
-                    bitmap.StreamSource = ms;
-                    bitmap.EndInit();
-                    image_PlayerImage.Source = bitmap;
+                    image_PlayerImage.Source = GetBitmap(player.characterimage);
                 }
                 else
                 {
@@ -336,6 +295,10 @@ namespace LootTracker
                     p.Addast(Convert.ToInt32(textBox_ast_int.Text));
                     UpdateGP(p);
                     textBox_ast_int.Text = "0";
+                }
+                else if ((Convert.ToInt32(textBox_ast_int.Text) < 0))
+                {
+                    return;
                 }
                 else
                 {
@@ -358,6 +321,10 @@ namespace LootTracker
                         p.Removeast(Convert.ToInt32(textBox_ast_int.Text));
                         UpdateGP(p);
                         textBox_ast_int.Text = "0";
+                    }
+                    else if ((Convert.ToInt32(textBox_ast_int.Text) < 0))
+                    {
+                        return;
                     }
                     else
                     {
@@ -406,13 +373,20 @@ namespace LootTracker
         }
         private void textBox_ast_int_LostFocus(object sender, RoutedEventArgs e)
         {
-            try { Convert.ToInt32(textBox_ast_int.Text); }
+            try
+            {
+                int i = Convert.ToInt32(textBox_ast_int.Text);
+                if (i < 0)
+                {
+                    textBox_ast_int.Text = "0";
+                }
+            }
             catch { textBox_ast_int.Text = "0"; }
 
         }
         private void textBox_ast_int_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            (sender as TextBox).SelectAll();
+            (sender as System.Windows.Controls.TextBox).SelectAll();
         }
 
         private void button_plt_inc_Click(object sender, RoutedEventArgs e)
@@ -425,6 +399,10 @@ namespace LootTracker
                     p.Addplt(Convert.ToInt32(textBox_plt_int.Text));
                     UpdateGP(p);
                     textBox_plt_int.Text = "0";
+                }
+                else if ((Convert.ToInt32(textBox_plt_int.Text) < 0))
+                {
+                    return;
                 }
                 else
                 {
@@ -447,6 +425,10 @@ namespace LootTracker
                         p.Removeplt(Convert.ToInt32(textBox_plt_int.Text));
                         UpdateGP(p);
                         textBox_plt_int.Text = "0";
+                    }
+                    else if ((Convert.ToInt32(textBox_plt_int.Text) < 0))
+                    {
+                        return;
                     }
                     else
                     {
@@ -495,13 +477,20 @@ namespace LootTracker
         }
         private void textBox_plt_int_LostFocus(object sender, RoutedEventArgs e)
         {
-            try { Convert.ToInt32(textBox_plt_int.Text); }
+            try
+            {
+                int i = Convert.ToInt32(textBox_plt_int.Text);
+                if (i < 0)
+                {
+                    textBox_plt_int.Text = "0";
+                }
+            }
             catch { textBox_plt_int.Text = "0"; }
 
         }
         private void textBox_plt_int_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            (sender as TextBox).SelectAll();
+            (sender as System.Windows.Controls.TextBox).SelectAll();
         }
 
         private void button_gld_inc_Click(object sender, RoutedEventArgs e)
@@ -514,6 +503,10 @@ namespace LootTracker
                     p.Addgld(Convert.ToInt32(textBox_gld_int.Text));
                     UpdateGP(p);
                     textBox_gld_int.Text = "0";
+                }
+                else if ((Convert.ToInt32(textBox_gld_int.Text) < 0))
+                {
+                    return;
                 }
                 else
                 {
@@ -536,6 +529,10 @@ namespace LootTracker
                         p.Removegld(Convert.ToInt32(textBox_gld_int.Text));
                         UpdateGP(p);
                         textBox_gld_int.Text = "0";
+                    }
+                    else if ((Convert.ToInt32(textBox_gld_int.Text) < 0))
+                    {
+                        return;
                     }
                     else
                     {
@@ -584,13 +581,20 @@ namespace LootTracker
         }
         private void textBox_gld_int_LostFocus(object sender, RoutedEventArgs e)
         {
-            try { Convert.ToInt32(textBox_gld_int.Text); }
+            try
+            {
+                int i = Convert.ToInt32(textBox_gld_int.Text);
+                if (i < 0)
+                {
+                    textBox_gld_int.Text = "0";
+                }
+            }
             catch { textBox_gld_int.Text = "0"; }
 
         }
         private void textBox_gld_int_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            (sender as TextBox).SelectAll();
+            (sender as System.Windows.Controls.TextBox).SelectAll();
         }
 
         private void button_sil_inc_Click(object sender, RoutedEventArgs e)
@@ -603,6 +607,10 @@ namespace LootTracker
                     p.Addsil(Convert.ToInt32(textBox_sil_int.Text));
                     UpdateGP(p);
                     textBox_sil_int.Text = "0";
+                }
+                else if ((Convert.ToInt32(textBox_sil_int.Text) < 0))
+                {
+                    return;
                 }
                 else
                 {
@@ -625,6 +633,10 @@ namespace LootTracker
                         p.Removesil(Convert.ToInt32(textBox_sil_int.Text));
                         UpdateGP(p);
                         textBox_sil_int.Text = "0";
+                    }
+                    else if ((Convert.ToInt32(textBox_sil_int.Text) < 0))
+                    {
+                        return;
                     }
                     else
                     {
@@ -673,13 +685,20 @@ namespace LootTracker
         }
         private void textBox_sil_int_LostFocus(object sender, RoutedEventArgs e)
         {
-            try { Convert.ToInt32(textBox_sil_int.Text); }
+            try
+            {
+                int i = Convert.ToInt32(textBox_sil_int.Text);
+                if (i < 0)
+                {
+                    textBox_sil_int.Text = "0";
+                }
+            }
             catch { textBox_sil_int.Text = "0"; }
 
         }
         private void textBox_sil_int_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            (sender as TextBox).SelectAll();
+            (sender as System.Windows.Controls.TextBox).SelectAll();
         }
 
         private void button_cop_inc_Click(object sender, RoutedEventArgs e)
@@ -692,6 +711,10 @@ namespace LootTracker
                     p.Addcop(Convert.ToInt32(textBox_cop_int.Text));
                     UpdateGP(p);
                     textBox_cop_int.Text = "0";
+                }
+                else if ((Convert.ToInt32(textBox_cop_int.Text) < 0))
+                {
+                    return;
                 }
                 else
                 {
@@ -714,6 +737,10 @@ namespace LootTracker
                         p.Removecop(Convert.ToInt32(textBox_cop_int.Text));
                         UpdateGP(p);
                         textBox_cop_int.Text = "0";
+                    }
+                    else if ((Convert.ToInt32(textBox_cop_int.Text) < 0))
+                    {
+                        return;
                     }
                     else
                     {
@@ -762,17 +789,40 @@ namespace LootTracker
         }
         private void textBox_cop_int_LostFocus(object sender, RoutedEventArgs e)
         {
-            try { Convert.ToInt32(textBox_cop_int.Text); }
+            try
+            {
+                int i = Convert.ToInt32(textBox_cop_int.Text);
+                if (i < 0)
+                {
+                    textBox_cop_int.Text = "0";
+                }
+            }
             catch { textBox_cop_int.Text = "0"; }
 
         }
         private void textBox_cop_int_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            (sender as TextBox).SelectAll();
+            (sender as System.Windows.Controls.TextBox).SelectAll();
         }
-        
 
 
+        private void button_Browse_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog filepicker = new OpenFileDialog();
+            filepicker.Filter = "Image Files(*.BMP;*.JPG;*.GIF;*.PNG)|*.BMP;*.JPG;*.GIF;*.PNG|All files (*.*)|*.*";
+            filepicker.ShowDialog();
+
+            //The user could cancel the file prompt, in which case
+            //we don't want to try to read a null file.
+            if (filepicker.FileName != "")
+            {
+                Player p = comboBox_Player.SelectedItem as Player;
+                byte[] tempimage = File.ReadAllBytes(filepicker.FileName);
+                p.UpdateImage(tempimage);
+                p.hasimage = true;
+                image_PlayerImage.Source = GetBitmap(p.characterimage);
+            }
+        }
 
         private void button_Assignments_Click(object sender, RoutedEventArgs e)
         {

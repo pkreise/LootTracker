@@ -18,10 +18,10 @@
 
     <Grid Background="{DynamicResource darkgray_back}" MouseDown="Window_MouseDown">
         <Button x:Name="button_New" Content="New" HorizontalAlignment="Left" VerticalAlignment="Top" Width="60" Height="35" Foreground="#FFDEDEDE" Click="MenuItem_New_Click"  Margin="0,2,0,0" Style="{StaticResource button_Menu}"/>
-        <GridSplitter x:Name="gridSplitter_1" HorizontalAlignment="Left" Height="31" Margin="60,5,0,0" VerticalAlignment="Top" Width="1" RenderTransformOrigin="0.333,1"/>
-        <Button x:Name="button_Open" Content="Open" HorizontalAlignment="Left" VerticalAlignment="Top" Width="70" Foreground="#FFDEDEDE" Click="MenuItem_Open_Click" Height="35" Margin="61,2,0,0" Style="{StaticResource button_Menu}"/>
-        <GridSplitter x:Name="gridSplitter_2" HorizontalAlignment="Left" Height="31" Margin="130,5,0,0" VerticalAlignment="Top" Width="1" RenderTransformOrigin="0.333,1"/>
-        <Button x:Name="button_Save" Content="Save" HorizontalAlignment="Left" Margin="131,2,0,0" VerticalAlignment="Top" Width="65" Height="35" Foreground="#FFDEDEDE" Click="MenuItem_SaveAs_Click" Style="{StaticResource button_Menu}"/>
+        <GridSplitter x:Name="gridSplitter_1" HorizontalAlignment="Left" Height="31" Margin="60,4,0,0" VerticalAlignment="Top" Width="2" RenderTransformOrigin="0.333,1" Background="{DynamicResource lightgray_fore}"/>
+        <Button x:Name="button_Open" Content="Open" HorizontalAlignment="Left" VerticalAlignment="Top" Width="70" Foreground="#FFDEDEDE" Click="MenuItem_Open_Click" Height="35" Margin="62,2,0,0" Style="{StaticResource button_Menu}"/>
+        <GridSplitter x:Name="gridSplitter_2" HorizontalAlignment="Left" Height="31" Margin="132,4,0,0" VerticalAlignment="Top" Width="2" RenderTransformOrigin="0.333,1" Background="{DynamicResource lightgray_fore}"/>
+        <Button x:Name="button_Save" Content="Save" HorizontalAlignment="Left" Margin="134,2,0,0" VerticalAlignment="Top" Width="65" Height="35" Foreground="#FFDEDEDE" Click="MenuItem_SaveAs_Click" Style="{StaticResource button_Menu}"/>
         <Button x:Name="button_Close" Content="X" VerticalAlignment="Top" Height="35" Foreground="#FFDEDEDE" Click="button_Click" HorizontalAlignment="Right" Width="30" Style="{StaticResource button_Menu}"/>
         <TabControl x:Name="tabControl" Margin="10,42,10,12" BorderThickness="0,3,0,0" Foreground="{DynamicResource lightgray_fore}" Background="{DynamicResource darkgray_back}" FontSize="14" FontFamily="Segoe UI Semibold" SelectionChanged="tabControl_SelectionChanged">
             <TabItem Header="Items" Width="80" Foreground="{DynamicResource darkgray_back}" Background="{DynamicResource lightgray_fore}">

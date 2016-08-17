@@ -27,7 +27,7 @@ namespace LootTracker
         public string charactername { get { return _charactername; } }
         public string displayname { get { return _displayname; } }
         public byte[] characterimage { get { return _characterimage; } }
-        public bool hasimage { get { return _hasimage; } }
+        public bool hasimage { get { return _hasimage; } set { _hasimage = value; } }
         public int equipmentvalue { get { return _equipmentvalue; } }
         public decimal wgtcarried { get { return _wgtcarried; } }
         public int ast { get { return _ast; } }
