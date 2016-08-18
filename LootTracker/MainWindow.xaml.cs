@@ -23,6 +23,7 @@ namespace LootTracker
         GridViewColumnHeader _lastHeaderClicked = null;
         ListSortDirection _lastDirection = ListSortDirection.Ascending;
         CollectionView view_items;
+
         
         //MainWindow entry point.
         public MainWindow()
@@ -40,16 +41,30 @@ namespace LootTracker
 
             view_items = (CollectionView)CollectionViewSource.GetDefaultView(listView.ItemsSource);
             windowLoaded = true;
+
+            
         }
+
+
 
         private bool PlayerLootFilter(object item)
         {
+            bool playerexists;
             if (item == null)
             {
                 return false;
             }
 
-            if ((item as LootItem).assignments.ContainsKey((comboBox_Player.SelectedItem as Player).playername))
+            try
+            {
+                playerexists = (item as LootItem).assignments.ContainsKey((comboBox_Player.SelectedItem as Player).playername);
+            }
+            catch
+            {
+                return false;
+            }
+
+            if (playerexists)
             {
                 return true;
             }
@@ -70,15 +85,19 @@ namespace LootTracker
         {
             //Create a dictionary to lookup the binding values by the header passed in.
             Dictionary<string, string> headerlookup = new Dictionary<string, string>();
-            headerlookup.Add("Item Name", "itemname");
-            headerlookup.Add("Item Type", "loottype");
-            headerlookup.Add("Item Count", "count");
-            headerlookup.Add("Unassigned Count", "unassignedcount");
-            headerlookup.Add("Base Weight", "baseweight");
-            headerlookup.Add("Total Weight", "totalweight");
-            headerlookup.Add("Base Value", "basevalue");
-            headerlookup.Add("Total Value", "totalvalue");
-            
+            headerlookup.Add("Name", "itemname");
+            headerlookup.Add("Type", "loottype");
+            headerlookup.Add("#", "count");
+            headerlookup.Add("Unequipped", "unassignedcount");
+            headerlookup.Add("Base Wgt", "baseweight");
+            headerlookup.Add("Ttl Wgt", "totalweight");
+            headerlookup.Add("Base Val", "basevalue");
+            headerlookup.Add("Ttl Val", "totalvalue");
+            headerlookup.Add("Assignments", "assignmentsstring");
+            headerlookup.Add("Equipped", "assignmentsstring");
+            headerlookup.Add("Equipped Wgt", "baseweight");
+            headerlookup.Add("Equipped Val", "basevalue");
+
             //Create a dataview and clear.
             ICollectionView dataView = CollectionViewSource.GetDefaultView(listView.ItemsSource);
             dataView.SortDescriptions.Clear();
@@ -841,8 +860,17 @@ namespace LootTracker
 
         private void button_RemovePlayer_Click(object sender, RoutedEventArgs e)
         {
-            _book.RemovePlayer(comboBox_Player.SelectedItem as Player);
+            Player p = comboBox_Player.SelectedItem as Player;
             comboBox_Player.SelectedIndex = 0;
+            _book.RemovePlayer(p);
+            
+            foreach (LootItem i in _book.lootlist)
+            {
+                i.RemoveAssignment(p.playername);
+                i.CalculateUnassignedCount();
+                i.CalculateUnassignedValue();
+            }
+            view_items.Refresh();
         }
 
         private void tabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)

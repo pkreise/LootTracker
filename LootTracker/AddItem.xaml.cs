@@ -17,7 +17,6 @@ namespace LootTracker
             InitializeComponent();
         }
 
-
         private void button_OK_Click(object sender, RoutedEventArgs e)
         {
             bool namevalid = false;

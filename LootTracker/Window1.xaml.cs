@@ -168,11 +168,13 @@ namespace LootTracker
                 {
                     if ((currentplayercount - modcount) < 0)
                     {
-                        loot.ModifiyAssignment(p.playername, 0);
+                        //loot.ModifiyAssignment(p.playername, 0);
+                        loot.assignments.Remove(p.playername);
                     }
                     else
                     {
                         loot.ModifiyAssignment(p.playername, (currentplayercount - modcount));
+                        
                     }
                     textBox_Count.Text = "0";
                 }
@@ -180,7 +182,14 @@ namespace LootTracker
                 {
                     if (currentplayercount > 0)
                     {
-                        loot.ModifiyAssignment(p.playername, (currentplayercount - 1));
+                        if (currentplayercount == 1)
+                        {
+                            loot.assignments.Remove(p.playername);
+                        }
+                        else
+                        {
+                            loot.ModifiyAssignment(p.playername, (currentplayercount - 1));
+                        }
                     }
                 }
             }

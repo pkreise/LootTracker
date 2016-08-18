@@ -13,6 +13,8 @@ namespace LootTracker
         ObservableCollection<Player> _playerlist = new ObservableCollection<Player>();
         ObservableCollection<LootItem> _lootlist = new ObservableCollection<LootItem>();
 
+        
+
         //Public properties.
         public ObservableCollection<Player> playerlist { get { return _playerlist; } }
         public ObservableCollection<LootItem> lootlist { get { return _lootlist; } }

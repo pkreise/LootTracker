@@ -6,7 +6,9 @@
     <!--ResourceKeys for the converter classes-->
     <local:B_Converter x:Key="b_converter"/>
     <local:F_Converter x:Key="f_converter"/>
-    <local:D_Converter x:Key="d_converter"/>
+    <local:C_Converter x:Key="c_converter"/>
+    <local:W_Converter x:Key="w_converter"/>
+    <local:W_Converter x:Key="v_converter"/>
 
     <!--Brushes-->
     <SolidColorBrush x:Key="darkgray_back" Color="#FF464646"/>
@@ -17,7 +19,7 @@
     <Style x:Key="myItemStyle" TargetType="{x:Type ListViewItem}">
         <Setter Property="FontFamily" Value="Segoe UI"/>
         <Setter Property="FontSize" Value="16"/>
-        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
         <Setter Property="Background">
             <Setter.Value>
                 <Binding RelativeSource="{RelativeSource Self}" Converter="{StaticResource b_converter}"/>
@@ -39,12 +41,12 @@
         </Setter>
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Background" Value="Black"/>
-                <Setter Property="Foreground" Value="White"/>
+                <Setter Property="Background" Value="{StaticResource darkgray_back}"/>
+                <Setter Property="Foreground" Value="{StaticResource lightgray_fore}"/>
             </Trigger>
             <Trigger Property="IsSelected" Value="True">
-                <Setter Property="Background" Value="Black"/>
-                <Setter Property="Foreground" Value="White"/>
+                <Setter Property="Background" Value="{StaticResource darkgray_back}"/>
+                <Setter Property="Foreground" Value="{StaticResource lightgray_fore}"/>
                 <Setter Property="FontWeight" Value="Bold"/>
             </Trigger>
         </Style.Triggers>
@@ -181,7 +183,6 @@
         </Setter>
     </Style>
 
-
     <!-- Style definition for dark ComboBoxItem-->
     <Style x:Key="mySimpleComboBoxItem" TargetType="{x:Type ComboBoxItem}">
         <Setter Property="SnapsToDevicePixels" Value="true"/>
@@ -231,7 +232,6 @@
             </Setter.Value>
         </Setter>
     </Style>
-
 
     <!--Style defintion for tabitems-->
     <Style x:Key="SimpleTabItem" TargetType="{x:Type TabItem}">

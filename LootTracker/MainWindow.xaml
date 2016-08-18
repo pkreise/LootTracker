@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:LootTracker"
         xmlns:System="clr-namespace:System;assembly=mscorlib" x:Class="LootTracker.MainWindow"
         mc:Ignorable="d"
-        Title="WoTR Loot Tracker" Height="700" Width="1000" Icon="LootTracker.ico" WindowStartupLocation="CenterScreen" Loaded="Window_Loaded" AllowsTransparency="True" WindowStyle="None">
+        Title="WoTR Loot Tracker" Height="700" Width="1000" Icon="LootTracker.ico" WindowStartupLocation="CenterScreen" Loaded="Window_Loaded" AllowsTransparency="True" WindowStyle="None" ResizeMode="CanResizeWithGrip">
 
     <Window.Resources>
         <ResourceDictionary>
@@ -26,7 +26,10 @@
         <TabControl x:Name="tabControl" Margin="10,42,10,12" BorderThickness="0,3,0,0" Foreground="{DynamicResource lightgray_fore}" Background="{DynamicResource darkgray_back}" FontSize="14" FontFamily="Segoe UI Semibold" SelectionChanged="tabControl_SelectionChanged">
             <TabItem Header="Items" Width="80" Foreground="{DynamicResource darkgray_back}" Background="{DynamicResource lightgray_fore}">
                 <Grid>
-                    <ListView x:Name="listView" ButtonBase.Click="GridViewColumnHeader_Clicked" Margin="0,31,-7,0" BorderThickness="0" SelectionMode="Single" ItemContainerStyle="{StaticResource myItemStyle}" SelectionChanged="listView_SelectionChanged" x:FieldModifier="public">
+                    <ListView x:Name="listView" ButtonBase.Click="GridViewColumnHeader_Clicked" Margin="0,31,0,0" BorderThickness="0" SelectionMode="Single" ItemContainerStyle="{StaticResource myItemStyle}" SelectionChanged="listView_SelectionChanged" x:FieldModifier="public">
+                        <ListView.GroupStyle>
+                            <GroupStyle/>
+                        </ListView.GroupStyle>
                         <ListView.ContextMenu>
                             <ContextMenu>
                                 <MenuItem Header="Add" Click="NewItem_Click"/>
@@ -39,14 +42,15 @@
                         </ListView.ContextMenu>
                         <ListView.View>
                             <GridView ColumnHeaderContainerStyle="{DynamicResource headers}">
-                                <GridViewColumn Width="Auto" Header="Item Name" DisplayMemberBinding="{Binding itemname}"/>
-                                <GridViewColumn Width="Auto" Header="Item Type" DisplayMemberBinding="{Binding loottype}"/>
-                                <GridViewColumn Width="Auto" Header="Item Count" DisplayMemberBinding="{Binding count}"/>
-                                <GridViewColumn Width="Auto" Header="Unassigned Count" DisplayMemberBinding="{Binding unassignedcount}"/>
-                                <GridViewColumn Width="Auto" Header="Base Weight" DisplayMemberBinding="{Binding baseweight}"/>
-                                <GridViewColumn Width="Auto" Header="Total Weight" DisplayMemberBinding="{Binding totalweight}"/>
-                                <GridViewColumn Width="Auto" Header="Base Value" DisplayMemberBinding="{Binding basevalue}"/>
-                                <GridViewColumn Width="Auto" Header="Total Value" DisplayMemberBinding="{Binding totalvalue}"/>
+                                <GridViewColumn Width="Auto" Header="Name" DisplayMemberBinding="{Binding itemname}"/>
+                                <GridViewColumn Width="100" Header="Type" DisplayMemberBinding="{Binding loottype}"/>
+                                <GridViewColumn Width="100" Header="#" DisplayMemberBinding="{Binding count}"/>
+                                <GridViewColumn Width="Auto" Header="Unequipped" DisplayMemberBinding="{Binding unassignedcount}"/>
+                                <GridViewColumn Width="130" Header="Base Wgt" DisplayMemberBinding="{Binding baseweight}"/>
+                                <GridViewColumn Width="130" Header="Ttl Wgt" DisplayMemberBinding="{Binding totalweight}"/>
+                                <GridViewColumn Width="130" Header="Base Val" DisplayMemberBinding="{Binding basevalue}"/>
+                                <GridViewColumn Width="130" Header="Ttl Val" DisplayMemberBinding="{Binding totalvalue}"/>
+                                <GridViewColumn Width="Auto" Header="Assignments" DisplayMemberBinding="{Binding assignmentsstring}"/>
                             </GridView>
                         </ListView.View>
                     </ListView>
@@ -93,8 +97,8 @@
                     <TextBlock x:Name="SilVal" HorizontalAlignment="Left" Margin="266,160,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Height="30" Foreground="#FFDEDEDE" LineHeight="22" Width="90"/>
                     <TextBlock x:Name="CopVal" HorizontalAlignment="Left" Margin="266,195,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Height="30" Foreground="#FFDEDEDE" LineHeight="22" Width="90"/>
                     <TextBlock x:Name="TtlVal" HorizontalAlignment="Left" Margin="266,239,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Height="30" Foreground="#FFDEDEDE" LineHeight="22" Width="90" FontFamily="Segoe UI Black"/>
-                    <GridSplitter x:Name="gridSplitter" Width="320" Margin="0,225,404,380" ResizeDirection="Rows" Cursor="None" Foreground="{DynamicResource lightgray_fore}" Height="2"/>
-                    <ListView x:Name="listView_Player" ButtonBase.Click="GridViewColumnHeader_Clicked" BorderThickness="0" SelectionMode="Single" ItemContainerStyle="{StaticResource myItemStyle}" SelectionChanged="listView_SelectionChanged" Margin="10,287,10,0">
+                    <GridSplitter x:Name="gridSplitter" Margin="252,228,0,0" ResizeDirection="Rows" Cursor="None" Foreground="{DynamicResource lightgray_fore}" Height="2" HorizontalAlignment="Left" Width="320" VerticalAlignment="Top"/>
+                    <ListView x:Name="listView_Player" ButtonBase.Click="GridViewColumnHeader_Clicked" BorderThickness="0" SelectionMode="Single" ItemContainerStyle="{StaticResource myItemStyle}" SelectionChanged="listView_SelectionChanged" Margin="10,337,10,0">
                         <ListView.ContextMenu>
                             <ContextMenu>
                                 <MenuItem Header="Add" Click="NewItem_Click"/>
@@ -106,15 +110,57 @@
                             </ContextMenu>
                         </ListView.ContextMenu>
                         <ListView.View>
-                            <GridView ColumnHeaderContainerStyle="{DynamicResource headers}">
-                                <GridViewColumn Width="Auto" Header="Item Name" DisplayMemberBinding="{Binding itemname}"/>
-                                <GridViewColumn Width="100" Header="Item Type" DisplayMemberBinding="{Binding loottype}"/>
-                                <GridViewColumn Width="100" Header="Item Count" DisplayMemberBinding="{Binding count}"/>
-                                <GridViewColumn Width="130" Header="Unassigned Count" DisplayMemberBinding="{Binding unassignedcount}"/>
-                                <GridViewColumn Width="130" Header="Base Weight" DisplayMemberBinding="{Binding baseweight}"/>
-                                <GridViewColumn Width="130" Header="Total Weight" DisplayMemberBinding="{Binding totalweight}"/>
-                                <GridViewColumn Width="130" Header="Base Value" DisplayMemberBinding="{Binding basevalue}"/>
-                                <GridViewColumn Width="130" Header="Total Value" DisplayMemberBinding="{Binding totalvalue}"/>
+                            <GridView x:Name="gridview_Player" ColumnHeaderContainerStyle="{DynamicResource headers}">
+                                <GridViewColumn Width="Auto" Header="Name" DisplayMemberBinding="{Binding itemname}"/>
+                                <GridViewColumn Width="100" Header="Type" DisplayMemberBinding="{Binding loottype}"/>
+                                <GridViewColumn Width="Auto" Header="Equipped">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock>
+                                                <TextBlock.Text>
+                                                    <MultiBinding StringFormat=" {0}" Converter="{StaticResource c_converter}">
+                                                        <Binding Path="assignments"/>
+                                                        <Binding ElementName="comboBox_Player" Path="SelectedItem"/>
+                                                    </MultiBinding>
+                                                </TextBlock.Text>
+                                            </TextBlock>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn Width="100" Header="#" DisplayMemberBinding="{Binding count}"/>
+                                <GridViewColumn Width="130" Header="Unassigned" DisplayMemberBinding="{Binding unassignedcount}"/>
+                                <GridViewColumn Width="130" Header="Base Wgt" DisplayMemberBinding="{Binding baseweight}"/>
+                                <GridViewColumn Width="130" Header="Equipped Wgt">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock>
+                                                <TextBlock.Text>
+                                                    <MultiBinding StringFormat=" {0} lbs" Converter="{StaticResource w_converter}">
+                                                        <Binding Path="assignments"/>
+                                                        <Binding ElementName="comboBox_Player" Path="SelectedItem"/>
+                                                        <Binding Path="baseweight"/>
+                                                    </MultiBinding>
+                                                </TextBlock.Text>
+                                            </TextBlock>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn Width="130" Header="Base Val" DisplayMemberBinding="{Binding basevalue}"/>
+                                <GridViewColumn Width="130" Header="Equipped Val">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock>
+                                                <TextBlock.Text>
+                                                    <MultiBinding StringFormat=" {0} GP" Converter="{StaticResource v_converter}">
+                                                        <Binding Path="assignments"/>
+                                                        <Binding ElementName="comboBox_Player" Path="SelectedItem"/>
+                                                        <Binding Path="basevalue"/>
+                                                    </MultiBinding>
+                                                </TextBlock.Text>
+                                            </TextBlock>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
                             </GridView>
                         </ListView.View>
                     </ListView>

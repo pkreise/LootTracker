@@ -60,7 +60,7 @@ namespace LootTracker
             }
         }
         
-        public void WriteData(bool SaveOnly,object Data, string Path)
+        public void WriteData(bool SaveOnly, object Data, string Path)
         {
             //Start a new filestream using the selected file path.
             FileStream filestream = new FileStream(Path, FileMode.Create);
@@ -91,8 +91,8 @@ namespace LootTracker
         //ReadData method reads a .dat file and deserializes the data back into a LootBook object.
         public LootBook ReadData()
         {
-            //Instantiate an OpenFileDialog obj.
             OpenFileDialog filepicker = new OpenFileDialog();
+            filepicker.Filter = "Data Files(*.dat)|*.DAT";
 
             //Prompt the user.
             filepicker.ShowDialog();

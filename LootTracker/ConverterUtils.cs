@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Media;
+using System.Collections.Generic;
 
 namespace LootTracker
 {   
@@ -25,7 +26,7 @@ namespace LootTracker
 
             if (index % 2 == 0)
             {
-                return "#FF464646";
+                return "#FFFFFFFF";
             }
             else if (true)
             {
@@ -54,7 +55,7 @@ namespace LootTracker
 
             if (index % 2 == 0)
             {
-                return "#FFDEDEDE";
+                return "#FF464646";
             }
             else
             {
@@ -68,33 +69,83 @@ namespace LootTracker
         }
      }
 
-    public sealed class D_Converter : IMultiValueConverter
+    public sealed class C_Converter : IMultiValueConverter
     {
         public object Convert(object[] values, Type targettype, object parameter, CultureInfo culture)
         {
-            LootItem item = (LootItem)values[0];
-            Player player = (Player)values[1];
-            if (item.assignments.ContainsKey(player.playername))
+            Dictionary<string, int> d = values[0] as Dictionary<string, int>;
+            Player p = values[1] as Player;
+
+            if (d.ContainsKey(p.playername))
             {
-                return item.assignments[(player.playername)];
+                return (d[(p.playername)]);
             }
             else
             {
                 return 0;
-            } 
+            }
         }
 
-        object[] ConvertBack(object values, Type targetType, object parameter, CultureInfo culture)
+        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
         {
             throw new NotImplementedException();
         }
+    }
 
-        object IMultiValueConverter.Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
+    public sealed class W_Converter : IMultiValueConverter
+    {
+        public object Convert(object[] values, Type targettype, object parameter, CultureInfo culture)
+        {
+            Dictionary<string, int> d = values[0] as Dictionary<string, int>;
+            Player p = values[1] as Player;
+            string w = values[2] as string;
+            decimal wgt;
+
+            w = (w.Split(" ".ToCharArray()))[0];
+            try { wgt = System.Convert.ToDecimal(w); }
+            catch { return "ERROR"; }
+            
+            if (d.ContainsKey(p.playername))
+            {
+                return (d[(p.playername)] * wgt);
+            }
+            else
+            {
+                return 0;
+            }
+        }
+
+        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
         {
             throw new NotImplementedException();
         }
+    }
 
-        object[] IMultiValueConverter.ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
+    public sealed class V_Converter : IMultiValueConverter
+    {
+        public object Convert(object[] values, Type targettype, object parameter, CultureInfo culture)
+        {
+
+            Dictionary<string, int> d = values[0] as Dictionary<string, int>;
+            Player p = values[1] as Player;
+            string v = values[2] as string;
+            decimal val;
+
+            v = (v.Split(" ".ToCharArray()))[0];
+            try { val = System.Convert.ToDecimal(v); }
+            catch { return "ERROR"; }
+            
+            if (d.ContainsKey(p.playername))
+            {
+                return (d[(p.playername)] * val);
+            }
+            else
+            {
+                return 0;
+            }
+        }
+
+        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
         {
             throw new NotImplementedException();
         }

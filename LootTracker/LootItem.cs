@@ -25,12 +25,31 @@ namespace LootTracker
         public int count { get { return _count; } }
         public int unassignedcount { get { return _unassignedcount; } }
         public int assignedcount { get { return _assignedcount; } }
-        public int unassignedvalue { get { return _unassignedvalue; } }
-        public decimal baseweight { get { return _baseweight; } }
-        public decimal totalweight { get { return _totalweight; } }
-        public int basevalue { get { return _basevalue; } }
-        public int totalvalue { get { return _totalvalue; } }
+        public string unassignedvalue { get { return (String.Format("{0} {1}", _unassignedvalue, "GP")); } }
+        public string baseweight { get { return (String.Format("{0} {1}", _baseweight, "Lbs")); } }
+        public string totalweight { get { return (String.Format("{0} {1}", _totalweight, "Lbs")); } }
+        public string basevalue { get { return (String.Format("{0} {1}", _basevalue, "GP")); } }
+        public string totalvalue { get { return (String.Format("{0} {1}", _totalvalue, "GP")); } }
         public Dictionary<string, int> assignments { get { return _assignments; } set { _assignments = value; } }
+        public string assignmentsstring
+        {
+            get
+            {
+                int a_count = _assignments.Count;
+                string s_out = "";
+                int p_count = 0;
+                foreach (KeyValuePair<string, int> d in _assignments)
+                {
+                    s_out += (String.Format("{0}:{1}", d.Key, d.Value));
+                    p_count++;
+                    if (p_count < a_count)
+                    {
+                        s_out += ", ";
+                    }
+                }
+                return s_out;
+            }
+        }
         
         //Default constructor for initializing a new loot item.
         public LootItem()
@@ -119,6 +138,20 @@ namespace LootTracker
                 _assignments.Add(PlayerName, Count);
             }
             
+            //Re-calculate the unassigned count and value.
+            CalculateUnassignedCount();
+            CalculateUnassignedValue();
+        }
+
+        //Method to modify ownership of the items.
+        public void RemoveAssignment(string PlayerName)
+        {
+            //If the player isn't in the dictionary, add the assignment.
+            if (_assignments.ContainsKey(PlayerName))
+            {
+                _assignments.Remove(PlayerName);
+            }
+           
             //Re-calculate the unassigned count and value.
             CalculateUnassignedCount();
             CalculateUnassignedValue();
