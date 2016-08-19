@@ -18,16 +18,17 @@ namespace LootTracker
     /// <summary>
     /// Interaction logic for Window1.xaml
     /// </summary>
-    public partial class Window1 : Window
+    public partial class AssignItem : Window
     {
 
         ObservableCollection<Player> _players;
         LootItem _loot;
         bool _isCancelled = false;
         public LootItem loot { get { return _loot; } }
+
         public bool isCancelled { get { return _isCancelled; } }
 
-        public Window1(ObservableCollection<Player> players, LootItem loot)
+        public AssignItem(ObservableCollection<Player> players, LootItem loot)
         {
             InitializeComponent();
             _players = players;
@@ -168,7 +169,6 @@ namespace LootTracker
                 {
                     if ((currentplayercount - modcount) < 0)
                     {
-                        //loot.ModifiyAssignment(p.playername, 0);
                         loot.assignments.Remove(p.playername);
                     }
                     else

@@ -5,40 +5,43 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:LootTracker"
         mc:Ignorable="d"
-        Title="AddPlayer" Height="300" Width="300" AllowsTransparency="True" WindowStyle="None" MouseDown="Window_MouseDown" BorderThickness="1" BorderBrush="Black" WindowStartupLocation="CenterScreen">
-    <Grid>
-        <Grid.Background>
-            <ImageBrush ImageSource="back.jpg" Stretch="UniformToFill" Opacity="0.4"/>
-        </Grid.Background>
-        <Button x:Name="button_Clear" Content="Clear" HorizontalAlignment="Left" Margin="215,225,0,0" VerticalAlignment="Top" Width="55" Height="25" Click="button_Clear_Click" FontSize="16" FontFamily="Segoe UI Semibold" TabIndex="3" BorderThickness="0">
-            <Button.Background>
-                <SolidColorBrush Color="#FFDDDDDD" Opacity="0"/>
-            </Button.Background>
-        </Button>
-        <Button x:Name="button_Browse" Content="Browse" HorizontalAlignment="Left" Margin="160,225,0,0" VerticalAlignment="Top" Width="55" Height="25" Click="button_Browse_Click" FontSize="16" FontFamily="Segoe UI Semibold" TabIndex="2" BorderThickness="0">
-            <Button.Background>
-                <SolidColorBrush Color="#FFDDDDDD" Opacity="0"/>
-            </Button.Background>
-        </Button>
-        <TextBlock x:Name="textBlock_Player" HorizontalAlignment="Left" Margin="24,40,0,0" TextWrapping="Wrap" Text="Player Name:" VerticalAlignment="Top" Width="106" Height="25" FontSize="14" FontFamily="Segoe UI Semibold"/>
-        <TextBlock x:Name="textBlock_Character" HorizontalAlignment="Left" Margin="24,70,0,0" TextWrapping="Wrap" Text="Character Name:" VerticalAlignment="Top"  Height="25" Width="106" FontSize="14" FontFamily="Segoe UI Semibold"/>
-        <Button x:Name="button_OK" Content="OK" HorizontalAlignment="Left" Margin="215,263,0,0" VerticalAlignment="Top" Width="55" Height="25" Click="button_OK_Click" FontSize="16" FontFamily="Segoe UI Semibold" TabIndex="4" BorderThickness="0">
-            <Button.Background>
-                <SolidColorBrush Color="#FFDDDDDD" Opacity="0"/>
-            </Button.Background>
-        </Button>
-        <TextBox x:Name="textBox_Player" HorizontalAlignment="Left" Height="25" Margin="150,40,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" TabIndex="0" FontSize="14"/>
-        <TextBox x:Name="textBox_Character" HorizontalAlignment="Left" Height="25" Margin="150,70,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" TabIndex="1" FontSize="14"/>
-        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="120" Margin="150,100,0,0" VerticalAlignment="Top" Width="120">
-            <Border BorderBrush="#FFABADB3" BorderThickness="1" Margin="-1" Background="White">
+        Title="AddPlayer" Height="386" Width="326" AllowsTransparency="True" WindowStyle="None" MouseDown="Window_MouseDown" BorderThickness="1" BorderBrush="Black" WindowStartupLocation="CenterScreen">
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="StyleDictionary.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <Grid Background="{DynamicResource darkgray_back}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="6*"/>
+            <ColumnDefinition Width="8*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="35"/>
+            <RowDefinition Height="15"/>
+            <RowDefinition Height="1.1*"/>
+            <RowDefinition Height="1.1*"/>
+            <RowDefinition Height="5.5*"/>
+            <RowDefinition Height="35"/>
+        </Grid.RowDefinitions>
+        <TextBlock x:Name="textBlock_Title" HorizontalAlignment="Center" Grid.Row="0" Grid.ColumnSpan="2" TextWrapping="Wrap" Text="Add Player" Foreground="{DynamicResource lightgray_fore}" FontSize="16" FontFamily="Segoe UI Semibold" Margin="108,0,108,10" Width="82" VerticalAlignment="Bottom"/>
+        <Button x:Name="button_Close" Content="X" Grid.ColumnSpan="2" HorizontalAlignment="Right" VerticalAlignment="Top" Width="25" Height="35" FontSize="16" FontFamily="Segoe UI Semibold" BorderThickness="0" Click="button_Close_Click" TabIndex="5" Style="{DynamicResource button_Menu}" Foreground="{DynamicResource lightgray_fore}"/>
+        <TextBlock x:Name="textBlock_Player" Grid.Column="0" Grid.Row="2" HorizontalAlignment="Center" TextWrapping="Wrap" Text="Player Name:" VerticalAlignment="Center" Width="106" Height="25" FontSize="14" FontFamily="Segoe UI Semibold" Foreground="{DynamicResource lightgray_fore}"/>
+        <TextBox x:Name="textBox_Player" Grid.Column="1" Grid.Row="2" HorizontalAlignment="Center" Height="25" TextWrapping="Wrap" VerticalAlignment="Center" Width="120" TabIndex="0" FontSize="14" Background="{DynamicResource darkgray_back}" BorderThickness="0,0,1,1"/>
+        <TextBlock x:Name="textBlock_Character" Grid.Column="0" Grid.Row="3" HorizontalAlignment="Center" TextWrapping="Wrap" Text="Character Name:" VerticalAlignment="Center"  Height="25" Width="106" FontSize="14" FontFamily="Segoe UI Semibold" Foreground="{DynamicResource lightgray_fore}"/>
+        <TextBox x:Name="textBox_Character" Grid.Column="1" Grid.Row="3" HorizontalAlignment="Center" Height="25" TextWrapping="Wrap" VerticalAlignment="Center" Width="120" TabIndex="1" FontSize="14" Background="{DynamicResource darkgray_back}" BorderThickness="0,0,1,1"/>
+        <Button x:Name="button_Browse"  Grid.Column="1" Grid.Row="4" Content="Browse" HorizontalAlignment="Left" VerticalAlignment="Top" Width="54" Height="25" Click="button_Browse_Click" FontSize="16" FontFamily="Segoe UI Semibold" TabIndex="2" BorderThickness="0" Foreground="{DynamicResource lightgray_fore}" Margin="31,165,0,0" Style="{DynamicResource mybutton}"/>
+        <Button x:Name="button_Clear"  Grid.Column="1" Grid.Row="4" Content="Clear" HorizontalAlignment="Left" VerticalAlignment="Top" Width="55" Height="25" Click="button_Clear_Click" FontSize="16" FontFamily="Segoe UI Semibold" TabIndex="3" BorderThickness="0" Foreground="{DynamicResource lightgray_fore}" Margin="90,165,0,0" Style="{DynamicResource mybutton}"/>
+        <Button x:Name="button_OK"  Grid.ColumnSpan="2" Grid.Row="5" Content="OK" HorizontalAlignment="Center" VerticalAlignment="Top" Width="55" Height="25" Click="button_OK_Click" FontSize="16" FontFamily="Segoe UI Semibold" TabIndex="4" BorderThickness="0" Foreground="{DynamicResource lightgray_fore}" Style="{DynamicResource mybutton}"/>
+        <TextBlock x:Name="textBlock_CharacterImage" Grid.Column="0" Grid.Row="4" HorizontalAlignment="Center" TextWrapping="Wrap" Text="Character Image:" VerticalAlignment="Center" Height="24" Width="113" FontSize="14" FontFamily="Segoe UI Semibold" Foreground="{DynamicResource lightgray_fore}"/>
+        <Border BorderBrush="Black" Grid.Column="1" Grid.Row="4" BorderThickness="1" HorizontalAlignment="Center" Height="120" VerticalAlignment="Center" Width="120" Margin="25,25,25,69">
+            <Border BorderBrush="#FFABADB3" BorderThickness="1" Margin="-1" Background="{DynamicResource darkgray_back}">
                 <Image x:Name="playerImage" Margin="-1" Stretch="UniformToFill" Height="120" Width="120"/>
             </Border>
         </Border>
-        <TextBlock x:Name="textBlock_CharacterImage" HorizontalAlignment="Left" Margin="24,100,0,0" TextWrapping="Wrap" Text="Character Image:" VerticalAlignment="Top" Height="25" Width="121" FontSize="14" FontFamily="Segoe UI Semibold"/>
-        <Button x:Name="button_Close" Content="X" HorizontalAlignment="Left" Margin="275,0,0,0" VerticalAlignment="Top" Width="25" Height="25" FontSize="16" FontFamily="Segoe UI Semibold" BorderThickness="0" Click="button_Close_Click" TabIndex="5">
-            <Button.Background>
-                <SolidColorBrush Color="#FFDDDDDD" Opacity="0"/>
-            </Button.Background>
-        </Button>
     </Grid>
 </Window>

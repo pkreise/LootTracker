@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Windows.Media.Imaging;
 using System.Windows.Forms;
+using System.Text.RegularExpressions;
 
 namespace LootTracker
 {
@@ -41,8 +42,6 @@ namespace LootTracker
 
             view_items = (CollectionView)CollectionViewSource.GetDefaultView(listView.ItemsSource);
             windowLoaded = true;
-
-            
         }
 
 
@@ -846,12 +845,12 @@ namespace LootTracker
         private void button_Assignments_Click(object sender, RoutedEventArgs e)
         {
             LootItem originalitem = listView.SelectedItem as LootItem;
-            Window1 window_Assign = new Window1(_book.playerlist, originalitem);
-            window_Assign.ShowDialog();
+            AssignItem window_AssignItem = new AssignItem(_book.playerlist, originalitem);
+            window_AssignItem.ShowDialog();
 
-            if (window_Assign.isCancelled == false)
+            if (window_AssignItem.isCancelled == false)
             {
-                originalitem.assignments = window_Assign.loot.assignments;
+                originalitem.assignments = window_AssignItem.loot.assignments;
                 originalitem.CalculateUnassignedCount();
                 originalitem.CalculateUnassignedCount();
                 view_items.Refresh();
@@ -886,6 +885,18 @@ namespace LootTracker
                 {
                     view_items.Filter = PlayerLootFilter;
                 }
+            }
+        }
+
+        private void Window_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            if (Regex.IsMatch(WindowState.ToString(), "Normal"))
+            {
+                WindowState = WindowState.Maximized;
+            }
+            else
+            {
+                WindowState = WindowState.Normal;
             }
         }
     }

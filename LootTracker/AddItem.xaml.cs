@@ -24,6 +24,8 @@ namespace LootTracker
             bool countvalid = false;
             bool wgtvalid = false;
             bool valvalid = false;
+            SolidColorBrush lgtgry = new SolidColorBrush(Color.FromRgb(222, 222, 222));
+                   
 
             //Field validation for Name.
             if (textBox_Name.Text == "")
@@ -32,7 +34,7 @@ namespace LootTracker
             }
             else
             {
-                textBlock_Name.Foreground = Brushes.Black;
+                textBlock_Name.Foreground = lgtgry;
                 namevalid = true;
             }
 
@@ -43,7 +45,7 @@ namespace LootTracker
             }
             else
             {
-                textBlock_Type.Foreground = Brushes.Black;
+                textBlock_Type.Foreground = lgtgry;
                 typevalid = true;
             }
 
@@ -60,7 +62,7 @@ namespace LootTracker
                 catch { isvalidint = false; }
                 if (isvalidint)
                 {
-                    textBlock_Count.Foreground = Brushes.Black;
+                    textBlock_Count.Foreground = lgtgry;
                     textBlock_Count.ToolTip = null;
                     countvalid = true;
                 }
@@ -85,7 +87,7 @@ namespace LootTracker
                 catch { isvalidint = false; }
                 if (isvalidint)
                 {
-                    textBlock_BaseWeight.Foreground = Brushes.Black;
+                    textBlock_BaseWeight.Foreground = lgtgry;
                     textBlock_BaseWeight.ToolTip = null;
                     wgtvalid = true;
                 }
@@ -110,7 +112,7 @@ namespace LootTracker
                 catch { isvalidint = false; }
                 if (isvalidint)
                 {
-                    textBlock_BaseValue.Foreground = Brushes.Black;
+                    textBlock_BaseValue.Foreground = lgtgry;
                     textBlock_BaseValue.ToolTip = null;
                     valvalid = true;
                 }
