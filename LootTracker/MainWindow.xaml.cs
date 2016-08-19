@@ -35,12 +35,12 @@ namespace LootTracker
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
 
-            listView.ItemsSource = _book.lootlist;
+            listView_Master.ItemsSource = _book.lootlist;
             listView_Player.ItemsSource = _book.lootlist;
             comboBox_Player.ItemsSource = _book.playerlist;
             comboBox_Player.SelectedIndex = 0;
 
-            view_items = (CollectionView)CollectionViewSource.GetDefaultView(listView.ItemsSource);
+            view_items = (CollectionView)CollectionViewSource.GetDefaultView(listView_Master.ItemsSource);
             windowLoaded = true;
         }
 
@@ -98,7 +98,7 @@ namespace LootTracker
             headerlookup.Add("Equipped Val", "basevalue");
 
             //Create a dataview and clear.
-            ICollectionView dataView = CollectionViewSource.GetDefaultView(listView.ItemsSource);
+            ICollectionView dataView = CollectionViewSource.GetDefaultView(listView_Master.ItemsSource);
             dataView.SortDescriptions.Clear();
 
             //Create a new sortdescription.
@@ -126,11 +126,11 @@ namespace LootTracker
             DataHandler handler = new DataHandler();
             _book = handler.ReadData();
             savefilepath = handler.filepath;
-            listView.ItemsSource = _book.lootlist;
+            listView_Master.ItemsSource = _book.lootlist;
             listView_Player.ItemsSource = _book.lootlist;
             comboBox_Player.ItemsSource = _book.playerlist;
             comboBox_Player.SelectedIndex = 0;
-            view_items = (CollectionView)CollectionViewSource.GetDefaultView(listView.ItemsSource);
+            view_items = (CollectionView)CollectionViewSource.GetDefaultView(listView_Master.ItemsSource);
         }
 
         //Event Handler for saving the open LootBook.
@@ -145,12 +145,12 @@ namespace LootTracker
         private void MenuItem_New_Click(object sender, RoutedEventArgs e)
         {
             _book = new LootBook();
-            listView.ItemsSource = _book.lootlist;
+            listView_Master.ItemsSource = _book.lootlist;
             listView_Player.ItemsSource = _book.lootlist;
             comboBox_Player.SelectedIndex = -1;
             comboBox_Player.ItemsSource = _book.playerlist;
             comboBox_Player.SelectedIndex = 0;
-            view_items = (CollectionView)CollectionViewSource.GetDefaultView(listView.ItemsSource);   
+            view_items = (CollectionView)CollectionViewSource.GetDefaultView(listView_Master.ItemsSource);   
         }
 
         //Event Handler for adding a new player to the roster.
@@ -216,7 +216,7 @@ namespace LootTracker
         
         private void DeleteItem_Click(object sender, RoutedEventArgs e)
         {
-            _book.RemoveLootItem((listView.SelectedItem as LootItem));
+            _book.RemoveLootItem((listView_Master.SelectedItem as LootItem));
             button_Delete.IsEnabled = false;
             button_Assignments.IsEnabled = false;
             button_Increment.IsEnabled = false;
@@ -259,7 +259,7 @@ namespace LootTracker
                 
         private void ModifiyAssignment_Click(object sender, RoutedEventArgs e)
         {
-            int index = listView.SelectedIndex;
+            int index = listView_Master.SelectedIndex;
             if (!(_book.lootlist.Count == 0) && !(index == -1))
             {
                 _book.lootlist[index].ModifiyAssignment("Dean", 2);
@@ -844,7 +844,7 @@ namespace LootTracker
 
         private void button_Assignments_Click(object sender, RoutedEventArgs e)
         {
-            LootItem originalitem = listView.SelectedItem as LootItem;
+            LootItem originalitem = listView_Master.SelectedItem as LootItem;
             AssignItem window_AssignItem = new AssignItem(_book.playerlist, originalitem);
             window_AssignItem.ShowDialog();
 
@@ -874,7 +874,7 @@ namespace LootTracker
 
         private void tabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            view_items = (CollectionView)CollectionViewSource.GetDefaultView(listView.ItemsSource);
+            view_items = (CollectionView)CollectionViewSource.GetDefaultView(listView_Master.ItemsSource);
             if (windowLoaded)
             {
                 if (tabControl.SelectedIndex == 0)

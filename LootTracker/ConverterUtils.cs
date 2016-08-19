@@ -8,7 +8,6 @@ using System.Collections.Generic;
 
 namespace LootTracker
 {   
-
     /// <summary>
     /// Background color converter.
     /// </summary>
@@ -69,6 +68,9 @@ namespace LootTracker
         }
      }
 
+    /// <summary>
+    /// Player equipped count converter.
+    /// </summary>
     public sealed class C_Converter : IMultiValueConverter
     {
         public object Convert(object[] values, Type targettype, object parameter, CultureInfo culture)
@@ -92,6 +94,9 @@ namespace LootTracker
         }
     }
 
+    /// <summary>
+    /// Player equipped weight converter.
+    /// </summary>
     public sealed class W_Converter : IMultiValueConverter
     {
         public object Convert(object[] values, Type targettype, object parameter, CultureInfo culture)
@@ -121,6 +126,9 @@ namespace LootTracker
         }
     }
 
+    /// <summary>
+    /// Player equipped value converter.
+    /// </summary>
     public sealed class V_Converter : IMultiValueConverter
     {
         public object Convert(object[] values, Type targettype, object parameter, CultureInfo culture)

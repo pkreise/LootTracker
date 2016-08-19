@@ -20,8 +20,7 @@ namespace LootTracker
         int _sil;
         int _cop;
         double _totalGP;
-
-
+        
         //Define public properties.
         public string playername { get { return _playername; } }
         public string charactername { get { return _charactername; } }
@@ -36,8 +35,6 @@ namespace LootTracker
         public int sil { get { return _sil; } }
         public int cop { get { return _cop; } }
         public double totalGP { get { return _totalGP; } }
-
-
 
         //The default constructor for creating a new player object.
         public Player()

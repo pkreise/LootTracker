@@ -8,7 +8,7 @@
     <local:F_Converter x:Key="f_converter"/>
     <local:C_Converter x:Key="c_converter"/>
     <local:W_Converter x:Key="w_converter"/>
-    <local:W_Converter x:Key="v_converter"/>
+    <local:V_Converter x:Key="v_converter"/>
 
     <!--Brushes-->
     <SolidColorBrush x:Key="darkgray_back" Color="#FF464646"/>
@@ -16,7 +16,7 @@
     <SolidColorBrush x:Key="semiblack_back" Color="#FF343434"/>
 
     <!--Style definition for listview items-->
-    <Style x:Key="myItemStyle" TargetType="{x:Type ListViewItem}">
+    <Style x:Key="listViewItem_Dark" TargetType="{x:Type ListViewItem}">
         <Setter Property="FontFamily" Value="Segoe UI"/>
         <Setter Property="FontSize" Value="16"/>
         <Setter Property="HorizontalContentAlignment" Value="Center"/>
@@ -53,7 +53,7 @@
     </Style>
 
     <!--Stle definition for standard size button-->
-    <Style x:Key="mybutton" TargetType="{x:Type Button}">
+    <Style x:Key="button_Dark_Small" TargetType="{x:Type Button}">
         <Setter Property="Background" Value="{StaticResource darkgray_back}"/>
         <Setter Property="FontSize" Value="16"/>
         <Setter Property="FontFamily" Value="Segoe UI Semibold"/>
@@ -74,9 +74,8 @@
     </Style>
 
     <!--Stle definition for large size button-->
-    <Style x:Key="button_Menu" TargetType="{x:Type Button}">
+    <Style x:Key="button_Dark_Menu" TargetType="{x:Type Button}">
         <Setter Property="Background" Value="{StaticResource darkgray_back}"/>
-
         <Setter Property="FontSize" Value="20"/>
         <Setter Property="FontFamily" Value="Segoe UI Semibold"/>
         <Setter Property="Template">
@@ -96,7 +95,7 @@
     </Style>
 
     <!--Style definition for dark combo box.-->
-    <Style x:Key="ComboBox_Dark" TargetType="{x:Type ComboBox}">
+    <Style x:Key="comboBox_Dark_Player" TargetType="{x:Type ComboBox}">
         <Setter Property="DisplayMemberPath" Value="displayname"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="Width" Value="Auto"/>
@@ -145,7 +144,7 @@
     </Style>
 
     <!--Style definition for dark combo box.-->
-    <Style x:Key="ComboBox_Dark_2" TargetType="{x:Type ComboBox}">
+    <Style x:Key="comboBox_Dark_ItemType" TargetType="{x:Type ComboBox}">
         <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="FontSize" Value="16"/>
         <Setter Property="Template">
@@ -184,7 +183,7 @@
     </Style>
 
     <!-- Style definition for dark ComboBoxItem-->
-    <Style x:Key="mySimpleComboBoxItem" TargetType="{x:Type ComboBoxItem}">
+    <Style x:Key="comboBoxItem_Dark_Player" TargetType="{x:Type ComboBoxItem}">
         <Setter Property="SnapsToDevicePixels" Value="true"/>
         <Setter Property="Background" Value="{StaticResource lightgray_fore}"/>
         <Setter Property="Foreground" Value="{StaticResource darkgray_back}"/>
@@ -209,7 +208,7 @@
     </Style>
 
     <!-- Style definition for dark ComboBoxItem-->
-    <Style x:Key="mySimpleComboBoxItem_2" TargetType="{x:Type ComboBoxItem}">
+    <Style x:Key="comboBoxItem_Dark_ItemType" TargetType="{x:Type ComboBoxItem}">
         <Setter Property="SnapsToDevicePixels" Value="true"/>
         <Setter Property="Background" Value="{StaticResource lightgray_fore}"/>
         <Setter Property="Foreground" Value="{StaticResource darkgray_back}"/>
@@ -234,7 +233,7 @@
     </Style>
 
     <!--Style defintion for tabitems-->
-    <Style x:Key="SimpleTabItem" TargetType="{x:Type TabItem}">
+    <Style x:Key="tabItem_Dark" TargetType="{x:Type TabItem}">
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type TabItem}">
@@ -261,7 +260,7 @@
     </Style>
 
     <!--Style defition for list view headers-->
-    <Style x:Key="headers" TargetType="{x:Type GridViewColumnHeader}">
+    <Style x:Key="headers_Dark" TargetType="{x:Type GridViewColumnHeader}">
         <Setter Property="Background" Value="{StaticResource lightgray_fore}"/>
         <Setter Property="Foreground" Value="{StaticResource darkgray_back}"/>
     </Style>

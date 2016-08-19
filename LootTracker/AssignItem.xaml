@@ -16,18 +16,22 @@
     </Window.Resources>
 
     <Grid Background="{DynamicResource darkgray_back}">
-        <Button x:Name="button_Close" Content="X" VerticalAlignment="Top" Height="35" Style="{DynamicResource button_Menu}" Foreground="{DynamicResource lightgray_fore}" Click="button_Close_Click" HorizontalAlignment="Right" Width="30"/>
-        <ComboBox x:Name="combobox_Player" HorizontalAlignment="Left" Margin="115,60,0,0" VerticalAlignment="Top" Width="135" Height="30" ItemContainerStyle="{DynamicResource mySimpleComboBoxItem}" Style="{DynamicResource ComboBox_Dark}" Foreground="{DynamicResource lightgray_fore}" SelectionChanged="combobox_Player_SelectionChanged"/>
-        <Button x:Name="button_dec" Content="-" HorizontalAlignment="Left" Margin="165,123,0,0" VerticalAlignment="Top" Width="25" Height="30" Foreground="{DynamicResource lightgray_fore}" Style="{DynamicResource mybutton}" Click="button_dec_Click"/>
-        <TextBox x:Name="textBox_Count" HorizontalAlignment="Left" Height="30" Margin="190,121,0,0" Text="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Cursor="IBeam" VerticalAlignment="Top" Width="35" Background="{DynamicResource darkgray_back}" Foreground="{DynamicResource lightgray_fore}" BorderThickness="0" LostFocus="textBox_LostFocus" FontSize="16"/>
-        <Button x:Name="button_inc" Content="+" HorizontalAlignment="Left" Margin="225,123,0,0" VerticalAlignment="Top" Width="25" Height="30" Foreground="{DynamicResource lightgray_fore}" Style="{DynamicResource mybutton}" Click="button_inc_Click"/>
-        <Button x:Name="button_OK" Content="OK" HorizontalAlignment="Left" Margin="58,160,0,0" VerticalAlignment="Top" Width="177" Height="30" Style="{DynamicResource mybutton}" Foreground="{DynamicResource lightgray_fore}" Click="button_OK_Click" RenderTransformOrigin="0.548,-2.833"/>
-        <TextBlock x:Name="textBlock_AssignedVal" HorizontalAlignment="Left" Margin="115,95,0,0" Text="0" VerticalAlignment="Top" Height="30" Width="65" FontSize="16" Foreground="{DynamicResource lightgray_fore}"/>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="21*"/>
+            <ColumnDefinition Width="34*"/>
+        </Grid.ColumnDefinitions>
+        <Button x:Name="button_Close" Content="X" VerticalAlignment="Top" Height="35" Style="{DynamicResource button_Dark_Menu}" Foreground="{DynamicResource lightgray_fore}" Click="button_Close_Click" HorizontalAlignment="Right" Width="30" Grid.Column="1"/>
+        <ComboBox x:Name="combobox_Player" HorizontalAlignment="Left" Margin="10,60,0,0" VerticalAlignment="Top" Width="135" Height="30" ItemContainerStyle="{DynamicResource comboBoxItem_Dark_ItemType}" Style="{DynamicResource comboBox_Dark_ItemType}" Foreground="{DynamicResource lightgray_fore}" SelectionChanged="combobox_Player_SelectionChanged" Grid.Column="1"/>
+        <Button x:Name="button_dec" Content="-" HorizontalAlignment="Left" Margin="60,123,0,0" VerticalAlignment="Top" Width="25" Height="30" Foreground="{DynamicResource lightgray_fore}" Style="{DynamicResource button_Dark_Small}" Click="button_dec_Click" Grid.Column="1"/>
+        <TextBox x:Name="textBox_Count" HorizontalAlignment="Left" Height="30" Margin="85,121,0,0" Text="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Cursor="IBeam" VerticalAlignment="Top" Width="35" Background="{DynamicResource darkgray_back}" Foreground="{DynamicResource lightgray_fore}" BorderThickness="0" LostFocus="textBox_LostFocus" FontSize="16" Grid.Column="1"/>
+        <Button x:Name="button_inc" Content="+" HorizontalAlignment="Left" Margin="120,123,0,0" VerticalAlignment="Top" Width="25" Height="30" Foreground="{DynamicResource lightgray_fore}" Style="{DynamicResource button_Dark_Small}" Click="button_inc_Click" Grid.Column="1"/>
+        <Button x:Name="button_OK" Content="OK" HorizontalAlignment="Left" Margin="58,160,0,0" VerticalAlignment="Top" Width="177" Height="30" Style="{DynamicResource button_Dark_Small}" Foreground="{DynamicResource lightgray_fore}" Click="button_OK_Click" RenderTransformOrigin="0.548,-2.833" Grid.ColumnSpan="2"/>
+        <TextBlock x:Name="textBlock_AssignedVal" HorizontalAlignment="Left" Margin="10,95,0,0" Text="0" VerticalAlignment="Top" Height="30" Width="65" FontSize="16" Foreground="{DynamicResource lightgray_fore}" Grid.Column="1"/>
         <TextBlock x:Name="textBlock_Player" HorizontalAlignment="Left" Margin="32,65,0,0" TextWrapping="Wrap" Text="Player" VerticalAlignment="Top" Foreground="{DynamicResource lightgray_fore}" FontSize="16" Height="30"/>
         <TextBlock x:Name="textBlock_Assigned" HorizontalAlignment="Left" Margin="31,95,0,0" TextWrapping="Wrap" Text="Assigned" VerticalAlignment="Top" Foreground="{DynamicResource lightgray_fore}" FontSize="16" RenderTransformOrigin="0.234,0.705" Height="30"/>
         <TextBlock x:Name="textBlock_Available" HorizontalAlignment="Left" Margin="32,125,0,0" TextWrapping="Wrap" Text="Available" VerticalAlignment="Top" Foreground="{DynamicResource lightgray_fore}" FontSize="16" RenderTransformOrigin="0.234,0.705" Height="30"/>
-        <TextBlock x:Name="textBlock_AvailableVal" HorizontalAlignment="Left" Margin="115,125,0,0" Text="0" VerticalAlignment="Top" Height="30" Width="45" FontSize="16" Foreground="{DynamicResource lightgray_fore}"/>
-        <TextBlock x:Name="textBlock_Item" HorizontalAlignment="Left" Margin="58,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="25" Width="167" Foreground="{DynamicResource lightgray_fore}" FontSize="16"/>
+        <TextBlock x:Name="textBlock_AvailableVal" HorizontalAlignment="Left" Margin="10,125,0,0" Text="0" VerticalAlignment="Top" Height="30" Width="45" FontSize="16" Foreground="{DynamicResource lightgray_fore}" Grid.Column="1"/>
+        <TextBlock x:Name="textBlock_Item" HorizontalAlignment="Left" Margin="58,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="25" Width="167" Foreground="{DynamicResource lightgray_fore}" FontSize="16" Grid.ColumnSpan="2"/>
 
     </Grid>
 </Window>
