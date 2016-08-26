@@ -5,6 +5,8 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Media;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 
 namespace LootTracker
 {   
@@ -103,12 +105,10 @@ namespace LootTracker
         {
             Dictionary<string, int> d = values[0] as Dictionary<string, int>;
             Player p = values[1] as Player;
-            string w = values[2] as string;
             decimal wgt;
-
-            w = (w.Split(" ".ToCharArray()))[0];
-            try { wgt = System.Convert.ToDecimal(w); }
+            try { wgt = System.Convert.ToDecimal(values[2]); }
             catch { return "ERROR"; }
+           
             
             if (d.ContainsKey(p.playername))
             {
@@ -136,13 +136,11 @@ namespace LootTracker
 
             Dictionary<string, int> d = values[0] as Dictionary<string, int>;
             Player p = values[1] as Player;
-            string v = values[2] as string;
-            decimal val;
-
-            v = (v.Split(" ".ToCharArray()))[0];
-            try { val = System.Convert.ToDecimal(v); }
-            catch { return "ERROR"; }
             
+            decimal val;
+            try { val = System.Convert.ToDecimal(values[2]); }
+            catch { return "ERROR"; }
+
             if (d.ContainsKey(p.playername))
             {
                 return (d[(p.playername)] * val);
@@ -158,4 +156,32 @@ namespace LootTracker
             throw new NotImplementedException();
         }
     }
+
+    public sealed class S_Converter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            ObservableCollection<LootItem> items = value as ObservableCollection<LootItem>;
+            decimal totalValue = 0;
+
+            if (items != null)
+            {
+                foreach (LootItem i in items)
+                {
+                    if (i.unassignedcount > 0)
+                    {
+                        totalValue += i.unassignedvalue;
+                    }
+                }
+            }
+
+            return String.Format("Unequipped Value:  {0}GP", totalValue);
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
 }

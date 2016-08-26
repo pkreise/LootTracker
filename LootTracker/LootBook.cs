@@ -1,19 +1,33 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.IO;
 using System.Windows;
 
 namespace LootTracker
 {
     [Serializable]
-    public class LootBook
+    public class LootBook : INotifyPropertyChanged
     {
 
         //Initialize a new list of players and loot items.
         ObservableCollection<Player> _playerlist = new ObservableCollection<Player>();
         ObservableCollection<LootItem> _lootlist = new ObservableCollection<LootItem>();
 
+        public event PropertyChangedEventHandler PropertyChanged;
         
+        //NotifyPropertyChanged method.
+        public void NotifyPropertyChanged(string propertyName)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+
+        }
+
+
+
 
         //Public properties.
         public ObservableCollection<Player> playerlist { get { return _playerlist; } }
@@ -58,6 +72,7 @@ namespace LootTracker
         public void AddLootItem(LootItem l)
         {
             _lootlist. Add(l);
+            NotifyPropertyChanged("lootlist");
         }
         
         //Method to remove a loot item from the lootlist.
@@ -66,7 +81,8 @@ namespace LootTracker
             if (_lootlist.Contains(l))
             {
                 _lootlist.Remove(l);
-                
+                NotifyPropertyChanged("lootlist");
+
             }
         }
     }

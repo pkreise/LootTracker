@@ -184,7 +184,7 @@ namespace LootTracker
                     {
                         if (currentplayercount == 1)
                         {
-                            loot.assignments.Remove(p.playername);
+                            loot.RemoveAssignment(p.playername);
                         }
                         else
                         {

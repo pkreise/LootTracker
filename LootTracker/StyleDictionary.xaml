@@ -9,6 +9,7 @@
     <local:C_Converter x:Key="c_converter"/>
     <local:W_Converter x:Key="w_converter"/>
     <local:V_Converter x:Key="v_converter"/>
+    <local:S_Converter x:Key="s_converter"/>
 
     <!--Brushes-->
     <SolidColorBrush x:Key="darkgray_back" Color="#FF464646"/>
@@ -94,9 +95,9 @@
         </Style.Triggers>
     </Style>
 
-    <!--Style definition for dark combo box.-->
+    <!--Style definition for dark combo box (Player).-->
     <Style x:Key="comboBox_Dark_Player" TargetType="{x:Type ComboBox}">
-        <Setter Property="DisplayMemberPath" Value="displayname"/>
+        <Setter Property="DisplayMemberPath" Value="playername"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="Width" Value="Auto"/>
         <Setter Property="FontSize" Value="16"/>
@@ -104,36 +105,38 @@
             <Setter.Value>
                 <ControlTemplate TargetType="ComboBox">
                     <Grid>
-                        <ToggleButton x:Name="button_Toggle" Grid.Column="2" Focusable="false" IsChecked="{Binding Path=IsDropDownOpen,Mode=TwoWay,RelativeSource={RelativeSource TemplatedParent}}" >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="30"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <ToggleButton x:Name="button_Toggle" Grid.Column="0" Grid.ColumnSpan="2" Focusable="false" IsChecked="{Binding Path=IsDropDownOpen,Mode=TwoWay,RelativeSource={RelativeSource TemplatedParent}}" >
                             <ToggleButton.Template>
                                 <ControlTemplate>
                                     <Grid x:Name="grid_Button">
                                         <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="1*" />
-                                            <ColumnDefinition Width="8*" />
+                                            <ColumnDefinition Width="30"/>
+                                            <ColumnDefinition Width="1*"/>
                                         </Grid.ColumnDefinitions>
-                                        <Border x:Name="Border_0" Grid.ColumnSpan="2" Background="{DynamicResource darkgray_back}" BorderThickness="0"/>
-                                        <Border x:Name="Border_1"  Grid.Column="1" Margin="1"  Background="{DynamicResource darkgray_back}" BorderThickness="0"/>
+                                        <Border x:Name="Border_0" Grid.Column="1" Background="{DynamicResource darkgray_back}" BorderThickness="0" BorderBrush="{StaticResource lightgray_fore}"/>
                                         <Border x:Name="Border_2" Grid.Column="0" Background="{DynamicResource darkgray_back}" BorderThickness="0" BorderBrush="{StaticResource lightgray_fore}"/>
                                         <Path x:Name="Arrow" Grid.Column="0"  Fill="{DynamicResource lightgray_fore}" HorizontalAlignment="Center" VerticalAlignment="Center" Data="M 0 0 L 4 4 L 8 0 Z"/>
                                     </Grid>
                                     <ControlTemplate.Triggers>
                                         <Trigger Property="IsMouseOver" Value="true">
-                                            <Setter Property="Background" Value="{StaticResource semiblack_back}" TargetName="Border_0"/>
-                                            <Setter Property="Background" Value="{StaticResource semiblack_back}" TargetName="Border_1"/>
+                                            <Setter Property="Background" Value="{StaticResource semiblack_back}" TargetName="Border_0"/>                                            
                                             <Setter Property="Background" Value="{StaticResource semiblack_back}" TargetName="Border_2"/>
                                         </Trigger>
                                     </ControlTemplate.Triggers>
                                 </ControlTemplate>
                             </ToggleButton.Template>
                         </ToggleButton>
-                        <ContentPresenter Name="ContentSite" IsHitTestVisible="False"  Content="{TemplateBinding SelectionBoxItem}" ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}" ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}" VerticalAlignment="Center" Margin="35,-4,0,0" HorizontalAlignment="Left" Width="Auto"/>
+                        <ContentPresenter Name="ContentSite" IsHitTestVisible="False"  Content="{TemplateBinding SelectionBoxItem}" ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}" ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}" VerticalAlignment="Center" Margin="0,-4,0,0" HorizontalAlignment="Left" Width="Auto" Grid.Column="1"/>
                         <TextBox x:Name="PART_EditableTextBox" Visibility="Hidden" IsReadOnly="True" Foreground="{StaticResource lightgray_fore}" Opacity="0"/>
-                        <Popup Name="Popup" Placement="Bottom" IsOpen="{TemplateBinding IsDropDownOpen}" AllowsTransparency="True"  Focusable="False" PopupAnimation="Slide">
+                        <Popup  Name="Popup" Placement="Bottom" IsOpen="{TemplateBinding IsDropDownOpen}" AllowsTransparency="True"  Focusable="False" PopupAnimation="Fade">
                             <Grid  Name="DropDown" SnapsToDevicePixels="True" MinWidth="{TemplateBinding ActualWidth}" MaxHeight="{TemplateBinding MaxDropDownHeight}" >
                                 <Border x:Name="DropDownBorder" Background="{StaticResource lightgray_fore}"/>
                                 <ScrollViewer SnapsToDevicePixels="True">
-                                    <StackPanel IsItemsHost="True"/>
+                                    <StackPanel IsItemsHost="True" />
                                 </ScrollViewer>
                             </Grid>
                         </Popup>
@@ -143,7 +146,7 @@
         </Setter>
     </Style>
 
-    <!--Style definition for dark combo box.-->
+    <!--Style definition for dark combo box (Items).-->
     <Style x:Key="comboBox_Dark_ItemType" TargetType="{x:Type ComboBox}">
         <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="FontSize" Value="16"/>
@@ -192,9 +195,8 @@
                 <ControlTemplate TargetType="{x:Type ComboBoxItem}">
                     <Grid SnapsToDevicePixels="true">
                         <Border x:Name="Border" Background="{StaticResource lightgray_fore}" BorderThickness="0">
-                            <Label x:Name="Label" Foreground="{StaticResource darkgray_back}" Content="{Binding displayname}"/>
+                            <Label x:Name="Label" Foreground="{StaticResource darkgray_back}" Content="{Binding playername}"/>
                         </Border>
-                    
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsHighlighted" Value="true">

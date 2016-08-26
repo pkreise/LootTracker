@@ -30,30 +30,30 @@ namespace LootTracker
             //Field validation for Name.
             if (textBox_Name.Text == "")
             {
-                textBlock_Name.Foreground = Brushes.Red;
+                label_Name.Foreground = Brushes.Red;
             }
             else
             {
-                textBlock_Name.Foreground = lgtgry;
+                label_Name.Foreground = lgtgry;
                 namevalid = true;
             }
 
             //Field Validation for Type.
             if (comboBox_Type.Text == "")
             {
-                textBlock_Type.Foreground = Brushes.Red;
+                label_Type.Foreground = Brushes.Red;
             }
             else
             {
-                textBlock_Type.Foreground = lgtgry;
+                label_Type.Foreground = lgtgry;
                 typevalid = true;
             }
 
             //Field Validation for Count.
             if (textBox_Count.Text == "")
             {
-                textBlock_Count.Foreground = Brushes.Red;
-                textBlock_Count.ToolTip = "Please enter a value.";
+                label_Count.Foreground = Brushes.Red;
+                label_Count.ToolTip = "Please enter a value.";
             }
             else
             {
@@ -62,14 +62,14 @@ namespace LootTracker
                 catch { isvalidint = false; }
                 if (isvalidint)
                 {
-                    textBlock_Count.Foreground = lgtgry;
-                    textBlock_Count.ToolTip = null;
+                    label_Count.Foreground = lgtgry;
+                    label_Count.ToolTip = null;
                     countvalid = true;
                 }
                 else
                 {
-                    textBlock_Count.Foreground = Brushes.Red;
-                    textBlock_Count.ToolTip = "Please enter a valid interger.";
+                    label_Count.Foreground = Brushes.Red;
+                    label_Count.ToolTip = "Please enter a valid interger.";
                     textBox_Count.Text = "";
                 }
             }
@@ -77,8 +77,8 @@ namespace LootTracker
             //Field Validation for BaseWeight.
             if (textBox_BaseWeight.Text == "")
             {
-                textBlock_BaseWeight.Foreground = Brushes.Red;
-                textBlock_BaseWeight.ToolTip = "Please enter a value.";
+                label_BaseWgt.Foreground = Brushes.Red;
+                label_BaseWgt.ToolTip = "Please enter a value.";
             }
             else
             {
@@ -87,14 +87,14 @@ namespace LootTracker
                 catch { isvalidint = false; }
                 if (isvalidint)
                 {
-                    textBlock_BaseWeight.Foreground = lgtgry;
-                    textBlock_BaseWeight.ToolTip = null;
+                    label_BaseWgt.Foreground = lgtgry;
+                    label_BaseWgt.ToolTip = null;
                     wgtvalid = true;
                 }
                 else
                 {
-                    textBlock_BaseWeight.Foreground = Brushes.Red;
-                    textBlock_BaseWeight.ToolTip = "Please enter a valid decimal.";
+                    label_BaseWgt.Foreground = Brushes.Red;
+                    label_BaseWgt.ToolTip = "Please enter a valid decimal.";
                     textBox_BaseWeight.Text = "";
                 }
             }
@@ -102,8 +102,8 @@ namespace LootTracker
             //Field Validation for BaseValue.
             if (textBox_BaseValue.Text == "")
             {
-                textBlock_BaseValue.Foreground = Brushes.Red;
-                textBlock_BaseValue.ToolTip = "Please enter a value.";
+                label_BaseVal.Foreground = Brushes.Red;
+                label_BaseVal.ToolTip = "Please enter a value.";
             }
             else
             {
@@ -112,14 +112,14 @@ namespace LootTracker
                 catch { isvalidint = false; }
                 if (isvalidint)
                 {
-                    textBlock_BaseValue.Foreground = lgtgry;
-                    textBlock_BaseValue.ToolTip = null;
+                    label_BaseVal.Foreground = lgtgry;
+                    label_BaseVal.ToolTip = null;
                     valvalid = true;
                 }
                 else
                 {
-                    textBlock_BaseValue.Foreground = Brushes.Red;
-                    textBlock_BaseValue.ToolTip = "Please enter a valid interger.";
+                    label_BaseVal.Foreground = Brushes.Red;
+                    label_BaseVal.ToolTip = "Please enter a valid interger.";
                     textBox_BaseValue.Text = "";
                 }
             }

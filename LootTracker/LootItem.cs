@@ -25,11 +25,11 @@ namespace LootTracker
         public int count { get { return _count; } }
         public int unassignedcount { get { return _unassignedcount; } }
         public int assignedcount { get { return _assignedcount; } }
-        public string unassignedvalue { get { return (String.Format("{0} {1}", _unassignedvalue, "GP")); } }
-        public string baseweight { get { return (String.Format("{0} {1}", _baseweight, "Lbs")); } }
-        public string totalweight { get { return (String.Format("{0} {1}", _totalweight, "Lbs")); } }
-        public string basevalue { get { return (String.Format("{0} {1}", _basevalue, "GP")); } }
-        public string totalvalue { get { return (String.Format("{0} {1}", _totalvalue, "GP")); } }
+        public int unassignedvalue { get { return _unassignedvalue; } }
+        public decimal baseweight { get { return _baseweight; } }
+        public decimal totalweight { get { return _totalweight; } }
+        public int basevalue { get { return _basevalue; } }
+        public int totalvalue { get { return _totalvalue; } }
         public Dictionary<string, int> assignments { get { return _assignments; } set { _assignments = value; } }
         public string assignmentsstring
         {
@@ -76,6 +76,8 @@ namespace LootTracker
             _baseweight = BaseWeight;
             CalculateTotalValue();
             CalculateTotalWeight();
+            CalculateUnassignedCount();
+            CalculateUnassignedValue();
         }
 
         //Method to calculate total value of a loot item.

@@ -1,10 +1,10 @@
 ﻿using System;
-
+using System.ComponentModel;
 
 namespace LootTracker
 {
     [Serializable]
-    public class Player
+    public class Player : INotifyPropertyChanged
     {
         //Declare class fields.
         string _playername;
@@ -20,7 +20,11 @@ namespace LootTracker
         int _sil;
         int _cop;
         double _totalGP;
-        
+        bool _GPCarried;
+        public event PropertyChangedEventHandler PropertyChanged;
+
+
+
         //Define public properties.
         public string playername { get { return _playername; } }
         public string charactername { get { return _charactername; } }
@@ -35,6 +39,15 @@ namespace LootTracker
         public int sil { get { return _sil; } }
         public int cop { get { return _cop; } }
         public double totalGP { get { return _totalGP; } }
+        public bool GPCarried
+        {
+            get { return _GPCarried; }
+            set
+            {
+                _GPCarried = value;
+                NotifyPropertyChanged("GPCarried");
+            }
+        }
 
         //The default constructor for creating a new player object.
         public Player()
@@ -67,35 +80,50 @@ namespace LootTracker
             GenerateDisplayName();
         }
 
+        //NotifyPropertyChanged method.
+        public void NotifyPropertyChanged(string propertyName)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+
+        }
+
         //Currency add methods.
         public void Addast(int Astral)
         {
             _ast += Astral;
             CalculateGP();
+            NotifyPropertyChanged("ast");
         }
 
         public void Addplt(int Platinum)
         {
             _plt += Platinum;
             CalculateGP();
+            NotifyPropertyChanged("plt");
         }
 
         public void Addgld(int Gold)
         {
             _gld += Gold;
             CalculateGP();
+            NotifyPropertyChanged("gld");
         }
 
         public void Addsil(int Silver)
         {
             _sil += Silver;
             CalculateGP();
+            NotifyPropertyChanged("sil");
         }
-
+ 
         public void Addcop(int Copper)
         {
             _cop += Copper;
             CalculateGP();
+            NotifyPropertyChanged("cop");
         }
 
         //Currency remove methods.
@@ -103,36 +131,42 @@ namespace LootTracker
         {
             _ast -= Astral;
             CalculateGP();
+            NotifyPropertyChanged("ast");
         }
 
         public void Removeplt(int Platinum)
         {
             _plt -= Platinum;
             CalculateGP();
+            NotifyPropertyChanged("plt");
         }
 
         public void Removegld(int Gold)
         {
             _gld -= Gold;
             CalculateGP();
+            NotifyPropertyChanged("gld");
         }
 
         public void Removesil(int Silver)
         {
             _sil -= Silver;
             CalculateGP();
+            NotifyPropertyChanged("sil");
         }
 
         public void Removecop(int Copper)
         {
             _cop -= Copper;
             CalculateGP();
+            NotifyPropertyChanged("cop");
         }
 
         //TotalGP calculation method.
         private void CalculateGP()
         {
             _totalGP = ((_cop * .01) + (_sil * .1) + _gld + (_plt * 10) + (_ast * 100));
+            NotifyPropertyChanged("totalGP");
         }
 
         //Update Image method.
@@ -140,6 +174,7 @@ namespace LootTracker
         {
             _characterimage = Image;
             _hasimage = true;
+            NotifyPropertyChanged("characterimage");
         }
 
         private void GenerateDisplayName()
