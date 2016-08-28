@@ -14,6 +14,7 @@ namespace LootTracker
         ObservableCollection<Player> _playerlist = new ObservableCollection<Player>();
         ObservableCollection<LootItem> _lootlist = new ObservableCollection<LootItem>();
 
+        [field: NonSerialized]
         public event PropertyChangedEventHandler PropertyChanged;
         
         //NotifyPropertyChanged method.

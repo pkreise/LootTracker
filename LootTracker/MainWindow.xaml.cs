@@ -24,6 +24,7 @@ namespace LootTracker
         GridViewColumnHeader _lastHeaderClicked = null;
         ListSortDirection _lastDirection = ListSortDirection.Ascending;
         CollectionView view_items;
+        bool canclick = true;
 
         
         //MainWindow entry point.
@@ -296,7 +297,14 @@ namespace LootTracker
                 }
                 else
                 {
-                    p.Addast(1);
+                    if (canclick)
+                    {
+                        p.Addast(1);
+                    }
+                    else
+                    {
+                        canclick = true;
+                    }
                     
                 }
                 
@@ -331,8 +339,15 @@ namespace LootTracker
                 {
                     if ((Convert.ToInt32(AstVal.Text)) > 0)
                     {
-                        p.Removeast(1);
-                        
+                        if (canclick)
+                        {
+                            p.Removeast(1);
+                        }
+                        else
+                        {
+                            canclick = true;
+                        }
+
                     }
                     
                 }
@@ -375,7 +390,7 @@ namespace LootTracker
                     textBox_ast_int.Text = "0";
                 }
             }
-            catch { textBox_ast_int.Text = "0"; }
+            catch { textBox_ast_int.Text = "0";  canclick = false; }
 
         }
         private void textBox_ast_int_MouseDoubleClick(object sender, MouseButtonEventArgs e)
@@ -401,8 +416,15 @@ namespace LootTracker
                 }
                 else
                 {
-                    p.Addplt(1);
-                    
+                    if (canclick)
+                    {
+                        p.Addplt(1);
+                    }
+                    else
+                    {
+                        canclick = true;
+                    }
+
                 }
 
             }
@@ -436,8 +458,15 @@ namespace LootTracker
                 {
                     if ((Convert.ToInt32(PltVal.Text)) > 0)
                     {
-                        p.Removeplt(1);
-                        
+                        if (canclick)
+                        {
+                            p.Removeplt(1);
+                        }
+                        else
+                        {
+                            canclick = true;
+                        }
+
                     }
 
                 }
@@ -480,7 +509,7 @@ namespace LootTracker
                     textBox_plt_int.Text = "0";
                 }
             }
-            catch { textBox_plt_int.Text = "0"; }
+            catch { textBox_plt_int.Text = "0"; canclick = false; }
 
         }
         private void textBox_plt_int_MouseDoubleClick(object sender, MouseButtonEventArgs e)
@@ -506,8 +535,15 @@ namespace LootTracker
                 }
                 else
                 {
-                    p.Addgld(1);
-                    
+                    if (canclick)
+                    {
+                        p.Addgld(1);
+                    }
+                    else
+                    {
+                        canclick = true;
+                    }
+
                 }
 
             }
@@ -541,8 +577,15 @@ namespace LootTracker
                 {
                     if ((Convert.ToInt32(GldVal.Text)) > 0)
                     {
-                        p.Removegld(1);
-                        
+                        if (canclick)
+                        {
+                            p.Removegld(1);
+                        }
+                        else
+                        {
+                            canclick = true;
+                        }
+
                     }
 
                 }
@@ -585,7 +628,7 @@ namespace LootTracker
                     textBox_gld_int.Text = "0";
                 }
             }
-            catch { textBox_gld_int.Text = "0"; }
+            catch { textBox_gld_int.Text = "0"; canclick = false; }
 
         }
         private void textBox_gld_int_MouseDoubleClick(object sender, MouseButtonEventArgs e)
@@ -611,8 +654,15 @@ namespace LootTracker
                 }
                 else
                 {
-                    p.Addsil(1);
-                    
+                    if (canclick)
+                    {
+                        p.Addsil(1);
+                    }
+                    else
+                    {
+                        canclick = true;
+                    }
+
                 }
 
             }
@@ -646,8 +696,15 @@ namespace LootTracker
                 {
                     if ((Convert.ToInt32(SilVal.Text)) > 0)
                     {
-                        p.Removesil(1);
-                        
+                        if (canclick)
+                        {
+                            p.Removesil(1);
+                        }
+                        else
+                        {
+                            canclick = true;
+                        }
+
                     }
 
                 }
@@ -690,7 +747,7 @@ namespace LootTracker
                     textBox_sil_int.Text = "0";
                 }
             }
-            catch { textBox_sil_int.Text = "0"; }
+            catch { textBox_sil_int.Text = "0"; canclick = false; }
 
         }
         private void textBox_sil_int_MouseDoubleClick(object sender, MouseButtonEventArgs e)
@@ -716,8 +773,15 @@ namespace LootTracker
                 }
                 else
                 {
-                    p.Addcop(1);
-                    
+                    if (canclick)
+                    {
+                        p.Addcop(1);
+                    }
+                    else
+                    {
+                        canclick = true;
+                    }
+
                 }
 
             }
@@ -751,8 +815,15 @@ namespace LootTracker
                 {
                     if ((Convert.ToInt32(CopVal.Text)) > 0)
                     {
-                        p.Removecop(1);
-                        
+                        if (canclick)
+                        {
+                            p.Removecop(1);
+                        }
+                        else
+                        {
+                            canclick = true;
+                        }
+
                     }
 
                 }
@@ -795,7 +866,7 @@ namespace LootTracker
                     textBox_cop_int.Text = "0";
                 }
             }
-            catch { textBox_cop_int.Text = "0"; }
+            catch { textBox_cop_int.Text = "0"; canclick = false; }
 
         }
         private void textBox_cop_int_MouseDoubleClick(object sender, MouseButtonEventArgs e)

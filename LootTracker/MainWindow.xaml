@@ -29,12 +29,12 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <Button x:Name="button_New" Grid.Column="0" Grid.Row="0" Content="New" HorizontalAlignment="Center" VerticalAlignment="Center" Width="60" Height="35" Foreground="#FFDEDEDE" Click="MenuItem_New_Click" Style="{StaticResource button_Dark_Menu}" Margin="0,2"/>
-        <Button x:Name="button_Open" Grid.Column="1" Grid.Row="0" Content="Open" HorizontalAlignment="Center" VerticalAlignment="Center" Width="70" Foreground="#FFDEDEDE" Click="MenuItem_Open_Click" Height="35" Style="{StaticResource button_Dark_Menu}" Margin="0,2"/>
-        <Button x:Name="button_Save" Content="Save" HorizontalAlignment="Center" VerticalAlignment="Center" Width="65" Height="35" Foreground="#FFDEDEDE" Click="MenuItem_SaveAs_Click" Style="{StaticResource button_Dark_Menu}" Grid.Column="2" Margin="0,2"/>
-        <Label x:Name="label" Content="" Grid.Column="3" HorizontalAlignment="Left" VerticalAlignment="Top" Width="1050" MouseDown="Window_MouseDown" MouseDoubleClick="menu_MouseDoubleClick" Height="39"/>
-        <Button x:Name="button_Minimize" Content="_" VerticalAlignment="Center" Height="36" Foreground="#FFDEDEDE" Click="button_Minimize_Click" HorizontalAlignment="Center" Width="30" Style="{StaticResource button_Dark_Menu}" FontWeight="Bold" VerticalContentAlignment="Top" Margin="0,2,0,4" Grid.Column="4"/>
-        <Button x:Name="button_Close" VerticalAlignment="Center" Height="35" Foreground="#FFDEDEDE" Click="button_Click" HorizontalAlignment="Center" Width="30" Style="{StaticResource button_Dark_Menu}" Grid.Column="5" Margin="0,2" Content="X"/>
+        <Button x:Name="button_New" Grid.Column="0" Grid.Row="0" Content="New" HorizontalAlignment="Center" VerticalAlignment="Center" Width="60" Height="35" Foreground="#FFDEDEDE" Click="MenuItem_New_Click" Style="{StaticResource button_Dark_Menu}"/>
+        <Button x:Name="button_Open" Grid.Column="1" Grid.Row="0" Content="Open" HorizontalAlignment="Center" VerticalAlignment="Center" Width="70" Foreground="#FFDEDEDE" Click="MenuItem_Open_Click" Height="35" Style="{StaticResource button_Dark_Menu}"/>
+        <Button x:Name="button_Save" Content="Save" HorizontalAlignment="Center" VerticalAlignment="Center" Width="65" Height="35" Foreground="#FFDEDEDE" Click="MenuItem_SaveAs_Click" Style="{StaticResource button_Dark_Menu}" Grid.Column="2"/>
+        <Label x:Name="label" Content="" Grid.Column="3" MouseDown="Window_MouseDown" MouseDoubleClick="menu_MouseDoubleClick" Height="35" VerticalAlignment="Top"/>
+        <Button x:Name="button_Minimize" Content="_" VerticalAlignment="Center" Height="36" Foreground="#FFDEDEDE" Click="button_Minimize_Click" HorizontalAlignment="Center" Width="30" Style="{StaticResource button_Dark_Menu}" FontWeight="Bold" VerticalContentAlignment="Top" Grid.Column="4"/>
+        <Button x:Name="button_Close" VerticalAlignment="Center" Height="35" Foreground="#FFDEDEDE" Click="button_Click" HorizontalAlignment="Center" Width="30" Style="{StaticResource button_Dark_Menu}" Grid.Column="5" Content="X" VerticalContentAlignment="Stretch"/>
         <TabControl x:Name="tabControl" Margin="10,2,10,12" VerticalContentAlignment="Bottom" BorderThickness="0,3,0,0" Foreground="{DynamicResource lightgray_fore}" Background="{DynamicResource darkgray_back}" FontSize="14" FontFamily="Segoe UI Semibold" SelectionChanged="tabControl_SelectionChanged" Grid.Row="1" Grid.ColumnSpan="6">
             <TabItem Header="Items" Width="80" Foreground="{DynamicResource darkgray_back}" Background="{DynamicResource lightgray_fore}">
                 <Grid>
@@ -52,7 +52,7 @@
                         <ColumnDefinition/>
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
-                    <ListView x:Name="listView_Master" ButtonBase.Click="GridViewColumnHeader_Clicked" BorderThickness="0" SelectionMode="Single" ItemContainerStyle="{StaticResource listViewItem_Dark}" SelectionChanged="listView_SelectionChanged" Grid.ColumnSpan="8" Grid.Row="1" Height="581" VerticalAlignment="Top">
+                    <ListView x:Name="listView_Master" ButtonBase.Click="GridViewColumnHeader_Clicked" BorderThickness="0" SelectionMode="Single" ItemContainerStyle="{StaticResource listViewItem_Dark}" SelectionChanged="listView_SelectionChanged" Grid.ColumnSpan="8" Grid.Row="1">
                         <ListView.GroupStyle>
                             <GroupStyle/>
                         </ListView.GroupStyle>
@@ -85,7 +85,7 @@
                     <Button x:Name="button_Assignments" Content="Equip" HorizontalAlignment="Center" Width="65" Height="30" Style="{StaticResource button_Dark_Small}" Foreground="#FFDEDEDE" IsEnabled="False" FontStyle="Italic" FontWeight="ExtraBlack" VerticalAlignment="Center" Click="button_Assignments_Click" Grid.Column="2" Grid.Row="0" Margin="0,0,0,1"/>
                     <Button x:Name="button_Increment" Content="+" HorizontalAlignment="Center" VerticalAlignment="Center" Width="30" Height="30" Foreground="#FFDEDEDE" Style="{StaticResource button_Dark_Small}" IsEnabled="False" FontFamily="Segoe UI Black" Grid.Column="4" Grid.Row="0" Margin="0,0,0,1"/>
                     <Button x:Name="button_Decrement" Content="-" HorizontalAlignment="Center" VerticalAlignment="Top" Width="30" Height="30" Foreground="#FFDEDEDE" Style="{StaticResource button_Dark_Small}" IsEnabled="False" FontFamily="Segoe UI Black" Grid.Column="5" Grid.Row="0" Margin="1,0"/>
-                    <TextBlock x:Name="textBlock_SellValue" Margin="0" TextWrapping="Wrap" VerticalAlignment="Top" Height="30" HorizontalAlignment="Right" Foreground="{DynamicResource lightgray_fore}" FontSize="16" Grid.Column="6" Width="215" Text="{Binding DataContext.lootlist, Converter={StaticResource s_converter}, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:MainWindow}}}"/>
+                    <TextBlock x:Name="textBlock_SellValue" Margin="0" TextWrapping="Wrap" VerticalAlignment="Center" Height="30" HorizontalAlignment="Right" Foreground="{DynamicResource lightgray_fore}" FontSize="16" Grid.Column="6" Text="{Binding DataContext.lootlist, Converter={StaticResource s_converter}, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:MainWindow}}}"/>
                     <Button x:Name="button_Sell" Content="Sell" HorizontalAlignment="Center" Width="45" Height="30" Style="{StaticResource button_Dark_Small}" Foreground="#FFDEDEDE" IsEnabled="False" FontStyle="Italic" FontWeight="ExtraBlack" VerticalAlignment="Center" Click="button_Assignments_Click" Grid.Column="7" Grid.Row="0" Margin="0,0,0,1"/>
                 </Grid>
             </TabItem>
@@ -111,7 +111,7 @@
                             <local:LootBook/>
                         </ComboBox.DataContext>
                     </ComboBox>
-                    <Grid HorizontalAlignment="Left" Margin="0" VerticalAlignment="Top" Grid.Row="1" Grid.ColumnSpan="5" Width="499">
+                    <Grid HorizontalAlignment="Left" Margin="0" VerticalAlignment="Top" Grid.Row="1" Grid.ColumnSpan="5" Width="Auto">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
@@ -130,12 +130,15 @@
                             <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="50"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
                         <Label x:Name="label_Character" Content="{Binding SelectedItem.charactername, ElementName=comboBox_Player}" HorizontalAlignment="Center" Margin="0" VerticalAlignment="Center" Foreground="{DynamicResource lightgray_fore}" FontStyle="Italic" FontSize="18" FontFamily="Segoe UI"/>
                         <Border BorderBrush="{StaticResource lightgray_fore}" BorderThickness="1" HorizontalAlignment="Center" Height="209" VerticalAlignment="Top" Width="209" Grid.RowSpan="6" Grid.Column="0" Grid.Row="1">
                             <Image x:Name="image_PlayerImage" Margin="0" Stretch="UniformToFill" Source="{Binding SelectedItem.characterimage, ElementName=comboBox_Player}"/>
                         </Border>
-                        <Button x:Name="button_Browse" Content="Browse" HorizontalAlignment="Center" Grid.Row="7" VerticalAlignment="Top" Width="75" Style="{DynamicResource button_Dark_Small}" Foreground="{DynamicResource lightgray_fore}" Height="25" Margin="67,0" />
+                        <Button x:Name="button_Browse" Content="Browse" HorizontalAlignment="Center" Grid.Row="7" VerticalAlignment="Top" Width="75" Style="{DynamicResource button_Dark_Small}" Foreground="{DynamicResource lightgray_fore}" Height="25" Margin="67,0" Click="button_Browse_Click" />
                         <Button x:Name="button_ast_inc" Content="+" Width="25" Height="30" Style="{StaticResource button_Dark_Menu}" Foreground="#FFDEDEDE" HorizontalAlignment="Center" VerticalAlignment="Center" Click="button_ast_inc_Click" MouseRightButtonUp="button_ast_inc_MouseRightButtonUp" Grid.Column="5" Margin="0,2,0,3" Grid.Row="1"/>
                         <Button x:Name="button_ast_dec" Content="-" Width="25" BorderThickness="0" Style="{StaticResource button_Dark_Menu}" Foreground="#FFDEDEDE" FontFamily="Segoe UI Black" FontWeight="Bold" FontSize="20" Height="30" HorizontalAlignment="Center" VerticalAlignment="Center" Click="button_ast_dec_Click" MouseRightButtonUp="button_ast_dec_MouseRightButtonUp" Grid.Column="3" Margin="1,2,1,3" Grid.Row="1"/>
                         <Button x:Name="button_plt_inc" Content="+" Width="25" Height="30" Style="{StaticResource button_Dark_Menu}" Foreground="#FFDEDEDE" HorizontalAlignment="Center" VerticalAlignment="Center" Click="button_plt_inc_Click" MouseRightButtonUp="button_plt_inc_MouseRightButtonUp" Grid.Column="5" Grid.Row="2" Margin="0,3,0,2"/>
@@ -157,14 +160,41 @@
                         <Label x:Name="label_Sil" Content="Silver" Grid.Column="2" Grid.Row="4" Foreground="{DynamicResource lightgray_fore}" HorizontalAlignment="Center" VerticalAlignment="Center" />
                         <Label x:Name="label_Cop" Content="Copper" Grid.Column="2" Grid.Row="5" Foreground="{DynamicResource lightgray_fore}" HorizontalAlignment="Center" VerticalAlignment="Center" />
                         <Label x:Name="label_TtlGP" Content="Total GP" Grid.Column="2" Grid.Row="6" Foreground="{DynamicResource lightgray_fore}" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" />
-                        <TextBlock x:Name="AstVal" VerticalAlignment="Center" Height="30" Foreground="#FFDEDEDE" LineHeight="22" Text="{Binding SelectedItem.ast, ElementName=comboBox_Player}" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Center" Margin="22,5,21,0" Width="60"/>
-                        <TextBlock x:Name="PltVal" Text="{Binding SelectedItem.plt, ElementName=comboBox_Player}" VerticalAlignment="Center" Height="30" Foreground="#FFDEDEDE" LineHeight="22" Grid.Column="1" Grid.Row="2" HorizontalAlignment="Center" Margin="22,5,21,0" Width="60" />
-                        <TextBlock x:Name="GldVal" Text="{Binding SelectedItem.gld, ElementName=comboBox_Player}" VerticalAlignment="Center" Height="30" Foreground="#FFDEDEDE" LineHeight="22" Grid.Column="1" Grid.Row="3" HorizontalAlignment="Center" Margin="22,5,21,0" Width="60"/>
-                        <TextBlock x:Name="SilVal" Text="{Binding SelectedItem.sil, ElementName=comboBox_Player}" VerticalAlignment="Center" Height="30" Foreground="#FFDEDEDE" LineHeight="22" Grid.Column="1" Grid.Row="4" HorizontalAlignment="Center" Margin="22,5,21,0" Width="60"/>
-                        <TextBlock x:Name="CopVal" Text="{Binding SelectedItem.cop, ElementName=comboBox_Player}" VerticalAlignment="Center" Height="30" Foreground="#FFDEDEDE" LineHeight="22" Grid.Column="1" Grid.Row="5" HorizontalAlignment="Center" Margin="22,5,21,0" Width="60"/>
-                        <TextBlock x:Name="TtlVal" Text="{Binding SelectedItem.totalGP, ElementName=comboBox_Player}" VerticalAlignment="Center" Height="30" Foreground="#FFDEDEDE" LineHeight="22" FontFamily="Segoe UI Black" Grid.Column="1" Grid.Row="6" HorizontalAlignment="Center" Margin="20,5,19,0" Width="60"/>
+                        <TextBlock x:Name="AstVal" VerticalAlignment="Center" Height="30" Foreground="#FFDEDEDE" LineHeight="22" Text="{Binding SelectedItem.ast, ElementName=comboBox_Player}" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Center" Margin="22,5,21,0"/>
+                        <TextBlock x:Name="PltVal" Text="{Binding SelectedItem.plt, ElementName=comboBox_Player}" VerticalAlignment="Center" Height="30" Foreground="#FFDEDEDE" LineHeight="22" Grid.Column="1" Grid.Row="2" HorizontalAlignment="Center" Margin="22,5,21,0" />
+                        <TextBlock x:Name="GldVal" Text="{Binding SelectedItem.gld, ElementName=comboBox_Player}" VerticalAlignment="Center" Height="30" Foreground="#FFDEDEDE" LineHeight="22" Grid.Column="1" Grid.Row="3" HorizontalAlignment="Center" Margin="22,5,21,0"/>
+                        <TextBlock x:Name="SilVal" Text="{Binding SelectedItem.sil, ElementName=comboBox_Player}" VerticalAlignment="Center" Height="30" Foreground="#FFDEDEDE" LineHeight="22" Grid.Column="1" Grid.Row="4" HorizontalAlignment="Center" Margin="22,5,21,0"/>
+                        <TextBlock x:Name="CopVal" Text="{Binding SelectedItem.cop, ElementName=comboBox_Player}" VerticalAlignment="Center" Height="30" Foreground="#FFDEDEDE" LineHeight="22" Grid.Column="1" Grid.Row="5" HorizontalAlignment="Center" Margin="22,5,21,0"/>
+                        <TextBlock x:Name="TtlVal" Text="{Binding SelectedItem.totalGP, ElementName=comboBox_Player}" VerticalAlignment="Center" Height="30" Foreground="#FFDEDEDE" LineHeight="22" FontFamily="Segoe UI Black" Grid.Column="1" Grid.Row="6" HorizontalAlignment="Center" Margin="20,5,19,0"/>
                         <CheckBox x:Name="checkBox" Content="GP Carried" Grid.Column="3" Grid.ColumnSpan="3" HorizontalAlignment="Right" Grid.Row="6" Foreground="{DynamicResource lightgray_fore}" FontFamily="Segoe UI Semibold" FontSize="14" IsChecked="{Binding SelectedItem.GPCarried, ElementName=comboBox_Player}" VerticalAlignment="Center" Margin="0,9,0,8" VerticalContentAlignment="Center"/>
-                        <GridSplitter x:Name="gridSplitter" Grid.Column="1" Height="1" Grid.Row="6" VerticalAlignment="Top" Width="280" Grid.ColumnSpan="5" Cursor="Arrow" IsEnabled="False" Background="{DynamicResource lightgray_fore}"/>
+                        <GridSplitter x:Name="gridSplitter" Grid.Column="1" Height="1" Grid.Row="6" VerticalAlignment="Top" Grid.ColumnSpan="5" Cursor="Arrow" IsEnabled="False" Background="{DynamicResource lightgray_fore}" HorizontalAlignment="Stretch" Margin="5,0,0,0"/>
+                        <Label x:Name="label_TtlWgt" Content="Total Weight" Grid.Column="7" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="{DynamicResource lightgray_fore}"/>
+                        <TextBlock x:Name="textBlock_TtlWgt" Grid.Column="8" HorizontalAlignment="Right" Margin="0" Grid.Row="1" TextWrapping="NoWrap" VerticalAlignment="Center" Foreground="{DynamicResource lightgray_fore}">
+                            <TextBlock.Text>
+                                <MultiBinding StringFormat=" {0} Lbs" Converter="{StaticResource ttlwgt_converter}">
+                                    <Binding ElementName="listView_Player" Path="ItemsSource"/>
+                                    <Binding ElementName="listView_Player" Path="ItemsSource/assignments"/>
+                                    <Binding ElementName="comboBox_Player" Path="SelectedItem"/>
+                                    <Binding ElementName="comboBox_Player" Path="SelectedItem.ast"/>
+                                    <Binding ElementName="comboBox_Player" Path="SelectedItem.plt"/>
+                                    <Binding ElementName="comboBox_Player" Path="SelectedItem.gld"/>
+                                    <Binding ElementName="comboBox_Player" Path="SelectedItem.sil"/>
+                                    <Binding ElementName="comboBox_Player" Path="SelectedItem.cop"/>
+                                    <Binding ElementName="comboBox_Player" Path="SelectedItem.GPCarried"/>
+
+                                </MultiBinding>
+                            </TextBlock.Text>
+                        </TextBlock>
+                        <Label x:Name="label_TtlVal" Content="Total Value" Grid.Column="7" Grid.Row="2" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="{DynamicResource lightgray_fore}" Margin="0,4,0,2"/>
+                        <TextBlock x:Name="textBlock_TtlVal" Grid.Column="8" HorizontalAlignment="Right" Margin="0,9,0,7" Grid.Row="2" TextWrapping="NoWrap" VerticalAlignment="Center" Foreground="{DynamicResource lightgray_fore}">
+                            <TextBlock.Text>
+                                <MultiBinding StringFormat=" {0} GP" Converter="{StaticResource ttlval_converter}">
+                                    <Binding ElementName="listView_Player" Path="ItemsSource"/>
+                                    <Binding ElementName="listView_Player" Path="ItemsSource/assignments"/>
+                                    <Binding ElementName="comboBox_Player" Path="SelectedItem"/>
+                                </MultiBinding>
+                            </TextBlock.Text>
+                        </TextBlock>
                     </Grid>
                     <ListView x:Name="listView_Player" ButtonBase.Click="GridViewColumnHeader_Clicked" BorderThickness="0" SelectionMode="Single" ItemContainerStyle="{StaticResource listViewItem_Dark}" SelectionChanged="listView_SelectionChanged" Grid.Row="2" Grid.ColumnSpan="5">
                         <ListView.ContextMenu>

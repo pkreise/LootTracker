@@ -66,27 +66,27 @@ namespace LootTracker
             //Field validation for Name.
             if (textBox_Player.Text == "")
             {
-                textBlock_Player.Foreground = Brushes.Red;
-                textBlock_Player.ToolTip = "Please enter a Player name.";
+                label_Player.Foreground = Brushes.Red;
+                label_Player.ToolTip = "Please enter a Player name.";
             }
             else
             {
-                textBlock_Player.Foreground = Brushes.Black;
+                label_Player.Foreground = Brushes.Black;
                 namevalid = true;
-                textBlock_Player.ToolTip = null;
+                label_Player.ToolTip = null;
             }
 
             //Field Validation for Character.
             if (textBox_Character.Text == "")
             {
-                textBlock_Character.Foreground = Brushes.Red;
-                textBlock_Character.ToolTip = "Please enter a Character name.";
+                label_Character.Foreground = Brushes.Red;
+                label_Character.ToolTip = "Please enter a Character name.";
             }
             else
             {
-                textBlock_Character.Foreground = Brushes.Black;
+                label_Character.Foreground = Brushes.Black;
                 charactervalid = true;
-                textBlock_Character.ToolTip = null;
+                label_Character.ToolTip = null;
             }
 
             //If both fieds are valid, close.

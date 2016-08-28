@@ -184,4 +184,69 @@ namespace LootTracker
         }
     }
 
+    public sealed class TtlWgt_Converter : IMultiValueConverter
+    {
+        public object Convert(object[] values, Type targettype, object parameter, CultureInfo culture)
+        {
+            ObservableCollection<LootItem> lootlist = values[0] as ObservableCollection<LootItem>;
+            Player p = values[2] as Player;
+            decimal ttlwgt = 0;
+
+            if (p != null && lootlist != null)
+            {
+                foreach (LootItem l in lootlist)
+                {
+                    if (l.assignments.ContainsKey(p.playername))
+                    {
+                        ttlwgt += l.assignments[(p.playername)] * l.baseweight;
+                    }
+                }
+             }
+
+            if (p != null)
+            {
+                if (p.GPCarried == true)
+                {
+                    double GPwgt = (p.ast * .02) + (p.plt * .02) + (p.gld * .02) + (p.sil * .02) + (p.cop * .02);
+                    decimal GPwgt_dec = System.Convert.ToDecimal(GPwgt);
+                    ttlwgt += GPwgt_dec;
+                }
+            }
+
+            return ttlwgt;
+        }
+
+        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public sealed class TtlVal_Converter : IMultiValueConverter
+    {
+        public object Convert(object[] values, Type targettype, object parameter, CultureInfo culture)
+        {
+            ObservableCollection<LootItem> lootlist = values[0] as ObservableCollection<LootItem>;
+            Player p = values[2] as Player;
+            decimal ttlval = 0;
+
+            if (p != null && lootlist != null)
+            {
+                foreach (LootItem l in lootlist)
+                {
+                    if (l.assignments.ContainsKey(p.playername))
+                    {
+                        ttlval += l.assignments[(p.playername)] * l.basevalue;
+                    }
+                }
+            }
+
+           return ttlval;
+        }
+
+        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
 }

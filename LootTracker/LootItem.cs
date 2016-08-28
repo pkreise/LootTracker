@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
 using System;
+using System.ComponentModel;
 
 namespace LootTracker
 {
     [Serializable]
-    public class LootItem
+    public class LootItem : INotifyPropertyChanged
     {
         //Define class Fields.
         string _itemname = null;
@@ -19,6 +20,9 @@ namespace LootTracker
         int _totalvalue = 0;
         Dictionary<string, int> _assignments = new Dictionary<string, int>();
 
+        [field: NonSerialized]
+        public event PropertyChangedEventHandler PropertyChanged;
+
         //Define properties.
         public string itemname { get {return _itemname; }  }
         public string loottype { get { return _loottype; } }
@@ -30,7 +34,7 @@ namespace LootTracker
         public decimal totalweight { get { return _totalweight; } }
         public int basevalue { get { return _basevalue; } }
         public int totalvalue { get { return _totalvalue; } }
-        public Dictionary<string, int> assignments { get { return _assignments; } set { _assignments = value; } }
+        public Dictionary<string, int> assignments { get { return _assignments; } set { _assignments = value; NotifyPropertyChanged("assignments"); } }
         public string assignmentsstring
         {
             get
@@ -78,6 +82,16 @@ namespace LootTracker
             CalculateTotalWeight();
             CalculateUnassignedCount();
             CalculateUnassignedValue();
+        }
+
+        //NotifyPropertyChanged method.
+        public void NotifyPropertyChanged(string propertyName)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+
         }
 
         //Method to calculate total value of a loot item.

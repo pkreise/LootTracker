@@ -21,6 +21,8 @@ namespace LootTracker
         int _cop;
         double _totalGP;
         bool _GPCarried;
+
+        [field: NonSerialized]
         public event PropertyChangedEventHandler PropertyChanged;
 
 
