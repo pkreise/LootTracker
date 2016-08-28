@@ -26,6 +26,7 @@ namespace LootTracker
         CollectionView view_items;
         bool canclick = true;
 
+        public LootBook book { get { return _book; } }
         
         //MainWindow entry point.
         public MainWindow()
@@ -39,6 +40,9 @@ namespace LootTracker
         private bool PlayerLootFilter(object item)
         {
             bool playerexists;
+            Player p = comboBox_Player.SelectedItem as Player;
+            LootItem i = item as LootItem;
+
             if (item == null)
             {
                 return false;
@@ -46,14 +50,18 @@ namespace LootTracker
 
             try
             {
-                playerexists = (item as LootItem).assignments.ContainsKey((comboBox_Player.SelectedItem as Player).playername);
+                playerexists = i.assignments.ContainsKey(p.playername);
             }
             catch
             {
-                return false;
+               return false;
             }
 
-            if (playerexists)
+            if (p.playername == "Party" && i.unassignedcount > 0)
+            {
+                return true;
+            }
+            else if (playerexists)
             {
                 return true;
             }
@@ -106,14 +114,19 @@ namespace LootTracker
         private void MenuItem_Open_Click(object sender, RoutedEventArgs e)
         {
             DataHandler handler = new DataHandler();
-            _book = handler.ReadData();
-            DataContext = _book;
-            savefilepath = handler.filepath;
-            listView_Master.ItemsSource = _book.lootlist;
-            listView_Player.ItemsSource = _book.lootlist;
-            comboBox_Player.ItemsSource = _book.playerlist;
-            comboBox_Player.SelectedIndex = 0;
-            view_items = (CollectionView)CollectionViewSource.GetDefaultView(listView_Master.ItemsSource);
+            try
+            {
+                _book = handler.ReadData();
+                DataContext = book;
+                savefilepath = handler.filepath;
+                listView_Master.ItemsSource = _book.lootlist;
+                listView_Player.ItemsSource = _book.lootlist;
+                comboBox_Player.ItemsSource = _book.playerlist;
+                comboBox_Player.SelectedIndex = 0;
+                view_items = (CollectionView)CollectionViewSource.GetDefaultView(listView_Master.ItemsSource);
+            }
+            catch { }
+            
         }
 
         //Event Handler for window loaded.

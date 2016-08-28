@@ -21,23 +21,26 @@ namespace LootTracker
     public partial class AssignItem : Window
     {
 
-        ObservableCollection<Player> _players;
+        
         LootItem _loot;
+        ObservableCollection<Player> _players;
         bool _isCancelled = false;
-        public LootItem loot { get { return _loot; } }
 
+        public LootItem loot { get { return _loot; } }
+        public ObservableCollection<Player> players { get { return _players; } }
         public bool isCancelled { get { return _isCancelled; } }
 
         public AssignItem(ObservableCollection<Player> players, LootItem loot)
         {
             InitializeComponent();
-            _players = players;
             _loot = loot;
+            _players = players;
         }
+        
         
         private void UpdateHeader()
         {
-            textBlock_Item.Text = loot.itemname;
+            label_Item.Content = loot.itemname;
             textBlock_AvailableVal.Text = loot.unassignedcount.ToString();
             if (combobox_Player.SelectedIndex != -1)
             {
@@ -66,8 +69,8 @@ namespace LootTracker
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            combobox_Player.ItemsSource = _players;
             UpdateHeader();
+            combobox_Player.ItemsSource = _players;            
         }
         
         private void button_Close_Click(object sender, RoutedEventArgs e)
@@ -102,10 +105,20 @@ namespace LootTracker
                 if (loot.assignments.ContainsKey(player.playername))
                 {
                     textBlock_AssignedVal.Text = (loot.assignments[player.playername]).ToString();
+                    button_inc.IsEnabled = true;
+                    button_dec.IsEnabled = true;
+                }
+                else if (player.playername == "Party")
+                {
+                    textBlock_AssignedVal.Text = loot.unassignedcount.ToString();
+                    button_inc.IsEnabled = false;
+                    button_dec.IsEnabled = false;
                 }
                 else
                 {
                     textBlock_AssignedVal.Text = "0";
+                    button_inc.IsEnabled = true;
+                    button_dec.IsEnabled = true;
                 }
             }
         }

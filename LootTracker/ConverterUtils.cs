@@ -77,12 +77,16 @@ namespace LootTracker
     {
         public object Convert(object[] values, Type targettype, object parameter, CultureInfo culture)
         {
-            Dictionary<string, int> d = values[0] as Dictionary<string, int>;
+            LootItem i = values[0] as LootItem;
             Player p = values[1] as Player;
 
-            if (d.ContainsKey(p.playername))
+            if (i.assignments.ContainsKey(p.playername))
             {
-                return (d[(p.playername)]);
+                return (i.assignments[(p.playername)]);
+            }
+            else if (p.playername == "Party")
+            {
+                return i.unassignedcount;
             }
             else
             {
@@ -103,16 +107,16 @@ namespace LootTracker
     {
         public object Convert(object[] values, Type targettype, object parameter, CultureInfo culture)
         {
-            Dictionary<string, int> d = values[0] as Dictionary<string, int>;
+            LootItem i = values[0] as LootItem;
             Player p = values[1] as Player;
-            decimal wgt;
-            try { wgt = System.Convert.ToDecimal(values[2]); }
-            catch { return "ERROR"; }
-           
-            
-            if (d.ContainsKey(p.playername))
+                       
+            if (i.assignments.ContainsKey(p.playername))
             {
-                return (d[(p.playername)] * wgt);
+                return i.assignments[(p.playername)] * i.baseweight;
+            }
+            else if (p.playername == "Party")
+            {
+                return i.baseweight * i.unassignedcount;
             }
             else
             {
@@ -134,16 +138,16 @@ namespace LootTracker
         public object Convert(object[] values, Type targettype, object parameter, CultureInfo culture)
         {
 
-            Dictionary<string, int> d = values[0] as Dictionary<string, int>;
+            LootItem i = values[0] as LootItem;
             Player p = values[1] as Player;
-            
-            decimal val;
-            try { val = System.Convert.ToDecimal(values[2]); }
-            catch { return "ERROR"; }
 
-            if (d.ContainsKey(p.playername))
+            if (i.assignments.ContainsKey(p.playername))
             {
-                return (d[(p.playername)] * val);
+                return i.assignments[(p.playername)] * i.basevalue;
+            }
+            else if (p.playername == "Party")
+            {
+                return i.basevalue * i.unassignedcount;
             }
             else
             {
@@ -200,6 +204,10 @@ namespace LootTracker
                     {
                         ttlwgt += l.assignments[(p.playername)] * l.baseweight;
                     }
+                    else if (p.playername == "Party")
+                    {
+                        ttlwgt += l.unassignedcount * l.baseweight;
+                    }
                 }
              }
 
@@ -237,6 +245,10 @@ namespace LootTracker
                     if (l.assignments.ContainsKey(p.playername))
                     {
                         ttlval += l.assignments[(p.playername)] * l.basevalue;
+                    }
+                    else if (p.playername == "Party")
+                    {
+                        ttlval += l.basevalue * l.unassignedcount;
                     }
                 }
             }

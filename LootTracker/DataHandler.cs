@@ -101,9 +101,7 @@ namespace LootTracker
 
             if (!File.Exists(filepicker.FileName))
             {
-                book = new LootBook();
-                filepicker.Dispose();
-                return book;
+                throw new FileLoadException();
             }
             else
             {
