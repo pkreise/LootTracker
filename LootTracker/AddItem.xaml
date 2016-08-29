@@ -21,16 +21,16 @@
             <ColumnDefinition Width="8*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="35"/>
+            <RowDefinition Height="40*"/>
             <RowDefinition Height="15"/>
-            <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
+            <RowDefinition Height="42*"/>
+            <RowDefinition Height="42*"/>
+            <RowDefinition Height="42*"/>
+            <RowDefinition Height="42*"/>
+            <RowDefinition Height="41*"/>
             <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
-        <TextBlock x:Name="textBlock_Title" Grid.Row="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Bottom" Height="20" Foreground="{DynamicResource lightgray_fore}" Text="Add Item" FontSize="16" FontFamily="Segoe UI Semibold"/>
+        <TextBlock x:Name="textBlock_Title" Grid.Row="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" TextWrapping="Wrap" Foreground="{DynamicResource lightgray_fore}" Text="Add Item" FontSize="20" FontFamily="Segoe UI Semibold" VerticalAlignment="Bottom"/>
         <Button x:Name="button_Close" Content="X" VerticalAlignment="Top" Height="35" Click="button_Close_Click" HorizontalAlignment="Right" Width="25" Style="{StaticResource button_Dark_Menu}" Foreground="#FFDEDEDE" Grid.Column="1" Margin="0,0,1,0"/>
         <TextBox x:Name="textBox_Name" Grid.Column="1" Grid.Row="2" HorizontalAlignment="Center" Height="25"  VerticalAlignment="Center" Width="140" FontSize="14" Background="#FF464646" BorderThickness="0,0,1,1" Foreground="#FFDEDEDE" Margin="0,7" BorderBrush="{DynamicResource lightgray_fore}"/>
         <ComboBox x:Name="comboBox_Type" Grid.Column="1" Grid.Row="3" HorizontalAlignment="Center" Height="25" VerticalAlignment="Center" Width="140" FontSize="14" Background="#FF464646" BorderBrush="{DynamicResource lightgray_fore}" BorderThickness="0,0,1,1" VerticalContentAlignment="Center" Style="{DynamicResource comboBox_Dark_ItemType}" ItemContainerStyle="{StaticResource comboBoxItem_Dark_ItemType}" Foreground="{DynamicResource lightgray_fore}">

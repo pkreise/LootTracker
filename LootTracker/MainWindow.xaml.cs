@@ -117,6 +117,7 @@ namespace LootTracker
             try
             {
                 _book = handler.ReadData();
+                int bookhash = _book.GetHashCode();
                 DataContext = book;
                 savefilepath = handler.filepath;
                 listView_Master.ItemsSource = _book.lootlist;
@@ -272,6 +273,7 @@ namespace LootTracker
             {
                 _book.lootlist[index].ModifiyAssignment("Dean", 2);
             }
+            
         }
 
         private void listView_SelectionChanged(object sender, SelectionChangedEventArgs e)

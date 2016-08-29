@@ -79,8 +79,8 @@
                             </GridView>
                         </ListView.View>
                     </ListView>
-                    <Button x:Name="button_NewItem" Grid.Column="0" Grid.Row="0" Content="Add" HorizontalAlignment="Center" VerticalAlignment="Center" Width="50" Height="30" Foreground="#FFDEDEDE" Style="{StaticResource button_Dark_Small}" Click="NewItem_Click" Margin="0,0,0,1"/>
-                    <Button x:Name="button_Delete" Grid.Column="1" Grid.Row="0" Content="Remove" HorizontalAlignment="Center" VerticalAlignment="Center" Width="75" Height="30" Foreground="#FFDEDEDE" Style="{StaticResource button_Dark_Small}" Click="DeleteItem_Click" IsEnabled="False" Margin="0,0,0,1"/>
+                    <Button x:Name="button_NewItem" Grid.Column="0" Grid.Row="0" Content="New" HorizontalAlignment="Center" VerticalAlignment="Center" Width="50" Height="30" Foreground="#FFDEDEDE" Style="{StaticResource button_Dark_Small}" Click="NewItem_Click" Margin="0,0,0,1"/>
+                    <Button x:Name="button_Delete" Grid.Column="1" Grid.Row="0" Content="Delete" HorizontalAlignment="Center" VerticalAlignment="Center" Height="30" Foreground="#FFDEDEDE" Style="{StaticResource button_Dark_Small}" Click="DeleteItem_Click" IsEnabled="False" Margin="0,0,0,1" Width="65"/>
                     <Button x:Name="button_Assignments" Content="Equip" HorizontalAlignment="Center" Width="65" Height="30" Style="{StaticResource button_Dark_Small}" Foreground="#FFDEDEDE" IsEnabled="False" FontStyle="Italic" FontWeight="ExtraBlack" VerticalAlignment="Center" Click="button_Assignments_Click" Grid.Column="2" Grid.Row="0" Margin="0,0,0,1"/>
                     <Button x:Name="button_Increment" Content="+" HorizontalAlignment="Center" VerticalAlignment="Center" Width="30" Height="30" Foreground="#FFDEDEDE" Style="{StaticResource button_Dark_Small}" IsEnabled="False" FontFamily="Segoe UI Black" Grid.Column="3" Grid.Row="0" Margin="0,0,0,1"/>
                     <Button x:Name="button_Decrement" Content="-" HorizontalAlignment="Center" VerticalAlignment="Top" Width="30" Height="30" Foreground="#FFDEDEDE" Style="{StaticResource button_Dark_Small}" IsEnabled="False" FontFamily="Segoe UI Black" Grid.Column="4" Grid.Row="0" Margin="1,0"/>
@@ -103,8 +103,8 @@
                         <RowDefinition/>
                     </Grid.RowDefinitions>
 
-                    <Button x:Name="button_AddPlayer" Content="Add" HorizontalAlignment="Left" VerticalAlignment="Top" Click="button_AddPlayer_Click" Style="{StaticResource button_Dark_Small}" Foreground="#FFDEDEDE" Height="30" Margin="0" BorderBrush="{DynamicResource lightgray_fore}" Grid.Row="0" Width="50"/>
-                    <Button x:Name="button_RemovePlayer" Content="Remove" HorizontalAlignment="Center" VerticalAlignment="Center" Click="button_RemovePlayer_Click" Style="{StaticResource button_Dark_Small}" Foreground="#FFDEDEDE" Height="30" Grid.Row="0" Grid.Column="1" Width="75" IsEnabled="False"/>
+                    <Button x:Name="button_AddPlayer" Content="New" HorizontalAlignment="Left" VerticalAlignment="Top" Click="button_AddPlayer_Click" Style="{StaticResource button_Dark_Small}" Foreground="#FFDEDEDE" Height="30" Margin="0" BorderBrush="{DynamicResource lightgray_fore}" Grid.Row="0" Width="50"/>
+                    <Button x:Name="button_RemovePlayer" Content="Delete" HorizontalAlignment="Center" VerticalAlignment="Center" Click="button_RemovePlayer_Click" Style="{StaticResource button_Dark_Small}" Foreground="#FFDEDEDE" Height="30" Grid.Row="0" Grid.Column="1" Width="65" IsEnabled="False"/>
                     <ComboBox x:Name="comboBox_Player" HorizontalAlignment="Center" VerticalAlignment="Center" Height="30" Style="{StaticResource comboBox_Dark_Player}" ItemContainerStyle="{StaticResource comboBoxItem_Dark_Player}" Foreground="{DynamicResource lightgray_fore}" FontWeight="Bold" Grid.Row="0" Grid.Column="2" BorderBrush="{DynamicResource lightgray_fore}" Width="110" SelectionChanged="comboBox_Player_SelectionChanged"/>
                     <Grid HorizontalAlignment="Left" Margin="0" VerticalAlignment="Top" Grid.Row="1" Grid.ColumnSpan="5" Width="Auto">
                         <Grid.RowDefinitions>

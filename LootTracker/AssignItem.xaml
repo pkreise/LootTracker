@@ -43,6 +43,7 @@
         <TextBlock x:Name="textBlock_Available" HorizontalAlignment="Left" TextWrapping="Wrap" Text="Available" VerticalAlignment="Center" Foreground="{DynamicResource lightgray_fore}" FontSize="16" Height="30" Grid.Row="4" Margin="25,6,31,2"/>
         <Button x:Name="button_dec" Content="-" HorizontalAlignment="Center" VerticalAlignment="Center" Width="24" Height="30" Foreground="{DynamicResource lightgray_fore}" Style="{DynamicResource button_Dark_Small}" Click="button_dec_Click" Grid.Column="1" Grid.Row="4" Margin="74,10,87,10"/>
         <TextBlock x:Name="textBlock_AvailableVal" HorizontalAlignment="Center" Margin="31,12,108,8" Text="0" VerticalAlignment="Center" Height="30" Width="46" FontSize="16" Foreground="{DynamicResource lightgray_fore}" Grid.Column="1" Grid.Row="4"/>
+        <Label x:Name="label" HorizontalAlignment="Center"  VerticalAlignment="Bottom" Grid.ColumnSpan="2" Foreground="{DynamicResource lightgray_fore}" FontSize="16" FontFamily="Segoe UI Semibold"/>
 
     </Grid>
 </Window>
