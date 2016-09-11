@@ -987,5 +987,22 @@ namespace LootTracker
         {
             (sender as System.Windows.Controls.TextBox).SelectAll();
         }
+
+        private void button_Sell_Click(object sender, RoutedEventArgs e)
+        {
+            SellItems sellItemWindow = new SellItems();
+            sellItemWindow.ShowDialog();
+
+            if (!sellItemWindow.isCancelled)
+            {
+                foreach (LootItem i in _book.lootlist)
+                {
+                    if (i.unassignedcount > 0)
+                    {
+
+                    }
+                }
+            }
+        }
     }
 }

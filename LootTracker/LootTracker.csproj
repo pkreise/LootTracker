@@ -90,6 +90,9 @@
     <Compile Include="RemovePlayer_Conf.xaml.cs">
       <DependentUpon>RemovePlayer_Conf.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SellItems.xaml.cs">
+      <DependentUpon>SellItems.xaml</DependentUpon>
+    </Compile>
     <Page Include="AddItem.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -113,6 +116,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="SellItems.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Simple Styles.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

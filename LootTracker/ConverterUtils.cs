@@ -170,7 +170,7 @@ namespace LootTracker
                 }
             }
 
-            return String.Format("Unequipped Value:  {0}GP", totalValue);
+            return String.Format("Unequipped Value:  {0} GP", totalValue);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

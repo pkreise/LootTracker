@@ -128,6 +128,8 @@ namespace LootTracker
             if (combobox_Player.SelectedIndex != -1)
             {
                 Player p = combobox_Player.SelectedItem as Player;
+                Player p_party = combobox_Player.Items[0] as Player;
+
                 int currentplayercount;
                 if (_loot.assignments.ContainsKey(p.playername))
                 {
@@ -145,11 +147,13 @@ namespace LootTracker
                     {
                         _loot.ModifiyAssignment(p.playername, (_loot.unassignedcount + currentplayercount));
                         p.NotifyPropertyChanged("playername");
+                        p_party.NotifyPropertyChanged("playername");
                     }
                     else
                     {
                         _loot.ModifiyAssignment(p.playername, (modcount + currentplayercount));
                         p.NotifyPropertyChanged("playername");
+                        p_party.NotifyPropertyChanged("playername");
                     }
                     textBox_Count.Text = "0";
                 }
@@ -159,6 +163,7 @@ namespace LootTracker
                     {
                         _loot.ModifiyAssignment(p.playername, (currentplayercount + 1));
                         p.NotifyPropertyChanged("playername");
+                        p_party.NotifyPropertyChanged("playername");
                     }
                 }
             }
@@ -171,6 +176,7 @@ namespace LootTracker
             if (combobox_Player.SelectedIndex != -1)
             {
                 Player p = combobox_Player.SelectedItem as Player;
+                Player p_party = combobox_Player.Items[0] as Player;
                 int currentplayercount;
                 if (_loot.assignments.ContainsKey(p.playername))
                 {
@@ -192,6 +198,7 @@ namespace LootTracker
                     {
                         _loot.ModifiyAssignment(p.playername, (currentplayercount - modcount));
                         p.NotifyPropertyChanged("playername");
+                        p_party.NotifyPropertyChanged("playername");
 
                     }
                     textBox_Count.Text = "0";
@@ -204,11 +211,13 @@ namespace LootTracker
                         {
                             _loot.RemoveAssignment(p.playername);
                             p.NotifyPropertyChanged("playername");
+                            p_party.NotifyPropertyChanged("playername");
                         }
                         else
                         {
                             _loot.ModifiyAssignment(p.playername, (currentplayercount - 1));
                             p.NotifyPropertyChanged("playername");
+                            p_party.NotifyPropertyChanged("playername");
                         }
                     }
                 }

@@ -9,7 +9,6 @@ namespace LootTracker
         //Class fields.
         string _playername;
         string _charactername;
-        string _displayname;
         byte[] _characterimage;
         bool _hasimage;
         int _equipmentvalue;
@@ -27,7 +26,6 @@ namespace LootTracker
         //Class properties.
         public string playername { get { return _playername; } }
         public string charactername { get { return _charactername; } }
-        public string displayname { get { return _displayname; } }
         public byte[] characterimage { get { return _characterimage; } }
         public bool hasimage { get { return _hasimage; } set { _hasimage = value; } }
         public int equipmentvalue { get { return _equipmentvalue; } }

@@ -1,0 +1,38 @@
+﻿<Window x:Class="LootTracker.SellItems"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:LootTracker"
+        mc:Ignorable="d"
+        Title="SellItems" Height="115" AllowsTransparency="True" WindowStyle="None" MouseDown="Window_MouseDown" Width="270" WindowStartupLocation="CenterScreen">
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="StyleDictionary.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <Grid Background="{DynamicResource darkgray_back}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="30"/>
+            <ColumnDefinition Width="143"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="30"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="35"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Button x:Name="button_Close" Content="X" VerticalAlignment="Top" Width="30" Foreground="{DynamicResource lightgray_fore}" Style="{DynamicResource button_Dark_Menu}" Height="35" Grid.Column="4" HorizontalAlignment="Right" Click="button_Cancel_Click"/>
+        <Label x:Name="label" Content="Sell selected items at " HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Top" Foreground="{DynamicResource lightgray_fore}" FontSize="14" Height="25" Grid.Column="1" Margin="1,0,0,0" Width="143"/>
+        <Label x:Name="label1" Content="%" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="{DynamicResource lightgray_fore}" FontSize="14" Height="25" Grid.Column="3" Width="21" Grid.Row="1" Margin="3,0,0,0"/>
+        <TextBox x:Name="textBox" HorizontalAlignment="Left" Height="25" Grid.Row="1" Text="50" VerticalAlignment="Top" Width="40" Background="{DynamicResource darkgray_back}" Foreground="{DynamicResource lightgray_fore}" FontSize="16" BorderThickness="0" Grid.Column="2" Margin="0,3,0,0" Cursor="IBeam" FontWeight="Bold" HorizontalContentAlignment="Center"/>
+        <Button x:Name="button" Content="OK" HorizontalAlignment="Center" Margin="71,0,10,10" VerticalAlignment="Bottom" Width="74" Style="{DynamicResource button_Dark_Small}" Height="30" Foreground="{DynamicResource lightgray_fore}" Grid.Row="1" Click="button_OK_Click" Grid.Column="1"/>
+        <Label x:Name="label_Title" Content="Sell Items" HorizontalAlignment="Center" Margin="69,0,8,0" VerticalAlignment="Top" Height="35" Foreground="{DynamicResource lightgray_fore}" FontSize="16" Grid.Column="1" Width="78"/>
+
+    </Grid>
+</Window>
