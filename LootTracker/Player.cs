@@ -6,7 +6,7 @@ namespace LootTracker
     [Serializable]
     public class Player : INotifyPropertyChanged
     {
-        //Declare class fields.
+        //Class fields.
         string _playername;
         string _charactername;
         string _displayname;
@@ -21,13 +21,10 @@ namespace LootTracker
         int _cop;
         double _totalGP;
         bool _GPCarried;
-
         [field: NonSerialized]
         public event PropertyChangedEventHandler PropertyChanged;
 
-
-
-        //Define public properties.
+        //Class properties.
         public string playername { get { return _playername; } }
         public string charactername { get { return _charactername; } }
         public string displayname { get { return _displayname; } }
@@ -51,7 +48,7 @@ namespace LootTracker
             }
         }
 
-        //The default constructor for creating a new player object.
+        //Constructor
         public Player()
         {
             _playername = null;
@@ -66,7 +63,7 @@ namespace LootTracker
             CalculateGP();
         }
 
-        //The constructor for creating a new player object.
+        //Constructor
         public Player(string PlayerName, string CharachterName)
         {
             _playername = PlayerName;
@@ -79,7 +76,6 @@ namespace LootTracker
             _sil = 0;
             _cop = 0;
             CalculateGP();
-            GenerateDisplayName();
         }
 
         //NotifyPropertyChanged method.
@@ -99,28 +95,24 @@ namespace LootTracker
             CalculateGP();
             NotifyPropertyChanged("ast");
         }
-
         public void Addplt(int Platinum)
         {
             _plt += Platinum;
             CalculateGP();
             NotifyPropertyChanged("plt");
         }
-
         public void Addgld(int Gold)
         {
             _gld += Gold;
             CalculateGP();
             NotifyPropertyChanged("gld");
         }
-
         public void Addsil(int Silver)
         {
             _sil += Silver;
             CalculateGP();
             NotifyPropertyChanged("sil");
         }
- 
         public void Addcop(int Copper)
         {
             _cop += Copper;
@@ -135,28 +127,24 @@ namespace LootTracker
             CalculateGP();
             NotifyPropertyChanged("ast");
         }
-
         public void Removeplt(int Platinum)
         {
             _plt -= Platinum;
             CalculateGP();
             NotifyPropertyChanged("plt");
         }
-
         public void Removegld(int Gold)
         {
             _gld -= Gold;
             CalculateGP();
             NotifyPropertyChanged("gld");
         }
-
         public void Removesil(int Silver)
         {
             _sil -= Silver;
             CalculateGP();
             NotifyPropertyChanged("sil");
         }
-
         public void Removecop(int Copper)
         {
             _cop -= Copper;
@@ -177,11 +165,6 @@ namespace LootTracker
             _characterimage = Image;
             _hasimage = true;
             NotifyPropertyChanged("characterimage");
-        }
-
-        private void GenerateDisplayName()
-        {
-            _displayname = string.Concat(_playername, " - ", _charactername);
         }
     }
 }

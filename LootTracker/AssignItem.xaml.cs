@@ -1,35 +1,27 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using System.Collections.ObjectModel;
 
 namespace LootTracker
 {
     /// <summary>
-    /// Interaction logic for Window1.xaml
+    /// Interaction logic for AssignItem.xaml
     /// </summary>
     public partial class AssignItem : Window
     {
-
-        
+        //Class fields.
         LootItem _loot;
         ObservableCollection<Player> _players;
         bool _isCancelled = false;
 
+        //Class properties.
         public LootItem loot { get { return _loot; } }
         public ObservableCollection<Player> players { get { return _players; } }
         public bool isCancelled { get { return _isCancelled; } }
 
+        //Constructor.
         public AssignItem(ObservableCollection<Player> players, LootItem l)
         {
             InitializeComponent();
@@ -37,7 +29,8 @@ namespace LootTracker
             _players = players;
             _loot = l;
         }
-                
+        
+        //Update Header method. Should just bind this.  To do.        
         private void UpdateHeader()
         {
             label_Item.Content = _loot.itemname;
@@ -61,29 +54,34 @@ namespace LootTracker
             
         }
 
+        //Method for mouse click/drag to move window.
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (e.ChangedButton == MouseButton.Left)
                 DragMove();
         }
 
+        //Event handler for window loaded event.
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             UpdateHeader();
             combobox_Player.ItemsSource = _players;            
         }
         
+        //Event handler for clicking the close button.
         private void button_Close_Click(object sender, RoutedEventArgs e)
         {
             _isCancelled = true;
             Close();
         }
 
+        //Event handler for clicking the OK button.
         private void button_OK_Click(object sender, RoutedEventArgs e)
         {
            Close();
         }
 
+        //Event handler to validate that the textbox has only interger input.
         private void textBox_LostFocus(object sender, RoutedEventArgs e)
         {
             try
@@ -97,6 +95,7 @@ namespace LootTracker
             catch { textBox_Count.Text = "0"; }
         }
 
+        //Event handler for when the player combobox changes.
         private void combobox_Player_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (combobox_Player.SelectedIndex != -1)
@@ -123,6 +122,7 @@ namespace LootTracker
             }
         }
 
+        //Event handler for clicking the increment (+) button.
         private void button_inc_Click(object sender, RoutedEventArgs e)
         {
             if (combobox_Player.SelectedIndex != -1)
@@ -165,6 +165,7 @@ namespace LootTracker
             UpdateHeader();
         }
 
+        //Event handler for clicking the decrement (-) button.
         private void button_dec_Click(object sender, RoutedEventArgs e)
         {
             if (combobox_Player.SelectedIndex != -1)

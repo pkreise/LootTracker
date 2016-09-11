@@ -8,11 +8,10 @@ namespace LootTracker
 {
     public class DataHandler
     {
-        //Fields.
+        //Class fields.
         public string filepath;
 
-        //WriteData method takes data object and serializes to a binary format.
-        //Saves output to file path selected by user.
+        //WriteData method takes data object and serializes to a binary format.  Saves output to file path selected by user.
         public void WriteData(object Data)
         {
             FileStream filestream;
@@ -60,6 +59,7 @@ namespace LootTracker
             }
         }
         
+        //Alternate args for the writedata method.
         public void WriteData(bool SaveOnly, object Data, string Path)
         {
             //Start a new filestream using the selected file path.

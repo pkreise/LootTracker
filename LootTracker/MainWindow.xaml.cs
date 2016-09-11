@@ -326,18 +326,23 @@ namespace LootTracker
         //Event handler for clicking the remove player button.
         private void button_RemovePlayer_Click(object sender, RoutedEventArgs e)
         {
-            Player p = comboBox_Player.SelectedItem as Player;
-            comboBox_Player.SelectedIndex = 0;
-            _book.RemovePlayer(p);
+            RemovePlayer_Conf confwindow = new RemovePlayer_Conf();
+            confwindow.ShowDialog();
 
-            foreach (LootItem i in _book.lootlist)
+            if (!confwindow.isCancelled)
             {
-                i.RemoveAssignment(p.playername);
-            }
-            view_items.Refresh();
-            _book.NotifyPropertyChanged("lootlist");
+                Player p = comboBox_Player.SelectedItem as Player;
+                comboBox_Player.SelectedIndex = 0;
+                _book.RemovePlayer(p);
 
-        }
+                foreach (LootItem i in _book.lootlist)
+                {
+                    i.RemoveAssignment(p.playername);
+                }
+                view_items.Refresh();
+                _book.NotifyPropertyChanged("lootlist");
+            }
+         }
 
         //Event handler to modify the listview filter when the tab selection changes.
         private void tabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)

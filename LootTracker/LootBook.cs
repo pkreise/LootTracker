@@ -9,31 +9,17 @@ namespace LootTracker
     [Serializable]
     public class LootBook : INotifyPropertyChanged
     {
-
-        //Initialize a new list of players and loot items.
+        //Class Fields.
         ObservableCollection<Player> _playerlist = new ObservableCollection<Player>();
         ObservableCollection<LootItem> _lootlist = new ObservableCollection<LootItem>();
-
         [field: NonSerialized]
         public event PropertyChangedEventHandler PropertyChanged;
-        
-        //NotifyPropertyChanged method.
-        public void NotifyPropertyChanged(string propertyName)
-        {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
 
-        }
-
-
-
-
-        //Public properties.
+        //Class properties.
         public ObservableCollection<Player> playerlist { get { return _playerlist; } }
         public ObservableCollection<LootItem> lootlist { get { return _lootlist; } }
 
+        //Constructor
         public LootBook()
         {
             //Add a default "party" player to the lootbook.
@@ -44,7 +30,7 @@ namespace LootTracker
             var info = Application.GetResourceStream(uri);
             var memoryStream = new MemoryStream();
             info.Stream.CopyTo(memoryStream);
-            byte[] image =  memoryStream.ToArray();
+            byte[] image = memoryStream.ToArray();
 
             //Add the image to the party character.
             party.UpdateImage(image);
@@ -53,6 +39,16 @@ namespace LootTracker
             AddPlayer(party);
         }
 
+        //NotifyPropertyChanged method.
+        public void NotifyPropertyChanged(string propertyName)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+
+        }
+     
         //Method to add a player to a player roster object.
         public void AddPlayer(Player p)
         {

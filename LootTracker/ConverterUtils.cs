@@ -10,9 +10,7 @@ using System.ComponentModel;
 
 namespace LootTracker
 {   
-    /// <summary>
-    /// Background color converter.
-    /// </summary>
+    //Background color converter.
     public sealed class B_Converter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
@@ -41,9 +39,7 @@ namespace LootTracker
         }
     }
 
-    /// <summary>
-    /// Foreground color converter.
-    /// </summary>
+    //Foreground color converter.
     public sealed class F_Converter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
@@ -70,9 +66,7 @@ namespace LootTracker
         }
      }
 
-    /// <summary>
-    /// Player equipped count converter.
-    /// </summary>
+   //Player item count converter.
     public sealed class C_Converter : IMultiValueConverter
     {
         public object Convert(object[] values, Type targettype, object parameter, CultureInfo culture)
@@ -100,9 +94,7 @@ namespace LootTracker
         }
     }
 
-    /// <summary>
-    /// Player equipped weight converter.
-    /// </summary>
+   //Player item weight converter.
     public sealed class W_Converter : IMultiValueConverter
     {
         public object Convert(object[] values, Type targettype, object parameter, CultureInfo culture)
@@ -130,9 +122,7 @@ namespace LootTracker
         }
     }
 
-    /// <summary>
-    /// Player equipped value converter.
-    /// </summary>
+    //Player item value converter.
     public sealed class V_Converter : IMultiValueConverter
     {
         public object Convert(object[] values, Type targettype, object parameter, CultureInfo culture)
@@ -161,6 +151,7 @@ namespace LootTracker
         }
     }
 
+    //Sell Value converter.
     public sealed class S_Converter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
@@ -188,6 +179,7 @@ namespace LootTracker
         }
     }
 
+    //Player total weight converter.
     public sealed class TtlWgt_Converter : IMultiValueConverter
     {
         public object Convert(object[] values, Type targettype, object parameter, CultureInfo culture)
@@ -230,6 +222,7 @@ namespace LootTracker
         }
     }
 
+    //Player total value converter.
     public sealed class TtlVal_Converter : IMultiValueConverter
     {
         public object Convert(object[] values, Type targettype, object parameter, CultureInfo culture)
@@ -262,6 +255,7 @@ namespace LootTracker
         }
     }
 
+    //Player equipped fontweight converter.
     public sealed class A_Converter : IMultiValueConverter
     {
         public object Convert(object[] values, Type targettype, object parameter, CultureInfo culture)

@@ -9,7 +9,7 @@ namespace LootTracker
     [Serializable]
     public class LootItem : INotifyPropertyChanged
     {
-        //Define class Fields.
+        //Class Fields.
         string _itemname = null;
         string _loottype = null;
         int _count = 0;
@@ -21,11 +21,10 @@ namespace LootTracker
         int _basevalue = 0;
         int _totalvalue = 0;
         Dictionary<string, int> _assignments = new Dictionary<string, int>();
-
         [field: NonSerialized]
         public event PropertyChangedEventHandler PropertyChanged;
 
-        //Define properties.
+        //Class properties.
         public string itemname { get {return _itemname; } set { _itemname = value; } }
         public string loottype { get { return _loottype; } set { _loottype = value; } }
         public int count { get { return _count; } set { _count = value; } }
@@ -57,7 +56,7 @@ namespace LootTracker
             }
         }
         
-        //Default constructor for initializing a new loot item.
+        //Constructor
         public LootItem()
         {
             _itemname = null;
@@ -71,21 +70,7 @@ namespace LootTracker
             CalculateTotalWeight();
         }
 
-        public LootItem Clone()
-        {
-            MemoryStream ms = new MemoryStream();
-            BinaryFormatter bf = new BinaryFormatter();
-
-            bf.Serialize(ms, this);
-
-            ms.Position = 0;
-            object obj = bf.Deserialize(ms);
-            ms.Close();
-
-            return obj as LootItem;
-        }
-
-        //Constructor for initializing a new loot item.
+        //Constructor
         public LootItem(string ItemName, string LootType, int Count, int BaseValue, decimal BaseWeight)
         {
             _itemname = ItemName;
@@ -98,6 +83,21 @@ namespace LootTracker
             CalculateTotalWeight();
             CalculateUnassignedCount();
             CalculateUnassignedValue();
+        }
+
+        //Method for cloning a loot item.
+        public LootItem Clone()
+        {
+            MemoryStream ms = new MemoryStream();
+            BinaryFormatter bf = new BinaryFormatter();
+
+            bf.Serialize(ms, this);
+
+            ms.Position = 0;
+            object obj = bf.Deserialize(ms);
+            ms.Close();
+
+            return obj as LootItem;
         }
 
         //NotifyPropertyChanged method.

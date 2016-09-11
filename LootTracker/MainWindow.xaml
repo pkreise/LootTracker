@@ -26,7 +26,6 @@
             <BeginStoryboard Storyboard="{StaticResource FadeIn}"/>
         </EventTrigger>
     </Window.Triggers>
-
     <Grid Background="{DynamicResource darkgray_back}" Margin="0">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
