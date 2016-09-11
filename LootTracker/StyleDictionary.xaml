@@ -4,6 +4,7 @@
                     xmlns:d="http://schemas.microsoft.com/expression/interactivedesigner/2006">
 
     <!--ResourceKeys for the converter classes-->
+    <local:A_Converter x:Key="a_converter"/>
     <local:B_Converter x:Key="b_converter"/>
     <local:F_Converter x:Key="f_converter"/>
     <local:C_Converter x:Key="c_converter"/>
@@ -12,6 +13,8 @@
     <local:S_Converter x:Key="s_converter"/>
     <local:TtlWgt_Converter x:Key="ttlwgt_converter"/>
     <local:TtlVal_Converter x:Key="ttlval_converter"/>
+
+    
 
     
 
@@ -24,7 +27,7 @@
     <Style x:Key="listViewItem_Dark" TargetType="{x:Type ListViewItem}">
         <Setter Property="FontFamily" Value="Segoe UI"/>
         <Setter Property="FontSize" Value="16"/>
-        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
         <Setter Property="Background">
             <Setter.Value>
                 <Binding RelativeSource="{RelativeSource Self}" Converter="{StaticResource b_converter}"/>
@@ -38,8 +41,8 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ListViewItem}">
-                    <Border BorderBrush="Transparent" BorderThickness="0" Background="{TemplateBinding Background}">
-                        <GridViewRowPresenter HorizontalAlignment="Stretch" VerticalAlignment="Center" Width="Auto" Margin="0" Content="{TemplateBinding Content}"/>
+                    <Border BorderThickness="0" Background="{TemplateBinding Background}">
+                        <GridViewRowPresenter Content="{TemplateBinding Content}"/>
                     </Border>
                 </ControlTemplate>
             </Setter.Value>
@@ -212,6 +215,38 @@
             </Setter.Value>
         </Setter>
     </Style>
+
+    <Style x:Key="comboBoxItem_Dark_Player_2" TargetType="{x:Type ComboBoxItem}">
+        <Setter Property="SnapsToDevicePixels" Value="true"/>
+        <Setter Property="Background" Value="{StaticResource lightgray_fore}"/>
+        <Setter Property="Foreground" Value="{StaticResource darkgray_back}"/>
+        <Setter Property="FontWeight">
+            <Setter.Value>
+                <MultiBinding Converter="{StaticResource a_converter}">
+                    <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}" Path="loot"/>
+                    <Binding Path="playername"/>
+                </MultiBinding>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ComboBoxItem}">
+                    <Grid SnapsToDevicePixels="true">
+                        <Border x:Name="Border" Background="{StaticResource lightgray_fore}" BorderThickness="0">
+                            <Label x:Name="Label" Foreground="{StaticResource darkgray_back}" Content="{Binding playername}"/>
+                        </Border>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsHighlighted" Value="true">
+                            <Setter Property="Background" Value="{StaticResource semiblack_back}" TargetName="Border"/>
+                            <Setter Property="Foreground" Value="{StaticResource lightgray_fore}" TargetName="Label"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
 
     <!-- Style definition for dark ComboBoxItem-->
     <Style x:Key="comboBoxItem_Dark_ItemType" TargetType="{x:Type ComboBoxItem}">

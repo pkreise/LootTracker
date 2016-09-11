@@ -261,4 +261,27 @@ namespace LootTracker
             throw new NotImplementedException();
         }
     }
+
+    public sealed class A_Converter : IMultiValueConverter
+    {
+        public object Convert(object[] values, Type targettype, object parameter, CultureInfo culture)
+        {
+            LootItem l = values[0] as LootItem;
+            string p = values[1] as string;
+            
+            if (l.assignments.ContainsKey(p) || (p == "Party" && l.unassignedcount > 0))
+            {
+                return FontWeights.Bold;
+            }
+            else 
+            {
+                return FontWeights.Normal;
+            }
+        }
+
+        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
 }

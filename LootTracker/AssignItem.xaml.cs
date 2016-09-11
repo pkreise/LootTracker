@@ -30,21 +30,21 @@ namespace LootTracker
         public ObservableCollection<Player> players { get { return _players; } }
         public bool isCancelled { get { return _isCancelled; } }
 
-        public AssignItem(ObservableCollection<Player> players, LootItem loot)
+        public AssignItem(ObservableCollection<Player> players, LootItem l)
         {
             InitializeComponent();
-            _loot = loot;
+            
             _players = players;
+            _loot = l;
         }
-        
-        
+                
         private void UpdateHeader()
         {
-            label_Item.Content = loot.itemname;
-            textBlock_AvailableVal.Text = loot.unassignedcount.ToString();
+            label_Item.Content = _loot.itemname;
+            textBlock_AvailableVal.Text = _loot.unassignedcount.ToString();
             if (combobox_Player.SelectedIndex != -1)
             {
-                if (loot.assignments.ContainsKey((combobox_Player.SelectedItem as Player).playername))
+                if (_loot.assignments.ContainsKey((combobox_Player.SelectedItem as Player).playername))
                 {
                     textBlock_AssignedVal.Text = (loot.assignments[(combobox_Player.SelectedItem as Player).playername]).ToString();                    
                 }
@@ -102,7 +102,7 @@ namespace LootTracker
             if (combobox_Player.SelectedIndex != -1)
             {
                 Player player = combobox_Player.SelectedItem as Player;
-                if (loot.assignments.ContainsKey(player.playername))
+                if (_loot.assignments.ContainsKey(player.playername))
                 {
                     textBlock_AssignedVal.Text = (loot.assignments[player.playername]).ToString();
                     button_inc.IsEnabled = true;
@@ -129,9 +129,9 @@ namespace LootTracker
             {
                 Player p = combobox_Player.SelectedItem as Player;
                 int currentplayercount;
-                if (loot.assignments.ContainsKey(p.playername))
+                if (_loot.assignments.ContainsKey(p.playername))
                 {
-                    currentplayercount = loot.assignments[p.playername];
+                    currentplayercount = _loot.assignments[p.playername];
                 }
                 else
                 {
@@ -141,21 +141,24 @@ namespace LootTracker
 
                 if (modcount > 0)
                 {
-                    if ((loot.unassignedcount - modcount) < 0)
+                    if ((_loot.unassignedcount - modcount) < 0)
                     {
-                        loot.ModifiyAssignment(p.playername, (loot.unassignedcount + currentplayercount));
+                        _loot.ModifiyAssignment(p.playername, (_loot.unassignedcount + currentplayercount));
+                        p.NotifyPropertyChanged("playername");
                     }
                     else
                     {
-                        loot.ModifiyAssignment(p.playername, (modcount + currentplayercount));
+                        _loot.ModifiyAssignment(p.playername, (modcount + currentplayercount));
+                        p.NotifyPropertyChanged("playername");
                     }
                     textBox_Count.Text = "0";
                 }
                 else
                 {
-                    if (loot.unassignedcount > 0)
+                    if (_loot.unassignedcount > 0)
                     {
-                        loot.ModifiyAssignment(p.playername, (currentplayercount + 1));
+                        _loot.ModifiyAssignment(p.playername, (currentplayercount + 1));
+                        p.NotifyPropertyChanged("playername");
                     }
                 }
             }
@@ -168,9 +171,9 @@ namespace LootTracker
             {
                 Player p = combobox_Player.SelectedItem as Player;
                 int currentplayercount;
-                if (loot.assignments.ContainsKey(p.playername))
+                if (_loot.assignments.ContainsKey(p.playername))
                 {
-                    currentplayercount = loot.assignments[p.playername];
+                    currentplayercount = _loot.assignments[p.playername];
                 }
                 else
                 {
@@ -182,12 +185,13 @@ namespace LootTracker
                 {
                     if ((currentplayercount - modcount) < 0)
                     {
-                        loot.assignments.Remove(p.playername);
+                        _loot.assignments.Remove(p.playername);
                     }
                     else
                     {
-                        loot.ModifiyAssignment(p.playername, (currentplayercount - modcount));
-                        
+                        _loot.ModifiyAssignment(p.playername, (currentplayercount - modcount));
+                        p.NotifyPropertyChanged("playername");
+
                     }
                     textBox_Count.Text = "0";
                 }
@@ -197,11 +201,13 @@ namespace LootTracker
                     {
                         if (currentplayercount == 1)
                         {
-                            loot.RemoveAssignment(p.playername);
+                            _loot.RemoveAssignment(p.playername);
+                            p.NotifyPropertyChanged("playername");
                         }
                         else
                         {
-                            loot.ModifiyAssignment(p.playername, (currentplayercount - 1));
+                            _loot.ModifiyAssignment(p.playername, (currentplayercount - 1));
+                            p.NotifyPropertyChanged("playername");
                         }
                     }
                 }

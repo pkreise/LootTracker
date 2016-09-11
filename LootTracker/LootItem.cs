@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System;
 using System.ComponentModel;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace LootTracker
 {
@@ -24,16 +26,16 @@ namespace LootTracker
         public event PropertyChangedEventHandler PropertyChanged;
 
         //Define properties.
-        public string itemname { get {return _itemname; }  }
-        public string loottype { get { return _loottype; } }
-        public int count { get { return _count; } }
-        public int unassignedcount { get { return _unassignedcount; } }
-        public int assignedcount { get { return _assignedcount; } }
-        public int unassignedvalue { get { return _unassignedvalue; } }
-        public decimal baseweight { get { return _baseweight; } }
-        public decimal totalweight { get { return _totalweight; } }
-        public int basevalue { get { return _basevalue; } }
-        public int totalvalue { get { return _totalvalue; } }
+        public string itemname { get {return _itemname; } set { _itemname = value; } }
+        public string loottype { get { return _loottype; } set { _loottype = value; } }
+        public int count { get { return _count; } set { _count = value; } }
+        public int unassignedcount { get { return _unassignedcount; } set { _unassignedcount = value; } }
+        public int assignedcount { get { return _assignedcount; } set { _assignedcount = value; } }
+        public int unassignedvalue { get { return _unassignedvalue; } set { _unassignedvalue = value; } }
+        public decimal baseweight { get { return _baseweight; } set { _baseweight = value; } }
+        public decimal totalweight { get { return _totalweight; } set { _totalweight = value; } }
+        public int basevalue { get { return _basevalue; } set { _basevalue = value; } }
+        public int totalvalue { get { return _totalvalue; } set { _baseweight = value; } }
         public Dictionary<string, int> assignments { get { return _assignments; } set { _assignments = value; NotifyPropertyChanged("assignments"); } }
         public string assignmentsstring
         {
@@ -67,6 +69,20 @@ namespace LootTracker
             _assignments = null;
             CalculateTotalValue();
             CalculateTotalWeight();
+        }
+
+        public LootItem Clone()
+        {
+            MemoryStream ms = new MemoryStream();
+            BinaryFormatter bf = new BinaryFormatter();
+
+            bf.Serialize(ms, this);
+
+            ms.Position = 0;
+            object obj = bf.Deserialize(ms);
+            ms.Close();
+
+            return obj as LootItem;
         }
 
         //Constructor for initializing a new loot item.

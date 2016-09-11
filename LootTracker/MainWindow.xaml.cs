@@ -17,7 +17,7 @@ namespace LootTracker
     /// </summary>
     public partial class MainWindow : Window
     {
-        //Declare class fields.
+        //Class fields.
         string savefilepath;
         LootBook _book = new LootBook();
         bool windowLoaded;
@@ -26,6 +26,7 @@ namespace LootTracker
         CollectionView view_items;
         bool canclick = true;
 
+        //Class Properties.
         public LootBook book { get { return _book; } }
         
         //MainWindow entry point.
@@ -34,8 +35,7 @@ namespace LootTracker
             InitializeComponent();
             DataContext = _book;
         }
-        
-        
+                
         //Player Loot Filter method.
         private bool PlayerLootFilter(object item)
         {
@@ -70,9 +70,7 @@ namespace LootTracker
                 return false;
             }
         }
-
-       
-
+        
         //Sorting method for the listview.
         private void Sort(string sortBy, ListSortDirection direction)
         {
@@ -101,6 +99,17 @@ namespace LootTracker
             //Add the sortdescription to the dataview and refresh.
             dataView.SortDescriptions.Add(sd);
             dataView.Refresh();
+        }
+
+        //Method to convert a byte array to a bitmap.
+        private BitmapImage GetBitmap(byte[] Image)
+        {
+            MemoryStream ms = new MemoryStream(Image);
+            BitmapImage bitmap = new BitmapImage();
+            bitmap.BeginInit();
+            bitmap.StreamSource = ms;
+            bitmap.EndInit();
+            return bitmap;
         }
 
         //Event handler for dragging window.
@@ -218,11 +227,13 @@ namespace LootTracker
             view_items.Refresh();
         }
         
+        //Event handler for clicking the close button.
         private void button_Click(object sender, RoutedEventArgs e)
         {
             App.Current.Shutdown();
         }
         
+        //Event handler for clicking the item delete button.
         private void DeleteItem_Click(object sender, RoutedEventArgs e)
         {
             _book.RemoveLootItem((listView_Master.SelectedItem as LootItem));
@@ -232,6 +243,7 @@ namespace LootTracker
             button_Decrement.IsEnabled = false;
         }
 
+        //Event handler for sorting the listview by column when the header is clicked.
         private void GridViewColumnHeader_Clicked(object sender, RoutedEventArgs e)
         {
             GridViewColumnHeader headerClicked = e.OriginalSource as GridViewColumnHeader;
@@ -266,16 +278,7 @@ namespace LootTracker
             }
         }
                 
-        private void ModifiyAssignment_Click(object sender, RoutedEventArgs e)
-        {
-            int index = listView_Master.SelectedIndex;
-            if (!(_book.lootlist.Count == 0) && !(index == -1))
-            {
-                _book.lootlist[index].ModifiyAssignment("Dean", 2);
-            }
-            
-        }
-
+        //Event handler for when the listview selection changes.
         private void listView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             button_Delete.IsEnabled = true;
@@ -284,16 +287,107 @@ namespace LootTracker
             button_Decrement.IsEnabled = true;
         }
 
-        private BitmapImage GetBitmap(byte[] Image)
+        //Event handler for clicking the browse button (player image).
+        private void button_Browse_Click(object sender, RoutedEventArgs e)
         {
-            MemoryStream ms = new MemoryStream(Image);
-            BitmapImage bitmap = new BitmapImage();
-            bitmap.BeginInit();
-            bitmap.StreamSource = ms;
-            bitmap.EndInit();
-            return bitmap;
+            OpenFileDialog filepicker = new OpenFileDialog();
+            filepicker.Filter = "Image Files(*.BMP;*.JPG;*.GIF;*.PNG)|*.BMP;*.JPG;*.GIF;*.PNG|All files (*.*)|*.*";
+            filepicker.ShowDialog();
+
+            //The user could cancel the file prompt, in which case
+            //we don't want to try to read a null file.
+            if (filepicker.FileName != "")
+            {
+                Player p = comboBox_Player.SelectedItem as Player;
+                byte[] tempimage = File.ReadAllBytes(filepicker.FileName);
+                p.UpdateImage(tempimage);
+                p.hasimage = true;
+                image_PlayerImage.Source = GetBitmap(p.characterimage);
+            }
         }
 
+        //Event handler for clicking the equip button (also when double clicking an item).
+        private void button_Assignments_Click(object sender, RoutedEventArgs e)
+        {
+            LootItem l = (listView_Master.SelectedItem as LootItem);
+            LootItem l_temp = l.Clone();
+            AssignItem window_AssignItem = new AssignItem(_book.playerlist, l_temp);
+            window_AssignItem.ShowDialog();
+
+            if (window_AssignItem.isCancelled == false)
+            {
+                l.assignments = window_AssignItem.loot.assignments;
+                l.CalculateUnassignedCount();
+                view_items.Refresh();
+                _book.NotifyPropertyChanged("lootlist");
+            }
+        }
+
+        //Event handler for clicking the remove player button.
+        private void button_RemovePlayer_Click(object sender, RoutedEventArgs e)
+        {
+            Player p = comboBox_Player.SelectedItem as Player;
+            comboBox_Player.SelectedIndex = 0;
+            _book.RemovePlayer(p);
+
+            foreach (LootItem i in _book.lootlist)
+            {
+                i.RemoveAssignment(p.playername);
+            }
+            view_items.Refresh();
+            _book.NotifyPropertyChanged("lootlist");
+
+        }
+
+        //Event handler to modify the listview filter when the tab selection changes.
+        private void tabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            view_items = (CollectionView)CollectionViewSource.GetDefaultView(listView_Master.ItemsSource);
+            if (windowLoaded)
+            {
+                if (tabControl.SelectedIndex == 0)
+                {
+                    view_items.Filter = null;
+                }
+                else if (tabControl.SelectedIndex == 1)
+                {
+                    view_items.Filter = PlayerLootFilter;
+                }
+            }
+        }
+
+        //Event handler to maximize window with the top bar is double clicked.
+        private void menu_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            if (Regex.IsMatch(WindowState.ToString(), "Normal"))
+            {
+                WindowState = WindowState.Maximized;
+            }
+            else
+            {
+                WindowState = WindowState.Normal;
+            }
+        }
+
+        //Event handler for clicking the minimize button.
+        private void button_Minimize_Click(object sender, RoutedEventArgs e)
+        {
+            this.WindowState = WindowState.Minimized;
+        }
+
+        //Event handler for when the player combobox selection is changed.
+        private void comboBox_Player_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if ((comboBox_Player.SelectedIndex == 0))
+            {
+                button_RemovePlayer.IsEnabled = false;
+            }
+            else
+            {
+                button_RemovePlayer.IsEnabled = true;
+            }
+        }
+        
         //Event Handlers for astral buttons.
         private void button_ast_inc_Click(object sender, RoutedEventArgs e)
         {
@@ -887,100 +981,6 @@ namespace LootTracker
         private void textBox_cop_int_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             (sender as System.Windows.Controls.TextBox).SelectAll();
-        }
-
-
-        private void button_Browse_Click(object sender, RoutedEventArgs e)
-        {
-            OpenFileDialog filepicker = new OpenFileDialog();
-            filepicker.Filter = "Image Files(*.BMP;*.JPG;*.GIF;*.PNG)|*.BMP;*.JPG;*.GIF;*.PNG|All files (*.*)|*.*";
-            filepicker.ShowDialog();
-
-            //The user could cancel the file prompt, in which case
-            //we don't want to try to read a null file.
-            if (filepicker.FileName != "")
-            {
-                Player p = comboBox_Player.SelectedItem as Player;
-                byte[] tempimage = File.ReadAllBytes(filepicker.FileName);
-                p.UpdateImage(tempimage);
-                p.hasimage = true;
-                image_PlayerImage.Source = GetBitmap(p.characterimage);
-            }
-        }
-
-        private void button_Assignments_Click(object sender, RoutedEventArgs e)
-        {
-            LootItem originalitem = listView_Master.SelectedItem as LootItem;
-            AssignItem window_AssignItem = new AssignItem(_book.playerlist, originalitem);
-            window_AssignItem.ShowDialog();
-
-            if (window_AssignItem.isCancelled == false)
-            {
-                originalitem.assignments = window_AssignItem.loot.assignments;
-                originalitem.CalculateUnassignedCount();
-                view_items.Refresh();
-                _book.NotifyPropertyChanged("lootlist");
-            }
-        }
-
-        private void button_RemovePlayer_Click(object sender, RoutedEventArgs e)
-        {
-            Player p = comboBox_Player.SelectedItem as Player;
-            comboBox_Player.SelectedIndex = 0;
-            _book.RemovePlayer(p);
-            
-            foreach (LootItem i in _book.lootlist)
-            {
-                i.RemoveAssignment(p.playername);
-            }
-            view_items.Refresh();
-            _book.NotifyPropertyChanged("lootlist");
-            
-        }
-
-        private void tabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            view_items = (CollectionView)CollectionViewSource.GetDefaultView(listView_Master.ItemsSource);
-            if (windowLoaded)
-            {
-                if (tabControl.SelectedIndex == 0)
-                {
-                    view_items.Filter = null;
-                }
-                else if (tabControl.SelectedIndex == 1)
-                {
-                    view_items.Filter = PlayerLootFilter;
-                }
-            }
-        }
-
-        private void menu_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            if (Regex.IsMatch(WindowState.ToString(), "Normal"))
-            {
-                WindowState = WindowState.Maximized;
-            }
-            else
-            {
-                WindowState = WindowState.Normal;
-            }
-        }
-
-        private void button_Minimize_Click(object sender, RoutedEventArgs e)
-        {
-            this.WindowState = WindowState.Minimized;
-        }
-
-        private void comboBox_Player_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if ((comboBox_Player.SelectedIndex == 0))
-            {
-                button_RemovePlayer.IsEnabled = false;
-            }
-            else
-            {
-                button_RemovePlayer.IsEnabled = true;
-            }
         }
     }
 }

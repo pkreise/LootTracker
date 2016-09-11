@@ -5,15 +5,26 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:LootTracker"
         mc:Ignorable="d"
-        Title="Enter Item Details" Height="316" Width="341" Topmost="True" ResizeMode="NoResize" Icon="LootTracker.ico" WindowStyle="None" AllowsTransparency="True" WindowStartupLocation="CenterScreen" MouseDown="Window_MouseDown" Background="White" BorderThickness="1" BorderBrush="Black">
+        Title="Enter Item Details" Height="316" Width="341" Topmost="True" ResizeMode="NoResize" WindowStyle="None" AllowsTransparency="True" WindowStartupLocation="CenterScreen" MouseDown="Window_MouseDown" BorderThickness="1">
 
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="StyleDictionary.xaml"/>
             </ResourceDictionary.MergedDictionaries>
+            <Storyboard x:Key="FadeIn">
+                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="AddItemWindow">
+                    <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.1" Value="1"/>
+                </DoubleAnimationUsingKeyFrames>
+            </Storyboard>
         </ResourceDictionary>
     </Window.Resources>
+    <Window.Triggers>
+        <EventTrigger RoutedEvent="FrameworkElement.Loaded">
+            <BeginStoryboard Storyboard="{StaticResource FadeIn}"/>
+        </EventTrigger>
+    </Window.Triggers>
 
     <Grid x:Name="Grid_Main" Background="#FF464646">
         <Grid.ColumnDefinitions>
