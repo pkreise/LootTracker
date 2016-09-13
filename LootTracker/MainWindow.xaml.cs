@@ -25,6 +25,7 @@ namespace LootTracker
         ListSortDirection _lastDirection = ListSortDirection.Ascending;
         CollectionView view_items;
         bool canclick = true;
+        bool isFilteredByItemType = false;
 
         //Class Properties.
         public LootBook book { get { return _book; } }
@@ -62,6 +63,26 @@ namespace LootTracker
                 return true;
             }
             else if (playerexists)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        //ItemType Loot Filter method.
+        private bool ItemTypeLootFilter(object item)
+        {
+            LootItem i = item as LootItem;
+            string val = comboBox_Filter.SelectedValue.ToString();
+
+            if (comboBox_Filter.SelectedIndex == -1 || val == "All Items")
+            {
+                return true;
+            }
+            else if (i.loottype == val)
             {
                 return true;
             }
@@ -318,6 +339,7 @@ namespace LootTracker
             {
                 l.assignments = window_AssignItem.loot.assignments;
                 l.CalculateUnassignedCount();
+                l.CalculateUnassignedValue();
                 view_items.Refresh();
                 _book.NotifyPropertyChanged("lootlist");
             }
@@ -350,7 +372,7 @@ namespace LootTracker
             view_items = (CollectionView)CollectionViewSource.GetDefaultView(listView_Master.ItemsSource);
             if (windowLoaded)
             {
-                if (tabControl.SelectedIndex == 0)
+                if (tabControl.SelectedIndex == 0 && isFilteredByItemType == false)
                 {
                     view_items.Filter = null;
                 }
@@ -993,16 +1015,61 @@ namespace LootTracker
             SellItems sellItemWindow = new SellItems();
             sellItemWindow.ShowDialog();
 
+            decimal totalvalue = 0;
+            decimal sellvalue = 0;
+            Player party = _book.playerlist[0] as Player;
+
             if (!sellItemWindow.isCancelled)
             {
                 foreach (LootItem i in _book.lootlist)
                 {
                     if (i.unassignedcount > 0)
                     {
-
+                        totalvalue += (i.unassignedcount * i.basevalue);
+                        i.DecrementCount(i.unassignedcount);
                     }
                 }
+                
+                if (totalvalue > 0)
+                {
+                    sellvalue = Math.Round((totalvalue * (Convert.ToDecimal(sellItemWindow.textBox.Text) / 100)), 2);
+                    int gld = 0;
+                    int sil = 0;
+                    int cop = 0;
+
+                    gld = Convert.ToInt32(Math.Floor(sellvalue));
+                    if (gld > 0)
+                    {
+                        sellvalue = sellvalue - gld;
+                    }
+
+                    if (sellvalue > 0)
+                    {
+                        sil = Convert.ToInt32(Math.Floor(Decimal.Divide(sellvalue, 0.1M)));
+                        sellvalue = sellvalue - (sil * .1M);
+                    }
+
+                    if (sellvalue > 0)
+                    {
+                        cop = Convert.ToInt32(Math.Floor(Decimal.Divide(sellvalue, 0.01M)));
+                        sellvalue = sellvalue - (cop * .01M);
+                    }
+
+                    party.Addgld(gld);
+                    party.Addsil(sil);
+                    party.Addcop(cop);
+                }
+
+                view_items.Refresh();
+                _book.NotifyPropertyChanged("lootlist");
             }
+        }
+
+        private void comboBox_Filter_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            isFilteredByItemType = true;
+            try { view_items.Filter = ItemTypeLootFilter; view_items.Refresh(); }
+            catch { }
         }
     }
 }

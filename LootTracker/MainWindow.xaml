@@ -58,10 +58,16 @@
                         <ColumnDefinition Width="65"/>
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition/>
+                        <ColumnDefinition Width="150"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="17*"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="220*"/>
+                        <ColumnDefinition Width="374*"/>
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
-                    <ListView x:Name="listView_Master" ButtonBase.Click="GridViewColumnHeader_Clicked" BorderThickness="0" ItemContainerStyle="{StaticResource listViewItem_Dark}" SelectionChanged="listView_SelectionChanged" Grid.ColumnSpan="7" Grid.Row="1" MouseDoubleClick="button_Assignments_Click">
+                    <ListView x:Name="listView_Master" ButtonBase.Click="GridViewColumnHeader_Clicked"  BorderThickness="0" ItemContainerStyle="{StaticResource listViewItem_Dark}" SelectionChanged="listView_SelectionChanged" Grid.ColumnSpan="13" Grid.Row="1" MouseDoubleClick="button_Assignments_Click">
                         <ListView.GroupStyle>
                             <GroupStyle/>
                         </ListView.GroupStyle>
@@ -77,15 +83,69 @@
                         </ListView.ContextMenu>
                         <ListView.View>
                             <GridView ColumnHeaderContainerStyle="{DynamicResource headers_Dark}">
-                                <GridViewColumn Width="Auto" Header="Name" DisplayMemberBinding="{Binding itemname}"/>
-                                <GridViewColumn Width="100" Header="Type" DisplayMemberBinding="{Binding loottype}"/>
-                                <GridViewColumn Width="100" Header="#" DisplayMemberBinding="{Binding count}"/>
-                                <GridViewColumn Width="Auto" Header="Unequipped" DisplayMemberBinding="{Binding unassignedcount}"/>
-                                <GridViewColumn Width="130" Header="Base Wgt" DisplayMemberBinding="{Binding baseweight, StringFormat=\{0:###\,###\,##0.## Lbs\}}"/>
-                                <GridViewColumn Width="130" Header="Ttl Wgt" DisplayMemberBinding="{Binding totalweight, StringFormat=\{0:###\,###\,##0.## Lbs\}}"/>
-                                <GridViewColumn Width="130" Header="Base Val" DisplayMemberBinding="{Binding basevalue, StringFormat=\{0:###\,###\,### GP\}}"/>
-                                <GridViewColumn Width="130" Header="Ttl Val" DisplayMemberBinding="{Binding totalvalue, StringFormat=\{0:###\,###\,### GP\}}"/>
-                                <GridViewColumn Width="Auto" Header="Assignments" DisplayMemberBinding="{Binding assignmentsstring}"/>
+                                <GridViewColumn Width="Auto" Header="Name">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock TextAlignment="Left" Text="{Binding itemname}"/>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn Width="100" Header="Type">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock TextAlignment="Center" Text="{Binding loottype}"/>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn Width="100" Header="#">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock TextAlignment="Center" Text="{Binding count}"/>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn Width="Auto" Header="Unequipped">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock TextAlignment="Center" Text="{Binding unassignedcount}"/>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn Width="130" Header="Base Wgt">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock TextAlignment="Center" Text="{Binding baseweight, StringFormat=\{0:###\,###\,##0.## Lbs\}}"/>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn Width="130" Header="Ttl Wgt">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock TextAlignment="Center" Text="{Binding totalweight, StringFormat=\{0:###\,###\,##0.## Lbs\}}"/>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn Width="130" Header="Base Val">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock TextAlignment="Center" Text="{Binding basevalue, StringFormat=\{0:###\,###\,##0 GP\}}"/>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn Width="130" Header="Ttl Val">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock TextAlignment="Center" Text="{Binding totalvalue, StringFormat=\{0:###\,###\,##0 GP\}}"/>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn Width="Auto" Header="Assignments">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock TextAlignment="Left" Text="{Binding assignmentsstring}"/>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
                             </GridView>
                         </ListView.View>
                     </ListView>
@@ -94,8 +154,21 @@
                     <Button x:Name="button_Assignments" Content="Equip" HorizontalAlignment="Center" Width="65" Height="30" Style="{StaticResource button_Dark_Small}" Foreground="#FFDEDEDE" IsEnabled="False" FontStyle="Italic" FontWeight="ExtraBlack" VerticalAlignment="Center" Click="button_Assignments_Click" Grid.Column="2" Grid.Row="0" Margin="0,0,0,1"/>
                     <Button x:Name="button_Increment" Content="+" HorizontalAlignment="Center" VerticalAlignment="Center" Width="30" Height="30" Foreground="#FFDEDEDE" Style="{StaticResource button_Dark_Small}" IsEnabled="False" FontFamily="Segoe UI Black" Grid.Column="3" Grid.Row="0" Margin="0,0,0,1"/>
                     <Button x:Name="button_Decrement" Content="-" HorizontalAlignment="Center" VerticalAlignment="Top" Width="30" Height="30" Foreground="#FFDEDEDE" Style="{StaticResource button_Dark_Small}" IsEnabled="False" FontFamily="Segoe UI Black" Grid.Column="4" Grid.Row="0" Margin="1,0"/>
-                    <Label x:Name="label_SellValue" HorizontalAlignment="Right" Foreground="{DynamicResource lightgray_fore}" FontSize="16" Grid.Column="5" Content="{Binding DataContext.lootlist, Converter={StaticResource s_converter}, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:MainWindow}}}" Margin="0,1,8,0" VerticalContentAlignment="Stretch" Padding="0,1,0,0"/>
-                    <Button x:Name="button_Sell" Content="Sell" HorizontalAlignment="Center" Width="45" Height="30" Style="{StaticResource button_Dark_Small}" Foreground="#FFDEDEDE" FontStyle="Italic" FontWeight="ExtraBlack" VerticalAlignment="Center" Click="button_Sell_Click" Grid.Column="6" Grid.Row="0" Margin="0,0,0,1"/>
+                    <Label x:Name="label_Filter" Content="Filter by" HorizontalAlignment="Left" Grid.Column="6" Foreground="{DynamicResource lightgray_fore}" Padding="0" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Center" Width="51" Margin="0,0,10,0"/>
+                    <ComboBox x:Name="comboBox_Filter" Grid.Column="7" Margin="0,0,0,1" Height="30" VerticalContentAlignment="Center" SelectionChanged="comboBox_Filter_SelectionChanged" SelectedValuePath="Content" Width="110" ItemContainerStyle="{DynamicResource comboBoxItem_Dark_ItemType}" SelectedIndex="0" Foreground="{DynamicResource darkgray_back}">
+                        <ComboBoxItem Content="All Items"/>
+                        <ComboBoxItem Content="Ammo"/>
+                        <ComboBoxItem Content="Armor"/>
+                        <ComboBoxItem Content="Equipment"/>
+                        <ComboBoxItem Content="Magic"/>
+                        <ComboBoxItem Content="Misc"/>
+                        <ComboBoxItem Content="Potion"/>
+                        <ComboBoxItem Content="Weapon"/>
+                    </ComboBox>
+                    <Label x:Name="label_Search" Content="Search" Margin="0,0,5,0" Foreground="{DynamicResource lightgray_fore}" Cursor="None" Grid.Column="9" HorizontalAlignment="Left" Width="52"/>
+                    <TextBox x:Name="textBox_Search" Margin="2,0,0,1" TextWrapping="Wrap" Text="TextBox" HorizontalAlignment="Left" Grid.Column="10" Width="170" Background="{DynamicResource lightgray_fore}" Foreground="{DynamicResource darkgray_back}" VerticalContentAlignment="Center"/>
+                    <Label x:Name="label_SellValue" HorizontalAlignment="Right" Foreground="{DynamicResource lightgray_fore}" FontSize="16" Grid.Column="11" Content="{Binding DataContext.lootlist, Converter={StaticResource s_converter}, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:MainWindow}}}" Margin="0,1,14,0" VerticalContentAlignment="Stretch" Padding="0,1,0,0"/>
+                    <Button x:Name="button_Sell" Content="Sell" HorizontalAlignment="Center" Width="45" Height="30" Style="{StaticResource button_Dark_Small}" Foreground="#FFDEDEDE" FontStyle="Italic" FontWeight="ExtraBlack" VerticalAlignment="Center" Click="button_Sell_Click" Grid.Column="12" Grid.Row="0" Margin="0,0,0,1" ToolTip="Left Click:  Sells the unequipped instances of all items. &#x0a;Right Click:  Sells the unequipped instances of the selected items."/>
                 </Grid>
             </TabItem>
             <TabItem Header="Roster" Width="80" Foreground="{DynamicResource darkgray_back}" Background="{DynamicResource lightgray_fore}">
@@ -212,18 +285,18 @@
                         </ListView.ContextMenu>
                         <ListView.View>
                             <GridView x:Name="gridview_Player" ColumnHeaderContainerStyle="{DynamicResource headers_Dark}">
-                                <GridViewColumn Width="Auto" Header="Name" DisplayMemberBinding="{Binding itemname}">
+                                <GridViewColumn Width="Auto" Header="Name" DisplayMemberBinding="{Binding itemname}"/>
+                                <GridViewColumn Width="100" Header="Type">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBlock TextAlignment="Right"/>
+                                            <TextBlock TextAlignment="Center" Text="{Binding loottype}"/>
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
-                                <GridViewColumn Width="100" Header="Type" DisplayMemberBinding="{Binding loottype}"/>
                                 <GridViewColumn Width="Auto" Header="Equipped">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBlock>
+                                            <TextBlock TextAlignment="Center">
                                                 <TextBlock.Text>
                                                     <MultiBinding StringFormat=" {0}" Converter="{StaticResource c_converter}">
                                                         <Binding Path="."/>
@@ -234,12 +307,24 @@
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
-                                <GridViewColumn Width="100" Header="#" DisplayMemberBinding="{Binding count}"/>
-                                <GridViewColumn Width="130" Header="Base Wgt" DisplayMemberBinding="{Binding baseweight}"/>
+                                <GridViewColumn Width="100" Header="#">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock TextAlignment="Center" Text="{Binding count}"/>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn Width="130" Header="Base Wgt">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock TextAlignment="Center" Text="{Binding baseweight, StringFormat=\{0:###\,###\,##0.## Lbs\}}"/>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
                                 <GridViewColumn Width="130" Header="Equipped Wgt">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBlock>
+                                            <TextBlock TextAlignment="Center">
                                                 <TextBlock.Text>
                                                     <MultiBinding StringFormat=" {0} Lbs" Converter="{StaticResource w_converter}">
                                                         <Binding Path="."/>
@@ -250,11 +335,17 @@
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
-                                <GridViewColumn Width="130" Header="Base Val" DisplayMemberBinding="{Binding basevalue}"/>
+                                <GridViewColumn Width="130" Header="Base Val">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock TextAlignment="Center" Text="{Binding basevalue, StringFormat=\{0:###\,###\,##0.## GP\}}"/>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
                                 <GridViewColumn Width="130" Header="Equipped Val">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBlock>
+                                            <TextBlock TextAlignment="Center">
                                                 <TextBlock.Text>
                                                     <MultiBinding StringFormat=" {0} GP" Converter="{StaticResource v_converter}">
                                                         <Binding Path="."/>

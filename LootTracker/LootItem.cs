@@ -20,6 +20,7 @@ namespace LootTracker
         decimal _totalweight = 0;
         int _basevalue = 0;
         int _totalvalue = 0;
+        int _charges = 0;
         Dictionary<string, int> _assignments = new Dictionary<string, int>();
         [field: NonSerialized]
         public event PropertyChangedEventHandler PropertyChanged;
@@ -35,6 +36,7 @@ namespace LootTracker
         public decimal totalweight { get { return _totalweight; } set { _totalweight = value; } }
         public int basevalue { get { return _basevalue; } set { _basevalue = value; } }
         public int totalvalue { get { return _totalvalue; } set { _baseweight = value; } }
+        public int charges { get { return _charges; } }
         public Dictionary<string, int> assignments { get { return _assignments; } set { _assignments = value; NotifyPropertyChanged("assignments"); } }
         public string assignmentsstring
         {
@@ -85,7 +87,7 @@ namespace LootTracker
             CalculateUnassignedValue();
         }
 
-        //Method for cloning a loot item.
+        //Method for cloning a loot item (deeeeeeeep clone).
         public LootItem Clone()
         {
             MemoryStream ms = new MemoryStream();
@@ -136,6 +138,7 @@ namespace LootTracker
             CalculateTotalWeight();
             CalculateUnassignedCount();
             CalculateUnassignedValue();
+            NotifyPropertyChanged("_count");
         }
 
         //Method to decrement the count of a loot item.
@@ -153,6 +156,7 @@ namespace LootTracker
             CalculateTotalWeight();
             CalculateUnassignedCount();
             CalculateUnassignedValue();
+            NotifyPropertyChanged("_count");
         }
 
         //Method to modify ownership of the items.
@@ -173,6 +177,7 @@ namespace LootTracker
             //Re-calculate the unassigned count and value.
             CalculateUnassignedCount();
             CalculateUnassignedValue();
+            NotifyPropertyChanged("_unassignedcount");
         }
 
         //Method to modify ownership of the items.
@@ -187,6 +192,7 @@ namespace LootTracker
             //Re-calculate the unassigned count and value.
             CalculateUnassignedCount();
             CalculateUnassignedValue();
+            NotifyPropertyChanged("_unassignedcount");
         }
 
         //Method to calculate the unassigned count after item assignment.
