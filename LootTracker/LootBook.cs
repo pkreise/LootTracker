@@ -46,7 +46,6 @@ namespace LootTracker
             {
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
             }
-
         }
      
         //Method to add a player to a player roster object.
