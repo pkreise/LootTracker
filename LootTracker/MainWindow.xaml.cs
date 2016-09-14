@@ -25,7 +25,6 @@ namespace LootTracker
         ListSortDirection _lastDirection = ListSortDirection.Ascending;
         CollectionView view_items;
         bool canclick = true;
-        bool isFilteredByItemType = false;
 
         //Class Properties.
         public LootBook book { get { return _book; } }
@@ -260,9 +259,7 @@ namespace LootTracker
             _book.RemoveLootItem((listView_Master.SelectedItem as LootItem));
             button_Delete.IsEnabled = false;
             button_Assignments.IsEnabled = false;
-            button_Increment.IsEnabled = false;
-            button_Decrement.IsEnabled = false;
-        }
+         }
 
         //Event handler for sorting the listview by column when the header is clicked.
         private void GridViewColumnHeader_Clicked(object sender, RoutedEventArgs e)
@@ -304,8 +301,6 @@ namespace LootTracker
         {
             button_Delete.IsEnabled = true;
             button_Assignments.IsEnabled = true;
-            button_Increment.IsEnabled = true;
-            button_Decrement.IsEnabled = true;
         }
 
         //Event handler for clicking the browse button (player image).
@@ -369,17 +364,28 @@ namespace LootTracker
         //Event handler to modify the listview filter when the tab selection changes.
         private void tabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            view_items = (CollectionView)CollectionViewSource.GetDefaultView(listView_Master.ItemsSource);
-            if (windowLoaded)
+            if (e.Source is System.Windows.Controls.TabControl)
             {
-                if (tabControl.SelectedIndex == 0 && isFilteredByItemType == false)
+                if (windowLoaded)
                 {
-                    view_items.Filter = null;
-                }
-                else if (tabControl.SelectedIndex == 1)
-                {
-                    view_items.Filter = PlayerLootFilter;
-                }
+                    if (tabControl.SelectedIndex == 0 && comboBox_Filter.SelectedIndex == 0)
+                    {
+                        view_items = (CollectionView)CollectionViewSource.GetDefaultView(listView_Master.ItemsSource);
+                        view_items.Filter = null;
+                    }
+                    else if (tabControl.SelectedIndex == 0 && comboBox_Filter.SelectedIndex > 0 )
+                    {
+                        view_items = (CollectionView)CollectionViewSource.GetDefaultView(listView_Master.ItemsSource);
+                        view_items.Filter = ItemTypeLootFilter;
+                    }
+                    else if (tabControl.SelectedIndex == 1)
+                    {
+                        view_items = (CollectionView)CollectionViewSource.GetDefaultView(listView_Player.ItemsSource);
+                        view_items.Filter = PlayerLootFilter;
+                    }
+
+                    
+                }               
             }
         }
 
@@ -413,6 +419,8 @@ namespace LootTracker
             {
                 button_RemovePlayer.IsEnabled = true;
             }
+            view_items = (CollectionView)CollectionViewSource.GetDefaultView(listView_Player.ItemsSource);
+            view_items.Refresh();
         }
         
         //Event Handlers for astral buttons.
@@ -1010,6 +1018,7 @@ namespace LootTracker
             (sender as System.Windows.Controls.TextBox).SelectAll();
         }
 
+        //Event handler for clicking the Sell button.
         private void button_Sell_Click(object sender, RoutedEventArgs e)
         {
             SellItems sellItemWindow = new SellItems();
@@ -1065,11 +1074,33 @@ namespace LootTracker
             }
         }
 
+        //Event handler for when the itemtype filter combobox selection is changed.
         private void comboBox_Filter_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            isFilteredByItemType = true;
             try { view_items.Filter = ItemTypeLootFilter; view_items.Refresh(); }
             catch { }
+        }
+
+        //Event handler for clicking the edit button.
+        private void button_Edit_Click(object sender, RoutedEventArgs e)
+        {
+            //Instantiate a new AddItem window.
+            LootItem i = listView_Master.SelectedItem as LootItem;
+            AddItem window = new AddItem(i);
+
+            //Show the window.
+            window.ShowDialog();
+
+            if (!window.canceled)
+            {
+                i.itemname = window.textBox_Name.Text;
+                i.loottype = window.comboBox_Type.Text;
+                i.count = (Convert.ToInt32(window.textBox_Count.Text));
+                i.basevalue = (Convert.ToInt32(window.textBox_BaseValue.Text));
+                i.baseweight = (Convert.ToDecimal(window.textBox_BaseWeight.Text));
+            }
+
+            view_items.Refresh();
         }
     }
 }

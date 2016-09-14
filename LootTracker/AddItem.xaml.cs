@@ -2,6 +2,7 @@
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Collections.Generic;
 
 namespace LootTracker
 {
@@ -15,6 +16,27 @@ namespace LootTracker
         public AddItem()
         {
             InitializeComponent();
+        }
+
+        public AddItem(LootItem i)
+        {
+            Dictionary<string, int> typelookup = new Dictionary<string, int>();
+            typelookup.Add("Ammo", 0);
+            typelookup.Add("Armor", 1);
+            typelookup.Add("Equipment", 2);
+            typelookup.Add("Magic", 3);
+            typelookup.Add("Misc", 4);
+            typelookup.Add("Potion", 5);
+            typelookup.Add("AmWeaponmo", 6);
+
+
+            InitializeComponent();
+            textBlock_Title.Text = "Edit Item";
+            textBox_Name.Text = i.itemname;
+            comboBox_Type.SelectedIndex = typelookup[i.loottype];
+            textBox_Count.Text = i.count.ToString();
+            textBox_BaseValue.Text = i.basevalue.ToString();
+            textBox_BaseWeight.Text = i.baseweight.ToString();
         }
 
         private void button_OK_Click(object sender, RoutedEventArgs e)
