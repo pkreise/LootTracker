@@ -423,6 +423,91 @@ namespace LootTracker
             view_items.Refresh();
         }
         
+        //Event handler for clicking the Sell button.
+        private void button_Sell_Click(object sender, RoutedEventArgs e)
+        {
+            SellItems sellItemWindow = new SellItems();
+            sellItemWindow.ShowDialog();
+
+            decimal totalvalue = 0;
+            decimal sellvalue = 0;
+            Player party = _book.playerlist[0] as Player;
+
+            if (!sellItemWindow.isCancelled)
+            {
+                foreach (LootItem i in _book.lootlist)
+                {
+                    if (i.unassignedcount > 0)
+                    {
+                        totalvalue += (i.unassignedcount * i.basevalue);
+                        i.DecrementCount(i.unassignedcount);
+                    }
+                }
+
+                if (totalvalue > 0)
+                {
+                    sellvalue = Math.Round((totalvalue * (Convert.ToDecimal(sellItemWindow.textBox.Text) / 100)), 2);
+                    int gld = 0;
+                    int sil = 0;
+                    int cop = 0;
+
+                    gld = Convert.ToInt32(Math.Floor(sellvalue));
+                    if (gld > 0)
+                    {
+                        sellvalue = sellvalue - gld;
+                    }
+
+                    if (sellvalue > 0)
+                    {
+                        sil = Convert.ToInt32(Math.Floor(Decimal.Divide(sellvalue, 0.1M)));
+                        sellvalue = sellvalue - (sil * .1M);
+                    }
+
+                    if (sellvalue > 0)
+                    {
+                        cop = Convert.ToInt32(Math.Floor(Decimal.Divide(sellvalue, 0.01M)));
+                        sellvalue = sellvalue - (cop * .01M);
+                    }
+
+                    party.Addgld(gld);
+                    party.Addsil(sil);
+                    party.Addcop(cop);
+                }
+
+                view_items.Refresh();
+                _book.NotifyPropertyChanged("lootlist");
+            }
+        }
+
+        //Event handler for when the itemtype filter combobox selection is changed.
+        private void comboBox_Filter_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            try { view_items.Filter = ItemTypeLootFilter; view_items.Refresh(); }
+            catch { }
+        }
+
+        //Event handler for clicking the edit button.
+        private void button_Edit_Click(object sender, RoutedEventArgs e)
+        {
+            //Instantiate a new AddItem window.
+            LootItem i = listView_Master.SelectedItem as LootItem;
+            AddItem window = new AddItem(i);
+
+            //Show the window.
+            window.ShowDialog();
+
+            if (!window.canceled)
+            {
+                i.itemname = window.textBox_Name.Text;
+                i.loottype = window.comboBox_Type.Text;
+                i.count = (Convert.ToInt32(window.textBox_Count.Text));
+                i.basevalue = (Convert.ToInt32(window.textBox_BaseValue.Text));
+                i.baseweight = (Convert.ToDecimal(window.textBox_BaseWeight.Text));
+            }
+
+            view_items.Refresh();
+        }
+
         //Event Handlers for astral buttons.
         private void button_ast_inc_Click(object sender, RoutedEventArgs e)
         {
@@ -1016,91 +1101,6 @@ namespace LootTracker
         private void textBox_cop_int_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             (sender as System.Windows.Controls.TextBox).SelectAll();
-        }
-
-        //Event handler for clicking the Sell button.
-        private void button_Sell_Click(object sender, RoutedEventArgs e)
-        {
-            SellItems sellItemWindow = new SellItems();
-            sellItemWindow.ShowDialog();
-
-            decimal totalvalue = 0;
-            decimal sellvalue = 0;
-            Player party = _book.playerlist[0] as Player;
-
-            if (!sellItemWindow.isCancelled)
-            {
-                foreach (LootItem i in _book.lootlist)
-                {
-                    if (i.unassignedcount > 0)
-                    {
-                        totalvalue += (i.unassignedcount * i.basevalue);
-                        i.DecrementCount(i.unassignedcount);
-                    }
-                }
-                
-                if (totalvalue > 0)
-                {
-                    sellvalue = Math.Round((totalvalue * (Convert.ToDecimal(sellItemWindow.textBox.Text) / 100)), 2);
-                    int gld = 0;
-                    int sil = 0;
-                    int cop = 0;
-
-                    gld = Convert.ToInt32(Math.Floor(sellvalue));
-                    if (gld > 0)
-                    {
-                        sellvalue = sellvalue - gld;
-                    }
-
-                    if (sellvalue > 0)
-                    {
-                        sil = Convert.ToInt32(Math.Floor(Decimal.Divide(sellvalue, 0.1M)));
-                        sellvalue = sellvalue - (sil * .1M);
-                    }
-
-                    if (sellvalue > 0)
-                    {
-                        cop = Convert.ToInt32(Math.Floor(Decimal.Divide(sellvalue, 0.01M)));
-                        sellvalue = sellvalue - (cop * .01M);
-                    }
-
-                    party.Addgld(gld);
-                    party.Addsil(sil);
-                    party.Addcop(cop);
-                }
-
-                view_items.Refresh();
-                _book.NotifyPropertyChanged("lootlist");
-            }
-        }
-
-        //Event handler for when the itemtype filter combobox selection is changed.
-        private void comboBox_Filter_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            try { view_items.Filter = ItemTypeLootFilter; view_items.Refresh(); }
-            catch { }
-        }
-
-        //Event handler for clicking the edit button.
-        private void button_Edit_Click(object sender, RoutedEventArgs e)
-        {
-            //Instantiate a new AddItem window.
-            LootItem i = listView_Master.SelectedItem as LootItem;
-            AddItem window = new AddItem(i);
-
-            //Show the window.
-            window.ShowDialog();
-
-            if (!window.canceled)
-            {
-                i.itemname = window.textBox_Name.Text;
-                i.loottype = window.comboBox_Type.Text;
-                i.count = (Convert.ToInt32(window.textBox_Count.Text));
-                i.basevalue = (Convert.ToInt32(window.textBox_BaseValue.Text));
-                i.baseweight = (Convert.ToDecimal(window.textBox_BaseWeight.Text));
-            }
-
-            view_items.Refresh();
         }
     }
 }
