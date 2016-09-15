@@ -33,7 +33,7 @@ namespace LootTracker
         public MainWindow()
         {
             InitializeComponent();
-            DataContext = _book;
+            DataContext = this;
         }
                 
         //Player Loot Filter method.
@@ -110,7 +110,7 @@ namespace LootTracker
             headerlookup.Add("Equipped Val", "basevalue");
 
             //Create a dataview and clear.
-            ICollectionView dataView = CollectionViewSource.GetDefaultView(listView_Master.ItemsSource);
+            ICollectionView dataView = CollectionViewSource.GetDefaultView(_book.lootlist);
             dataView.SortDescriptions.Clear();
 
             //Create a new sortdescription.
@@ -368,23 +368,20 @@ namespace LootTracker
             {
                 if (windowLoaded)
                 {
+                    view_items = (CollectionView)CollectionViewSource.GetDefaultView(_book.lootlist);
                     if (tabControl.SelectedIndex == 0 && comboBox_Filter.SelectedIndex == 0)
                     {
-                        view_items = (CollectionView)CollectionViewSource.GetDefaultView(listView_Master.ItemsSource);
                         view_items.Filter = null;
                     }
                     else if (tabControl.SelectedIndex == 0 && comboBox_Filter.SelectedIndex > 0 )
                     {
-                        view_items = (CollectionView)CollectionViewSource.GetDefaultView(listView_Master.ItemsSource);
-                        view_items.Filter = ItemTypeLootFilter;
+                       view_items.Filter = ItemTypeLootFilter;
                     }
                     else if (tabControl.SelectedIndex == 1)
                     {
-                        view_items = (CollectionView)CollectionViewSource.GetDefaultView(listView_Player.ItemsSource);
                         view_items.Filter = PlayerLootFilter;
                     }
-
-                    
+                    view_items.Refresh();                    
                 }               
             }
         }

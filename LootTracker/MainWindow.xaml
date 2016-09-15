@@ -66,7 +66,7 @@
                         <ColumnDefinition Width="386*"/>
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
-                    <ListView x:Name="listView_Master" ButtonBase.Click="GridViewColumnHeader_Clicked"  BorderThickness="0" ItemContainerStyle="{StaticResource listViewItem_Dark}" SelectionChanged="listView_SelectionChanged" Grid.ColumnSpan="12" Grid.Row="1" MouseDoubleClick="button_Assignments_Click" Margin="0">
+                    <ListView x:Name="listView_Master" ButtonBase.Click="GridViewColumnHeader_Clicked"  BorderThickness="0" ItemContainerStyle="{StaticResource listViewItem_Dark}" SelectionChanged="listView_SelectionChanged" Grid.ColumnSpan="12" Grid.Row="1" MouseDoubleClick="button_Assignments_Click" Margin="0" ItemsSource="{Binding DataContext._book.lootlist}">
                         <ListView.GroupStyle>
                             <GroupStyle/>
                         </ListView.GroupStyle>
