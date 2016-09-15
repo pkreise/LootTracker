@@ -9,7 +9,6 @@ using System.IO;
 using System.Windows.Media.Imaging;
 using System.Windows.Forms;
 using System.Text.RegularExpressions;
-using System.Collections.ObjectModel;
 
 namespace LootTracker
 {
@@ -26,20 +25,18 @@ namespace LootTracker
         ListSortDirection _lastDirection = ListSortDirection.Ascending;
         CollectionView view_items;
         bool canclick = true;
-        bool isFilteredByItemType = false;
-        bool isFilteredByString = false;
+        bool ComboFilter = false;
 
         //Class Properties.
         public LootBook book { get { return _book; } }
-
+        
         //MainWindow entry point.
         public MainWindow()
         {
             InitializeComponent();
-            //DataContext = _book;
             DataContext = this;
         }
-
+                
         //Player Loot Filter method.
         private bool PlayerLootFilter(object item)
         {
@@ -58,7 +55,7 @@ namespace LootTracker
             }
             catch
             {
-                return false;
+               return false;
             }
 
             if (p.playername == "Party" && i.unassignedcount > 0)
@@ -80,12 +77,16 @@ namespace LootTracker
         {
             LootItem i = item as LootItem;
             string val = comboBox_Filter.SelectedValue.ToString();
+            if (_stringFilter == null)
+                _stringFilter = "";
 
-            if (comboBox_Filter.SelectedIndex == -1 || val == "All Items")
+            var NonCaseSensitiveFilter = StringFilter.Trim().ToLower();
+
+            if ((comboBox_Filter.SelectedIndex == -1 || val == "All Items") && i.itemname.ToLower().Contains(NonCaseSensitiveFilter))
             {
                 return true;
             }
-            else if (i.loottype == val)
+            else if (i.loottype == val && i.itemname.ToLower().Contains(NonCaseSensitiveFilter))
             {
                 return true;
             }
@@ -94,7 +95,7 @@ namespace LootTracker
                 return false;
             }
         }
-
+        
         //Sorting method for the listview.
         private void Sort(string sortBy, ListSortDirection direction)
         {
@@ -114,7 +115,7 @@ namespace LootTracker
             headerlookup.Add("Equipped Val", "basevalue");
 
             //Create a dataview and clear.
-            ICollectionView dataView = CollectionViewSource.GetDefaultView(listView_Master.ItemsSource);
+            ICollectionView dataView = CollectionViewSource.GetDefaultView(_book.lootlist);
             dataView.SortDescriptions.Clear();
 
             //Create a new sortdescription.
@@ -160,7 +161,7 @@ namespace LootTracker
                 view_items = (CollectionView)CollectionViewSource.GetDefaultView(listView_Master.ItemsSource);
             }
             catch { }
-
+            
         }
 
         //Event Handler for window loaded.
@@ -192,7 +193,7 @@ namespace LootTracker
             comboBox_Player.SelectedIndex = -1;
             comboBox_Player.ItemsSource = _book.playerlist;
             comboBox_Player.SelectedIndex = 0;
-            view_items = (CollectionView)CollectionViewSource.GetDefaultView(listView_Master.ItemsSource);
+            view_items = (CollectionView)CollectionViewSource.GetDefaultView(listView_Master.ItemsSource);   
         }
 
         //Event Handler for adding a new player to the roster.
@@ -250,22 +251,20 @@ namespace LootTracker
 
             view_items.Refresh();
         }
-
+        
         //Event handler for clicking the close button.
         private void button_Click(object sender, RoutedEventArgs e)
         {
             App.Current.Shutdown();
         }
-
+        
         //Event handler for clicking the item delete button.
         private void DeleteItem_Click(object sender, RoutedEventArgs e)
         {
             _book.RemoveLootItem((listView_Master.SelectedItem as LootItem));
             button_Delete.IsEnabled = false;
             button_Assignments.IsEnabled = false;
-            button_Increment.IsEnabled = false;
-            button_Decrement.IsEnabled = false;
-        }
+         }
 
         //Event handler for sorting the listview by column when the header is clicked.
         private void GridViewColumnHeader_Clicked(object sender, RoutedEventArgs e)
@@ -301,14 +300,12 @@ namespace LootTracker
                 }
             }
         }
-
+                
         //Event handler for when the listview selection changes.
         private void listView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             button_Delete.IsEnabled = true;
             button_Assignments.IsEnabled = true;
-            button_Increment.IsEnabled = true;
-            button_Decrement.IsEnabled = true;
         }
 
         //Event handler for clicking the browse button (player image).
@@ -367,22 +364,31 @@ namespace LootTracker
                 view_items.Refresh();
                 _book.NotifyPropertyChanged("lootlist");
             }
-        }
+         }
 
         //Event handler to modify the listview filter when the tab selection changes.
         private void tabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            view_items = (CollectionView)CollectionViewSource.GetDefaultView(listView_Master.ItemsSource);
-            if (windowLoaded)
+            if (e.Source is System.Windows.Controls.TabControl)
             {
-                if (tabControl.SelectedIndex == 0 && isFilteredByItemType == false)
+                if (windowLoaded)
                 {
-                    view_items.Filter = null;
-                }
-                else if (tabControl.SelectedIndex == 1)
-                {
-                    view_items.Filter = PlayerLootFilter;
-                }
+                    view_items = (CollectionView)CollectionViewSource.GetDefaultView(_book.lootlist);
+                    if (tabControl.SelectedIndex == 0 && comboBox_Filter.SelectedIndex == 0)
+                    {
+                        view_items.Filter = null;
+                    }
+                    else if (tabControl.SelectedIndex == 0 && comboBox_Filter.SelectedIndex > 0 )
+                    {
+                       view_items.Filter = ItemTypeLootFilter;
+                    }
+                    else if (tabControl.SelectedIndex == 1)
+                    {
+                        view_items.Filter = PlayerLootFilter;
+                    }
+                    view_items.Refresh();
+                    ComboFilter = true;                   
+                }               
             }
         }
 
@@ -416,603 +422,11 @@ namespace LootTracker
             {
                 button_RemovePlayer.IsEnabled = true;
             }
+            view_items = (CollectionView)CollectionViewSource.GetDefaultView(listView_Player.ItemsSource);
+            view_items.Refresh();
         }
-
-        //Event Handlers for astral buttons.
-        private void button_ast_inc_Click(object sender, RoutedEventArgs e)
-        {
-            if (comboBox_Player.SelectedIndex != -1)
-            {
-                Player p = comboBox_Player.SelectedItem as Player;
-                if ((Convert.ToInt32(textBox_ast_int.Text) > 0))
-                {
-                    p.Addast(Convert.ToInt32(textBox_ast_int.Text));
-
-                    textBox_ast_int.Text = "0";
-                }
-                else if ((Convert.ToInt32(textBox_ast_int.Text) < 0))
-                {
-                    return;
-                }
-                else
-                {
-                    if (canclick)
-                    {
-                        p.Addast(1);
-                    }
-                    else
-                    {
-                        canclick = true;
-                    }
-
-                }
-
-            }
-
-        }
-        private void button_ast_dec_Click(object sender, RoutedEventArgs e)
-        {
-            if (comboBox_Player.SelectedIndex != -1)
-            {
-                Player p = comboBox_Player.SelectedItem as Player;
-                if ((Convert.ToInt32(textBox_ast_int.Text) > 0))
-                {
-                    if (((Convert.ToInt32(textBox_ast_int.Text)) - (Convert.ToInt32(AstVal.Text))) < 0)
-                    {
-                        p.Removeast(Convert.ToInt32(textBox_ast_int.Text));
-
-                        textBox_ast_int.Text = "0";
-                    }
-                    else if ((Convert.ToInt32(textBox_ast_int.Text) < 0))
-                    {
-                        return;
-                    }
-                    else
-                    {
-                        p.Removeast(Convert.ToInt32(AstVal.Text));
-
-                        textBox_ast_int.Text = "0";
-                    }
-                }
-                else
-                {
-                    if ((Convert.ToInt32(AstVal.Text)) > 0)
-                    {
-                        if (canclick)
-                        {
-                            p.Removeast(1);
-                        }
-                        else
-                        {
-                            canclick = true;
-                        }
-
-                    }
-
-                }
-
-            }
-        }
-        private void button_ast_inc_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            if (!(comboBox_Player.SelectedIndex == -1))
-            {
-                Player p = (comboBox_Player.SelectedItem as Player);
-                p.Addast(10);
-
-            }
-        }
-        private void button_ast_dec_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            if (!(comboBox_Player.SelectedIndex == -1))
-            {
-                Player p = (comboBox_Player.SelectedItem as Player);
-                if ((10 - (Convert.ToInt32(AstVal.Text))) < 0)
-                {
-                    p.Removeast(10);
-
-                }
-                else
-                {
-                    p.Removeast(Convert.ToInt32(AstVal.Text));
-
-                }
-            }
-        }
-        private void textBox_ast_int_LostFocus(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                int i = Convert.ToInt32(textBox_ast_int.Text);
-                if (i < 0)
-                {
-                    textBox_ast_int.Text = "0";
-                }
-            }
-            catch { textBox_ast_int.Text = "0"; canclick = false; }
-
-        }
-        private void textBox_ast_int_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            (sender as System.Windows.Controls.TextBox).SelectAll();
-        }
-
-        //Event Handlers for platinum buttons.
-        private void button_plt_inc_Click(object sender, RoutedEventArgs e)
-        {
-            if (comboBox_Player.SelectedIndex != -1)
-            {
-                Player p = comboBox_Player.SelectedItem as Player;
-                if ((Convert.ToInt32(textBox_plt_int.Text) > 0))
-                {
-                    p.Addplt(Convert.ToInt32(textBox_plt_int.Text));
-
-                    textBox_plt_int.Text = "0";
-                }
-                else if ((Convert.ToInt32(textBox_plt_int.Text) < 0))
-                {
-                    return;
-                }
-                else
-                {
-                    if (canclick)
-                    {
-                        p.Addplt(1);
-                    }
-                    else
-                    {
-                        canclick = true;
-                    }
-
-                }
-
-            }
-
-        }
-        private void button_plt_dec_Click(object sender, RoutedEventArgs e)
-        {
-            if (comboBox_Player.SelectedIndex != -1)
-            {
-                Player p = comboBox_Player.SelectedItem as Player;
-                if ((Convert.ToInt32(textBox_plt_int.Text) > 0))
-                {
-                    if (((Convert.ToInt32(textBox_plt_int.Text)) - (Convert.ToInt32(PltVal.Text))) < 0)
-                    {
-                        p.Removeplt(Convert.ToInt32(textBox_plt_int.Text));
-
-                        textBox_plt_int.Text = "0";
-                    }
-                    else if ((Convert.ToInt32(textBox_plt_int.Text) < 0))
-                    {
-                        return;
-                    }
-                    else
-                    {
-                        p.Removeplt(Convert.ToInt32(PltVal.Text));
-
-                        textBox_plt_int.Text = "0";
-                    }
-                }
-                else
-                {
-                    if ((Convert.ToInt32(PltVal.Text)) > 0)
-                    {
-                        if (canclick)
-                        {
-                            p.Removeplt(1);
-                        }
-                        else
-                        {
-                            canclick = true;
-                        }
-
-                    }
-
-                }
-
-            }
-        }
-        private void button_plt_inc_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            if (!(comboBox_Player.SelectedIndex == -1))
-            {
-                Player p = (comboBox_Player.SelectedItem as Player);
-                p.Addplt(10);
-
-            }
-        }
-        private void button_plt_dec_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            if (!(comboBox_Player.SelectedIndex == -1))
-            {
-                Player p = (comboBox_Player.SelectedItem as Player);
-                if ((10 - (Convert.ToInt32(PltVal.Text))) < 0)
-                {
-                    p.Removeplt(10);
-
-                }
-                else
-                {
-                    p.Removeplt(Convert.ToInt32(PltVal.Text));
-
-                }
-            }
-        }
-        private void textBox_plt_int_LostFocus(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                int i = Convert.ToInt32(textBox_plt_int.Text);
-                if (i < 0)
-                {
-                    textBox_plt_int.Text = "0";
-                }
-            }
-            catch { textBox_plt_int.Text = "0"; canclick = false; }
-
-        }
-        private void textBox_plt_int_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            (sender as System.Windows.Controls.TextBox).SelectAll();
-        }
-
-        //Event Handlers for gold buttons.
-        private void button_gld_inc_Click(object sender, RoutedEventArgs e)
-        {
-            if (comboBox_Player.SelectedIndex != -1)
-            {
-                Player p = comboBox_Player.SelectedItem as Player;
-                if ((Convert.ToInt32(textBox_gld_int.Text) > 0))
-                {
-                    p.Addgld(Convert.ToInt32(textBox_gld_int.Text));
-
-                    textBox_gld_int.Text = "0";
-                }
-                else if ((Convert.ToInt32(textBox_gld_int.Text) < 0))
-                {
-                    return;
-                }
-                else
-                {
-                    if (canclick)
-                    {
-                        p.Addgld(1);
-                    }
-                    else
-                    {
-                        canclick = true;
-                    }
-
-                }
-
-            }
-
-        }
-        private void button_gld_dec_Click(object sender, RoutedEventArgs e)
-        {
-            if (comboBox_Player.SelectedIndex != -1)
-            {
-                Player p = comboBox_Player.SelectedItem as Player;
-                if ((Convert.ToInt32(textBox_gld_int.Text) > 0))
-                {
-                    if (((Convert.ToInt32(textBox_gld_int.Text)) - (Convert.ToInt32(GldVal.Text))) < 0)
-                    {
-                        p.Removegld(Convert.ToInt32(textBox_gld_int.Text));
-
-                        textBox_gld_int.Text = "0";
-                    }
-                    else if ((Convert.ToInt32(textBox_gld_int.Text) < 0))
-                    {
-                        return;
-                    }
-                    else
-                    {
-                        p.Removegld(Convert.ToInt32(GldVal.Text));
-
-                        textBox_gld_int.Text = "0";
-                    }
-                }
-                else
-                {
-                    if ((Convert.ToInt32(GldVal.Text)) > 0)
-                    {
-                        if (canclick)
-                        {
-                            p.Removegld(1);
-                        }
-                        else
-                        {
-                            canclick = true;
-                        }
-
-                    }
-
-                }
-
-            }
-        }
-        private void button_gld_inc_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            if (!(comboBox_Player.SelectedIndex == -1))
-            {
-                Player p = (comboBox_Player.SelectedItem as Player);
-                p.Addgld(10);
-
-            }
-        }
-        private void button_gld_dec_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            if (!(comboBox_Player.SelectedIndex == -1))
-            {
-                Player p = (comboBox_Player.SelectedItem as Player);
-                if ((10 - (Convert.ToInt32(GldVal.Text))) < 0)
-                {
-                    p.Removegld(10);
-
-                }
-                else
-                {
-                    p.Removegld(Convert.ToInt32(GldVal.Text));
-
-                }
-            }
-        }
-        private void textBox_gld_int_LostFocus(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                int i = Convert.ToInt32(textBox_gld_int.Text);
-                if (i < 0)
-                {
-                    textBox_gld_int.Text = "0";
-                }
-            }
-            catch { textBox_gld_int.Text = "0"; canclick = false; }
-
-        }
-        private void textBox_gld_int_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            (sender as System.Windows.Controls.TextBox).SelectAll();
-        }
-
-        //Event Handlers for silver buttons.
-        private void button_sil_inc_Click(object sender, RoutedEventArgs e)
-        {
-            if (comboBox_Player.SelectedIndex != -1)
-            {
-                Player p = comboBox_Player.SelectedItem as Player;
-                if ((Convert.ToInt32(textBox_sil_int.Text) > 0))
-                {
-                    p.Addsil(Convert.ToInt32(textBox_sil_int.Text));
-
-                    textBox_sil_int.Text = "0";
-                }
-                else if ((Convert.ToInt32(textBox_sil_int.Text) < 0))
-                {
-                    return;
-                }
-                else
-                {
-                    if (canclick)
-                    {
-                        p.Addsil(1);
-                    }
-                    else
-                    {
-                        canclick = true;
-                    }
-
-                }
-
-            }
-
-        }
-        private void button_sil_dec_Click(object sender, RoutedEventArgs e)
-        {
-            if (comboBox_Player.SelectedIndex != -1)
-            {
-                Player p = comboBox_Player.SelectedItem as Player;
-                if ((Convert.ToInt32(textBox_sil_int.Text) > 0))
-                {
-                    if (((Convert.ToInt32(textBox_sil_int.Text)) - (Convert.ToInt32(SilVal.Text))) < 0)
-                    {
-                        p.Removesil(Convert.ToInt32(textBox_sil_int.Text));
-
-                        textBox_sil_int.Text = "0";
-                    }
-                    else if ((Convert.ToInt32(textBox_sil_int.Text) < 0))
-                    {
-                        return;
-                    }
-                    else
-                    {
-                        p.Removesil(Convert.ToInt32(SilVal.Text));
-
-                        textBox_sil_int.Text = "0";
-                    }
-                }
-                else
-                {
-                    if ((Convert.ToInt32(SilVal.Text)) > 0)
-                    {
-                        if (canclick)
-                        {
-                            p.Removesil(1);
-                        }
-                        else
-                        {
-                            canclick = true;
-                        }
-
-                    }
-
-                }
-
-            }
-        }
-        private void button_sil_inc_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            if (!(comboBox_Player.SelectedIndex == -1))
-            {
-                Player p = (comboBox_Player.SelectedItem as Player);
-                p.Addsil(10);
-
-            }
-        }
-        private void button_sil_dec_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            if (!(comboBox_Player.SelectedIndex == -1))
-            {
-                Player p = (comboBox_Player.SelectedItem as Player);
-                if ((10 - (Convert.ToInt32(SilVal.Text))) < 0)
-                {
-                    p.Removesil(10);
-
-                }
-                else
-                {
-                    p.Removesil(Convert.ToInt32(SilVal.Text));
-
-                }
-            }
-        }
-        private void textBox_sil_int_LostFocus(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                int i = Convert.ToInt32(textBox_sil_int.Text);
-                if (i < 0)
-                {
-                    textBox_sil_int.Text = "0";
-                }
-            }
-            catch { textBox_sil_int.Text = "0"; canclick = false; }
-
-        }
-        private void textBox_sil_int_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            (sender as System.Windows.Controls.TextBox).SelectAll();
-        }
-
-        //Event Handlers for copper buttons.
-        private void button_cop_inc_Click(object sender, RoutedEventArgs e)
-        {
-            if (comboBox_Player.SelectedIndex != -1)
-            {
-                Player p = comboBox_Player.SelectedItem as Player;
-                if ((Convert.ToInt32(textBox_cop_int.Text) > 0))
-                {
-                    p.Addcop(Convert.ToInt32(textBox_cop_int.Text));
-
-                    textBox_cop_int.Text = "0";
-                }
-                else if ((Convert.ToInt32(textBox_cop_int.Text) < 0))
-                {
-                    return;
-                }
-                else
-                {
-                    if (canclick)
-                    {
-                        p.Addcop(1);
-                    }
-                    else
-                    {
-                        canclick = true;
-                    }
-
-                }
-
-            }
-
-        }
-        private void button_cop_dec_Click(object sender, RoutedEventArgs e)
-        {
-            if (comboBox_Player.SelectedIndex != -1)
-            {
-                Player p = comboBox_Player.SelectedItem as Player;
-                if ((Convert.ToInt32(textBox_cop_int.Text) > 0))
-                {
-                    if (((Convert.ToInt32(textBox_cop_int.Text)) - (Convert.ToInt32(CopVal.Text))) < 0)
-                    {
-                        p.Removecop(Convert.ToInt32(textBox_cop_int.Text));
-
-                        textBox_cop_int.Text = "0";
-                    }
-                    else if ((Convert.ToInt32(textBox_cop_int.Text) < 0))
-                    {
-                        return;
-                    }
-                    else
-                    {
-                        p.Removecop(Convert.ToInt32(CopVal.Text));
-
-                        textBox_cop_int.Text = "0";
-                    }
-                }
-                else
-                {
-                    if ((Convert.ToInt32(CopVal.Text)) > 0)
-                    {
-                        if (canclick)
-                        {
-                            p.Removecop(1);
-                        }
-                        else
-                        {
-                            canclick = true;
-                        }
-
-                    }
-
-                }
-
-            }
-        }
-        private void button_cop_inc_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            if (!(comboBox_Player.SelectedIndex == -1))
-            {
-                Player p = (comboBox_Player.SelectedItem as Player);
-                p.Addcop(10);
-
-            }
-        }
-        private void button_cop_dec_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            if (!(comboBox_Player.SelectedIndex == -1))
-            {
-                Player p = (comboBox_Player.SelectedItem as Player);
-                if ((10 - (Convert.ToInt32(CopVal.Text))) < 0)
-                {
-                    p.Removecop(10);
-
-                }
-                else
-                {
-                    p.Removecop(Convert.ToInt32(CopVal.Text));
-
-                }
-            }
-        }
-        private void textBox_cop_int_LostFocus(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                int i = Convert.ToInt32(textBox_cop_int.Text);
-                if (i < 0)
-                {
-                    textBox_cop_int.Text = "0";
-                }
-            }
-            catch { textBox_cop_int.Text = "0"; canclick = false; }
-
-        }
-        private void textBox_cop_int_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            (sender as System.Windows.Controls.TextBox).SelectAll();
-        }
-
+        
+        //Event handler for clicking the Sell button.
         private void button_Sell_Click(object sender, RoutedEventArgs e)
         {
             SellItems sellItemWindow = new SellItems();
@@ -1068,15 +482,631 @@ namespace LootTracker
             }
         }
 
+        //Event handler for when the itemtype filter combobox selection is changed.
         private void comboBox_Filter_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            isFilteredByItemType = true;
             try { view_items.Filter = ItemTypeLootFilter; view_items.Refresh(); }
             catch { }
         }
 
-        
-        // Greg Adding search filter.
+        //Event handler for clicking the edit button.
+        private void button_Edit_Click(object sender, RoutedEventArgs e)
+        {
+            //Instantiate a new AddItem window.
+            LootItem i = listView_Master.SelectedItem as LootItem;
+            AddItem window = new AddItem(i);
+
+            //Show the window.
+            window.ShowDialog();
+
+            if (!window.canceled)
+            {
+                i.itemname = window.textBox_Name.Text;
+                i.loottype = window.comboBox_Type.Text;
+                i.count = (Convert.ToInt32(window.textBox_Count.Text));
+                i.basevalue = (Convert.ToInt32(window.textBox_BaseValue.Text));
+                i.baseweight = (Convert.ToDecimal(window.textBox_BaseWeight.Text));
+            }
+
+            view_items.Refresh();
+        }
+
+        //Event Handlers for astral buttons.
+        private void button_ast_inc_Click(object sender, RoutedEventArgs e)
+        {
+            if (comboBox_Player.SelectedIndex != -1)
+            {
+                Player p = comboBox_Player.SelectedItem as Player;
+                if ((Convert.ToInt32(textBox_ast_int.Text) > 0))
+                {
+                    p.Addast(Convert.ToInt32(textBox_ast_int.Text));
+                   
+                    textBox_ast_int.Text = "0";
+                }
+                else if ((Convert.ToInt32(textBox_ast_int.Text) < 0))
+                {
+                    return;
+                }
+                else
+                {
+                    if (canclick)
+                    {
+                        p.Addast(1);
+                    }
+                    else
+                    {
+                        canclick = true;
+                    }
+                    
+                }
+                
+            }
+                
+        }
+        private void button_ast_dec_Click(object sender, RoutedEventArgs e)
+        {
+             if (comboBox_Player.SelectedIndex != -1)
+            {
+                Player p = comboBox_Player.SelectedItem as Player;
+                if ((Convert.ToInt32(textBox_ast_int.Text) > 0))
+                {
+                    if (((Convert.ToInt32(textBox_ast_int.Text)) - (Convert.ToInt32(AstVal.Text))) < 0)
+                    {
+                        p.Removeast(Convert.ToInt32(textBox_ast_int.Text));
+                        
+                        textBox_ast_int.Text = "0";
+                    }
+                    else if ((Convert.ToInt32(textBox_ast_int.Text) < 0))
+                    {
+                        return;
+                    }
+                    else
+                    {
+                        p.Removeast(Convert.ToInt32(AstVal.Text));
+                        
+                        textBox_ast_int.Text = "0";
+                    }
+                }
+                else
+                {
+                    if ((Convert.ToInt32(AstVal.Text)) > 0)
+                    {
+                        if (canclick)
+                        {
+                            p.Removeast(1);
+                        }
+                        else
+                        {
+                            canclick = true;
+                        }
+
+                    }
+                    
+                }
+
+            }
+        }
+        private void button_ast_inc_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            if (!(comboBox_Player.SelectedIndex == -1))
+            {
+                Player p = (comboBox_Player.SelectedItem as Player);
+                p.Addast(10);
+                
+            }
+        }
+        private void button_ast_dec_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            if (!(comboBox_Player.SelectedIndex == -1))
+            {
+                Player p = (comboBox_Player.SelectedItem as Player);
+                if ((10 - (Convert.ToInt32(AstVal.Text))) < 0)
+                {
+                    p.Removeast(10);
+                    
+                }
+                else
+                {
+                    p.Removeast(Convert.ToInt32(AstVal.Text));
+                    
+                }
+            }
+        }
+        private void textBox_ast_int_LostFocus(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                int i = Convert.ToInt32(textBox_ast_int.Text);
+                if (i < 0)
+                {
+                    textBox_ast_int.Text = "0";
+                }
+            }
+            catch { textBox_ast_int.Text = "0";  canclick = false; }
+
+        }
+        private void textBox_ast_int_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            (sender as System.Windows.Controls.TextBox).SelectAll();
+        }
+
+        //Event Handlers for platinum buttons.
+        private void button_plt_inc_Click(object sender, RoutedEventArgs e)
+        {
+            if (comboBox_Player.SelectedIndex != -1)
+            {
+                Player p = comboBox_Player.SelectedItem as Player;
+                if ((Convert.ToInt32(textBox_plt_int.Text) > 0))
+                {
+                    p.Addplt(Convert.ToInt32(textBox_plt_int.Text));
+                    
+                    textBox_plt_int.Text = "0";
+                }
+                else if ((Convert.ToInt32(textBox_plt_int.Text) < 0))
+                {
+                    return;
+                }
+                else
+                {
+                    if (canclick)
+                    {
+                        p.Addplt(1);
+                    }
+                    else
+                    {
+                        canclick = true;
+                    }
+
+                }
+
+            }
+
+        }
+        private void button_plt_dec_Click(object sender, RoutedEventArgs e)
+        {
+            if (comboBox_Player.SelectedIndex != -1)
+            {
+                Player p = comboBox_Player.SelectedItem as Player;
+                if ((Convert.ToInt32(textBox_plt_int.Text) > 0))
+                {
+                    if (((Convert.ToInt32(textBox_plt_int.Text)) - (Convert.ToInt32(PltVal.Text))) < 0)
+                    {
+                        p.Removeplt(Convert.ToInt32(textBox_plt_int.Text));
+                        
+                        textBox_plt_int.Text = "0";
+                    }
+                    else if ((Convert.ToInt32(textBox_plt_int.Text) < 0))
+                    {
+                        return;
+                    }
+                    else
+                    {
+                        p.Removeplt(Convert.ToInt32(PltVal.Text));
+                        
+                        textBox_plt_int.Text = "0";
+                    }
+                }
+                else
+                {
+                    if ((Convert.ToInt32(PltVal.Text)) > 0)
+                    {
+                        if (canclick)
+                        {
+                            p.Removeplt(1);
+                        }
+                        else
+                        {
+                            canclick = true;
+                        }
+
+                    }
+
+                }
+
+            }
+        }
+        private void button_plt_inc_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            if (!(comboBox_Player.SelectedIndex == -1))
+            {
+                Player p = (comboBox_Player.SelectedItem as Player);
+                p.Addplt(10);
+                
+            }
+        }
+        private void button_plt_dec_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            if (!(comboBox_Player.SelectedIndex == -1))
+            {
+                Player p = (comboBox_Player.SelectedItem as Player);
+                if ((10 - (Convert.ToInt32(PltVal.Text))) < 0)
+                {
+                    p.Removeplt(10);
+                    
+                }
+                else
+                {
+                    p.Removeplt(Convert.ToInt32(PltVal.Text));
+                    
+                }
+            }
+        }
+        private void textBox_plt_int_LostFocus(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                int i = Convert.ToInt32(textBox_plt_int.Text);
+                if (i < 0)
+                {
+                    textBox_plt_int.Text = "0";
+                }
+            }
+            catch { textBox_plt_int.Text = "0"; canclick = false; }
+
+        }
+        private void textBox_plt_int_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            (sender as System.Windows.Controls.TextBox).SelectAll();
+        }
+
+        //Event Handlers for gold buttons.
+        private void button_gld_inc_Click(object sender, RoutedEventArgs e)
+        {
+            if (comboBox_Player.SelectedIndex != -1)
+            {
+                Player p = comboBox_Player.SelectedItem as Player;
+                if ((Convert.ToInt32(textBox_gld_int.Text) > 0))
+                {
+                    p.Addgld(Convert.ToInt32(textBox_gld_int.Text));
+                    
+                    textBox_gld_int.Text = "0";
+                }
+                else if ((Convert.ToInt32(textBox_gld_int.Text) < 0))
+                {
+                    return;
+                }
+                else
+                {
+                    if (canclick)
+                    {
+                        p.Addgld(1);
+                    }
+                    else
+                    {
+                        canclick = true;
+                    }
+
+                }
+
+            }
+
+        }
+        private void button_gld_dec_Click(object sender, RoutedEventArgs e)
+        {
+            if (comboBox_Player.SelectedIndex != -1)
+            {
+                Player p = comboBox_Player.SelectedItem as Player;
+                if ((Convert.ToInt32(textBox_gld_int.Text) > 0))
+                {
+                    if (((Convert.ToInt32(textBox_gld_int.Text)) - (Convert.ToInt32(GldVal.Text))) < 0)
+                    {
+                        p.Removegld(Convert.ToInt32(textBox_gld_int.Text));
+                        
+                        textBox_gld_int.Text = "0";
+                    }
+                    else if ((Convert.ToInt32(textBox_gld_int.Text) < 0))
+                    {
+                        return;
+                    }
+                    else
+                    {
+                        p.Removegld(Convert.ToInt32(GldVal.Text));
+                        
+                        textBox_gld_int.Text = "0";
+                    }
+                }
+                else
+                {
+                    if ((Convert.ToInt32(GldVal.Text)) > 0)
+                    {
+                        if (canclick)
+                        {
+                            p.Removegld(1);
+                        }
+                        else
+                        {
+                            canclick = true;
+                        }
+
+                    }
+
+                }
+
+            }
+        }
+        private void button_gld_inc_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            if (!(comboBox_Player.SelectedIndex == -1))
+            {
+                Player p = (comboBox_Player.SelectedItem as Player);
+                p.Addgld(10);
+                
+            }
+        }
+        private void button_gld_dec_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            if (!(comboBox_Player.SelectedIndex == -1))
+            {
+                Player p = (comboBox_Player.SelectedItem as Player);
+                if ((10 - (Convert.ToInt32(GldVal.Text))) < 0)
+                {
+                    p.Removegld(10);
+                    
+                }
+                else
+                {
+                    p.Removegld(Convert.ToInt32(GldVal.Text));
+                    
+                }
+            }
+        }
+        private void textBox_gld_int_LostFocus(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                int i = Convert.ToInt32(textBox_gld_int.Text);
+                if (i < 0)
+                {
+                    textBox_gld_int.Text = "0";
+                }
+            }
+            catch { textBox_gld_int.Text = "0"; canclick = false; }
+
+        }
+        private void textBox_gld_int_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            (sender as System.Windows.Controls.TextBox).SelectAll();
+        }
+
+        //Event Handlers for silver buttons.
+        private void button_sil_inc_Click(object sender, RoutedEventArgs e)
+        {
+            if (comboBox_Player.SelectedIndex != -1)
+            {
+                Player p = comboBox_Player.SelectedItem as Player;
+                if ((Convert.ToInt32(textBox_sil_int.Text) > 0))
+                {
+                    p.Addsil(Convert.ToInt32(textBox_sil_int.Text));
+                    
+                    textBox_sil_int.Text = "0";
+                }
+                else if ((Convert.ToInt32(textBox_sil_int.Text) < 0))
+                {
+                    return;
+                }
+                else
+                {
+                    if (canclick)
+                    {
+                        p.Addsil(1);
+                    }
+                    else
+                    {
+                        canclick = true;
+                    }
+
+                }
+
+            }
+
+        }
+        private void button_sil_dec_Click(object sender, RoutedEventArgs e)
+        {
+            if (comboBox_Player.SelectedIndex != -1)
+            {
+                Player p = comboBox_Player.SelectedItem as Player;
+                if ((Convert.ToInt32(textBox_sil_int.Text) > 0))
+                {
+                    if (((Convert.ToInt32(textBox_sil_int.Text)) - (Convert.ToInt32(SilVal.Text))) < 0)
+                    {
+                        p.Removesil(Convert.ToInt32(textBox_sil_int.Text));
+                        
+                        textBox_sil_int.Text = "0";
+                    }
+                    else if ((Convert.ToInt32(textBox_sil_int.Text) < 0))
+                    {
+                        return;
+                    }
+                    else
+                    {
+                        p.Removesil(Convert.ToInt32(SilVal.Text));
+                        
+                        textBox_sil_int.Text = "0";
+                    }
+                }
+                else
+                {
+                    if ((Convert.ToInt32(SilVal.Text)) > 0)
+                    {
+                        if (canclick)
+                        {
+                            p.Removesil(1);
+                        }
+                        else
+                        {
+                            canclick = true;
+                        }
+
+                    }
+
+                }
+
+            }
+        }
+        private void button_sil_inc_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            if (!(comboBox_Player.SelectedIndex == -1))
+            {
+                Player p = (comboBox_Player.SelectedItem as Player);
+                p.Addsil(10);
+                
+            }
+        }
+        private void button_sil_dec_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            if (!(comboBox_Player.SelectedIndex == -1))
+            {
+                Player p = (comboBox_Player.SelectedItem as Player);
+                if ((10 - (Convert.ToInt32(SilVal.Text))) < 0)
+                {
+                    p.Removesil(10);
+                    
+                }
+                else
+                {
+                    p.Removesil(Convert.ToInt32(SilVal.Text));
+                    
+                }
+            }
+        }
+        private void textBox_sil_int_LostFocus(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                int i = Convert.ToInt32(textBox_sil_int.Text);
+                if (i < 0)
+                {
+                    textBox_sil_int.Text = "0";
+                }
+            }
+            catch { textBox_sil_int.Text = "0"; canclick = false; }
+
+        }
+        private void textBox_sil_int_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            (sender as System.Windows.Controls.TextBox).SelectAll();
+        }
+
+        //Event Handlers for copper buttons.
+        private void button_cop_inc_Click(object sender, RoutedEventArgs e)
+        {
+            if (comboBox_Player.SelectedIndex != -1)
+            {
+                Player p = comboBox_Player.SelectedItem as Player;
+                if ((Convert.ToInt32(textBox_cop_int.Text) > 0))
+                {
+                    p.Addcop(Convert.ToInt32(textBox_cop_int.Text));
+                    
+                    textBox_cop_int.Text = "0";
+                }
+                else if ((Convert.ToInt32(textBox_cop_int.Text) < 0))
+                {
+                    return;
+                }
+                else
+                {
+                    if (canclick)
+                    {
+                        p.Addcop(1);
+                    }
+                    else
+                    {
+                        canclick = true;
+                    }
+
+                }
+
+            }
+
+        }
+        private void button_cop_dec_Click(object sender, RoutedEventArgs e)
+        {
+            if (comboBox_Player.SelectedIndex != -1)
+            {
+                Player p = comboBox_Player.SelectedItem as Player;
+                if ((Convert.ToInt32(textBox_cop_int.Text) > 0))
+                {
+                    if (((Convert.ToInt32(textBox_cop_int.Text)) - (Convert.ToInt32(CopVal.Text))) < 0)
+                    {
+                        p.Removecop(Convert.ToInt32(textBox_cop_int.Text));
+                        
+                        textBox_cop_int.Text = "0";
+                    }
+                    else if ((Convert.ToInt32(textBox_cop_int.Text) < 0))
+                    {
+                        return;
+                    }
+                    else
+                    {
+                        p.Removecop(Convert.ToInt32(CopVal.Text));
+                        
+                        textBox_cop_int.Text = "0";
+                    }
+                }
+                else
+                {
+                    if ((Convert.ToInt32(CopVal.Text)) > 0)
+                    {
+                        if (canclick)
+                        {
+                            p.Removecop(1);
+                        }
+                        else
+                        {
+                            canclick = true;
+                        }
+
+                    }
+
+                }
+
+            }
+        }
+        private void button_cop_inc_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            if (!(comboBox_Player.SelectedIndex == -1))
+            {
+                Player p = (comboBox_Player.SelectedItem as Player);
+                p.Addcop(10);
+                
+            }
+        }
+        private void button_cop_dec_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            if (!(comboBox_Player.SelectedIndex == -1))
+            {
+                Player p = (comboBox_Player.SelectedItem as Player);
+                if ((10 - (Convert.ToInt32(CopVal.Text))) < 0)
+                {
+                    p.Removecop(10);
+                    
+                }
+                else
+                {
+                    p.Removecop(Convert.ToInt32(CopVal.Text));
+                    
+                }
+            }
+        }
+        private void textBox_cop_int_LostFocus(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                int i = Convert.ToInt32(textBox_cop_int.Text);
+                if (i < 0)
+                {
+                    textBox_cop_int.Text = "0";
+                }
+            }
+            catch { textBox_cop_int.Text = "0"; canclick = false; }
+
+        }
+        private void textBox_cop_int_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            (sender as System.Windows.Controls.TextBox).SelectAll();
+        }
+
+        //Greg code:
         public event PropertyChangedEventHandler StringPropertyChanged;
         private string _stringFilter;
         public string StringFilter
@@ -1086,38 +1116,16 @@ namespace LootTracker
             {
                 if (value == _stringFilter)
                     return;
-               
+
                 _stringFilter = value;
                 StringPropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(StringFilter)));
 
                 PerformFiltering();
             }
         }
-
-        private bool StringTypeLootFilter(object item)
-        {
-            LootItem i = item as LootItem;
-
-            if (_stringFilter == null)
-                _stringFilter = "";
-            var CaseSensitiveFilter = StringFilter.Trim();
-
-            if (i.itemname.Contains(CaseSensitiveFilter))
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
         private void PerformFiltering()
         {
-            view_items = (CollectionView)CollectionViewSource.GetDefaultView(listView_Master.ItemsSource);
-
-            isFilteredByString = true;
-            try { view_items.Filter = StringTypeLootFilter; view_items.Refresh(); }
+            try { view_items.Filter = ItemTypeLootFilter; view_items.Refresh(); }
             catch { }
         }
     }
