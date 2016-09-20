@@ -82,5 +82,15 @@ namespace LootTracker
 
             }
         }
+
+        public void lootlistChanged()
+        {
+            NotifyPropertyChanged("lootlist");
+        }
+
+        public void playerlistChanged()
+        {
+            NotifyPropertyChanged("playerlist");
+        }
     }
 }

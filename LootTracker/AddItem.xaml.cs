@@ -11,10 +11,21 @@ namespace LootTracker
     public partial class AddItem : Window
     {
         public bool canceled = true;
+        
 
         public AddItem()
         {
             InitializeComponent();
+        }
+
+        public AddItem(LootItem i)
+        {
+            InitializeComponent();
+            textBlock_Title.Text = "Edit Item";
+            textBox_Name.Text = i.itemname;
+            textBox_Count.Text = i.count.ToString();
+            textBox_BaseWeight.Text = i.baseweight.ToString();
+            textBox_BaseValue.Text = i.basevalue.ToString();
         }
 
         private void button_OK_Click(object sender, RoutedEventArgs e)

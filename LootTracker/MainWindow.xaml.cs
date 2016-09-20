@@ -15,87 +15,105 @@ namespace LootTracker
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : Window, INotifyPropertyChanged
     {
         //Class fields.
-        string savefilepath;
-        LootBook _book = new LootBook();
+        string _savefilepath;
+        string _stringFilter;        
         bool windowLoaded;
+        bool canclick = true;
+        LootBook _book = new LootBook();
         GridViewColumnHeader _lastHeaderClicked = null;
         ListSortDirection _lastDirection = ListSortDirection.Ascending;
-        CollectionView view_items;
-        bool canclick = true;
-        bool ComboFilter = false;
+        CollectionView view_items;    
+        public event PropertyChangedEventHandler PropertyChanged;
 
         //Class Properties.
         public LootBook book { get { return _book; } }
-        
+        public string StringFilter
+        {
+            get { return _stringFilter; }
+            set
+            {
+                if (value == _stringFilter)
+                {
+                    return;
+                }
+
+                _stringFilter = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(StringFilter)));
+                view_items.Refresh();
+            }
+        }
+
         //MainWindow entry point.
         public MainWindow()
         {
-            InitializeComponent();
             DataContext = this;
-        }
-                
-        //Player Loot Filter method.
-        private bool PlayerLootFilter(object item)
-        {
-            bool playerexists;
-            Player p = comboBox_Player.SelectedItem as Player;
-            LootItem i = item as LootItem;
-
-            if (item == null)
-            {
-                return false;
-            }
-
-            try
-            {
-                playerexists = i.assignments.ContainsKey(p.playername);
-            }
-            catch
-            {
-               return false;
-            }
-
-            if (p.playername == "Party" && i.unassignedcount > 0)
-            {
-                return true;
-            }
-            else if (playerexists)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            InitializeComponent();            
         }
 
         //ItemType Loot Filter method.
-        private bool ItemTypeLootFilter(object item)
+        private bool LootItemFilter(object item)
         {
             LootItem i = item as LootItem;
             string val = comboBox_Filter.SelectedValue.ToString();
-            if (_stringFilter == null)
-                _stringFilter = "";
+            bool playerexists;
+            Player p = comboBox_Player.SelectedItem as Player;
 
-            var NonCaseSensitiveFilter = StringFilter.Trim().ToLower();
-
-            if ((comboBox_Filter.SelectedIndex == -1 || val == "All Items") && i.itemname.ToLower().Contains(NonCaseSensitiveFilter))
+            if (tabControl.SelectedIndex == 0)
             {
-                return true;
+                if (_stringFilter == null)
+                {
+                    _stringFilter = "";
+                }
+
+                var NonCaseSensitiveFilter = StringFilter.Trim().ToLower();
+                bool isMatch = i.itemname.ToLower().Contains(NonCaseSensitiveFilter);
+
+                if ((comboBox_Filter.SelectedIndex == -1 || val == "All Items") && isMatch)
+                {
+                    return true;
+                }
+                else if (i.loottype == val && isMatch)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
-            else if (i.loottype == val && i.itemname.ToLower().Contains(NonCaseSensitiveFilter))
+            else if (tabControl.SelectedIndex == 1)
             {
-                return true;
+                try
+                {
+                    playerexists = i.assignments.ContainsKey(p.playername);
+                }
+                catch
+                {
+                    return false;
+                }
+
+                if (p.playername == "Party" && i.unassignedcount > 0)
+                {
+                    return true;
+                }
+                else if (playerexists)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
             else
             {
                 return false;
             }
         }
-        
+    
         //Sorting method for the listview.
         private void Sort(string sortBy, ListSortDirection direction)
         {
@@ -151,17 +169,19 @@ namespace LootTracker
             try
             {
                 _book = handler.ReadData();
-                int bookhash = _book.GetHashCode();
-                DataContext = book;
-                savefilepath = handler.filepath;
+                var foo = this.DataContext;
                 listView_Master.ItemsSource = _book.lootlist;
                 listView_Player.ItemsSource = _book.lootlist;
                 comboBox_Player.ItemsSource = _book.playerlist;
-                comboBox_Player.SelectedIndex = 0;
-                view_items = (CollectionView)CollectionViewSource.GetDefaultView(listView_Master.ItemsSource);
+                comboBox_Player.SelectedItem = 0;
+                int bookhash = _book.GetHashCode();
+                view_items = (CollectionView)CollectionViewSource.GetDefaultView(book.lootlist);
+                view_items.Filter = LootItemFilter;
+                object o = listView_Master.ItemsSource;
+                view_items.Refresh();
             }
             catch { }
-            
+
         }
 
         //Event Handler for window loaded.
@@ -170,9 +190,9 @@ namespace LootTracker
             listView_Master.ItemsSource = _book.lootlist;
             listView_Player.ItemsSource = _book.lootlist;
             comboBox_Player.ItemsSource = _book.playerlist;
-            comboBox_Player.SelectedIndex = 0;
-
-            view_items = (CollectionView)CollectionViewSource.GetDefaultView(listView_Master.ItemsSource);
+            comboBox_Player.SelectedItem = 0;
+            view_items = (CollectionView)CollectionViewSource.GetDefaultView(book.lootlist);
+            view_items.Filter = LootItemFilter;
             windowLoaded = true;
         }
 
@@ -181,7 +201,7 @@ namespace LootTracker
         {
             DataHandler handler = new DataHandler();
             handler.WriteData(_book);
-            savefilepath = handler.filepath;
+            _savefilepath = handler.filepath;
         }
 
         //Event Handler for creating a new LootBook.
@@ -190,10 +210,13 @@ namespace LootTracker
             _book = new LootBook();
             listView_Master.ItemsSource = _book.lootlist;
             listView_Player.ItemsSource = _book.lootlist;
-            comboBox_Player.SelectedIndex = -1;
             comboBox_Player.ItemsSource = _book.playerlist;
-            comboBox_Player.SelectedIndex = 0;
-            view_items = (CollectionView)CollectionViewSource.GetDefaultView(listView_Master.ItemsSource);   
+            comboBox_Player.SelectedItem = 0;
+            comboBox_Filter.SelectedIndex = 0;
+            view_items = (CollectionView)CollectionViewSource.GetDefaultView(book.lootlist);
+            view_items.Filter = LootItemFilter;
+            _book.lootlistChanged();
+            
         }
 
         //Event Handler for adding a new player to the roster.
@@ -225,7 +248,7 @@ namespace LootTracker
         private void MenuItem_Save_Click(object sender, RoutedEventArgs e)
         {
             DataHandler handler = new DataHandler();
-            handler.WriteData(true, _book, savefilepath);
+            handler.WriteData(true, _book, _savefilepath);
         }
 
         //Event handler for clicking the exit menu item.
@@ -247,24 +270,25 @@ namespace LootTracker
             {
                 LootItem item = new LootItem(window.textBox_Name.Text, window.comboBox_Type.Text, (Convert.ToInt32(window.textBox_Count.Text)), (Convert.ToInt32(window.textBox_BaseValue.Text)), (Convert.ToDecimal(window.textBox_BaseWeight.Text)));
                 _book.AddLootItem(item);
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(book.lootlist)));
             }
 
             view_items.Refresh();
         }
-        
+
         //Event handler for clicking the close button.
         private void button_Click(object sender, RoutedEventArgs e)
         {
             App.Current.Shutdown();
         }
-        
+
         //Event handler for clicking the item delete button.
         private void DeleteItem_Click(object sender, RoutedEventArgs e)
         {
             _book.RemoveLootItem((listView_Master.SelectedItem as LootItem));
             button_Delete.IsEnabled = false;
             button_Assignments.IsEnabled = false;
-         }
+        }
 
         //Event handler for sorting the listview by column when the header is clicked.
         private void GridViewColumnHeader_Clicked(object sender, RoutedEventArgs e)
@@ -300,12 +324,15 @@ namespace LootTracker
                 }
             }
         }
-                
+
         //Event handler for when the listview selection changes.
         private void listView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             button_Delete.IsEnabled = true;
             button_Assignments.IsEnabled = true;
+            
+
+
         }
 
         //Event handler for clicking the browse button (player image).
@@ -330,18 +357,21 @@ namespace LootTracker
         //Event handler for clicking the equip button (also when double clicking an item).
         private void button_Assignments_Click(object sender, RoutedEventArgs e)
         {
-            LootItem l = (listView_Master.SelectedItem as LootItem);
-            LootItem l_temp = l.Clone();
-            AssignItem window_AssignItem = new AssignItem(_book.playerlist, l_temp);
-            window_AssignItem.ShowDialog();
-
-            if (window_AssignItem.isCancelled == false)
+            if (listView_Master.SelectedIndex != -1 && !(listView_Master.SelectedItems.Count > 1))
             {
-                l.assignments = window_AssignItem.loot.assignments;
-                l.CalculateUnassignedCount();
-                l.CalculateUnassignedValue();
-                view_items.Refresh();
-                _book.NotifyPropertyChanged("lootlist");
+                LootItem l = (listView_Master.SelectedItem as LootItem);
+                LootItem l_temp = l.Clone();
+                AssignItem window_AssignItem = new AssignItem(_book.playerlist, l_temp);
+                window_AssignItem.ShowDialog();
+
+                if (window_AssignItem.isCancelled == false)
+                {
+                    l.assignments = window_AssignItem.loot.assignments;
+                    l.CalculateUnassignedCount();
+                    l.CalculateUnassignedValue();
+                    view_items.Refresh();
+                    _book.NotifyPropertyChanged("lootlist");
+                }
             }
         }
 
@@ -364,31 +394,14 @@ namespace LootTracker
                 view_items.Refresh();
                 _book.NotifyPropertyChanged("lootlist");
             }
-         }
+        }
 
         //Event handler to modify the listview filter when the tab selection changes.
         private void tabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (e.Source is System.Windows.Controls.TabControl)
+            if (e.Source is System.Windows.Controls.TabControl && windowLoaded)
             {
-                if (windowLoaded)
-                {
-                    view_items = (CollectionView)CollectionViewSource.GetDefaultView(_book.lootlist);
-                    if (tabControl.SelectedIndex == 0 && comboBox_Filter.SelectedIndex == 0)
-                    {
-                        view_items.Filter = null;
-                    }
-                    else if (tabControl.SelectedIndex == 0 && comboBox_Filter.SelectedIndex > 0 )
-                    {
-                       view_items.Filter = ItemTypeLootFilter;
-                    }
-                    else if (tabControl.SelectedIndex == 1)
-                    {
-                        view_items.Filter = PlayerLootFilter;
-                    }
-                    view_items.Refresh();
-                    ComboFilter = true;                   
-                }               
+                view_items.Refresh();
             }
         }
 
@@ -422,10 +435,9 @@ namespace LootTracker
             {
                 button_RemovePlayer.IsEnabled = true;
             }
-            view_items = (CollectionView)CollectionViewSource.GetDefaultView(listView_Player.ItemsSource);
-            view_items.Refresh();
+            view_items?.Refresh();
         }
-        
+
         //Event handler for clicking the Sell button.
         private void button_Sell_Click(object sender, RoutedEventArgs e)
         {
@@ -485,16 +497,17 @@ namespace LootTracker
         //Event handler for when the itemtype filter combobox selection is changed.
         private void comboBox_Filter_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            try { view_items.Filter = ItemTypeLootFilter; view_items.Refresh(); }
-            catch { }
+            view_items?.Refresh();
         }
 
         //Event handler for clicking the edit button.
         private void button_Edit_Click(object sender, RoutedEventArgs e)
         {
+            
             //Instantiate a new AddItem window.
             LootItem i = listView_Master.SelectedItem as LootItem;
-            AddItem window = new AddItem(i);
+            LootItem i_temp = i.Clone();
+            AddItem window = new AddItem(i_temp);
 
             //Show the window.
             window.ShowDialog();
@@ -507,7 +520,7 @@ namespace LootTracker
                 i.basevalue = (Convert.ToInt32(window.textBox_BaseValue.Text));
                 i.baseweight = (Convert.ToDecimal(window.textBox_BaseWeight.Text));
             }
-
+          
             view_items.Refresh();
         }
 
@@ -520,7 +533,7 @@ namespace LootTracker
                 if ((Convert.ToInt32(textBox_ast_int.Text) > 0))
                 {
                     p.Addast(Convert.ToInt32(textBox_ast_int.Text));
-                   
+
                     textBox_ast_int.Text = "0";
                 }
                 else if ((Convert.ToInt32(textBox_ast_int.Text) < 0))
@@ -537,15 +550,15 @@ namespace LootTracker
                     {
                         canclick = true;
                     }
-                    
+
                 }
-                
+
             }
-                
+
         }
         private void button_ast_dec_Click(object sender, RoutedEventArgs e)
         {
-             if (comboBox_Player.SelectedIndex != -1)
+            if (comboBox_Player.SelectedIndex != -1)
             {
                 Player p = comboBox_Player.SelectedItem as Player;
                 if ((Convert.ToInt32(textBox_ast_int.Text) > 0))
@@ -553,7 +566,7 @@ namespace LootTracker
                     if (((Convert.ToInt32(textBox_ast_int.Text)) - (Convert.ToInt32(AstVal.Text))) < 0)
                     {
                         p.Removeast(Convert.ToInt32(textBox_ast_int.Text));
-                        
+
                         textBox_ast_int.Text = "0";
                     }
                     else if ((Convert.ToInt32(textBox_ast_int.Text) < 0))
@@ -563,7 +576,7 @@ namespace LootTracker
                     else
                     {
                         p.Removeast(Convert.ToInt32(AstVal.Text));
-                        
+
                         textBox_ast_int.Text = "0";
                     }
                 }
@@ -581,7 +594,7 @@ namespace LootTracker
                         }
 
                     }
-                    
+
                 }
 
             }
@@ -592,7 +605,7 @@ namespace LootTracker
             {
                 Player p = (comboBox_Player.SelectedItem as Player);
                 p.Addast(10);
-                
+
             }
         }
         private void button_ast_dec_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
@@ -603,12 +616,12 @@ namespace LootTracker
                 if ((10 - (Convert.ToInt32(AstVal.Text))) < 0)
                 {
                     p.Removeast(10);
-                    
+
                 }
                 else
                 {
                     p.Removeast(Convert.ToInt32(AstVal.Text));
-                    
+
                 }
             }
         }
@@ -622,7 +635,7 @@ namespace LootTracker
                     textBox_ast_int.Text = "0";
                 }
             }
-            catch { textBox_ast_int.Text = "0";  canclick = false; }
+            catch { textBox_ast_int.Text = "0"; canclick = false; }
 
         }
         private void textBox_ast_int_MouseDoubleClick(object sender, MouseButtonEventArgs e)
@@ -639,7 +652,7 @@ namespace LootTracker
                 if ((Convert.ToInt32(textBox_plt_int.Text) > 0))
                 {
                     p.Addplt(Convert.ToInt32(textBox_plt_int.Text));
-                    
+
                     textBox_plt_int.Text = "0";
                 }
                 else if ((Convert.ToInt32(textBox_plt_int.Text) < 0))
@@ -672,7 +685,7 @@ namespace LootTracker
                     if (((Convert.ToInt32(textBox_plt_int.Text)) - (Convert.ToInt32(PltVal.Text))) < 0)
                     {
                         p.Removeplt(Convert.ToInt32(textBox_plt_int.Text));
-                        
+
                         textBox_plt_int.Text = "0";
                     }
                     else if ((Convert.ToInt32(textBox_plt_int.Text) < 0))
@@ -682,7 +695,7 @@ namespace LootTracker
                     else
                     {
                         p.Removeplt(Convert.ToInt32(PltVal.Text));
-                        
+
                         textBox_plt_int.Text = "0";
                     }
                 }
@@ -711,7 +724,7 @@ namespace LootTracker
             {
                 Player p = (comboBox_Player.SelectedItem as Player);
                 p.Addplt(10);
-                
+
             }
         }
         private void button_plt_dec_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
@@ -722,12 +735,12 @@ namespace LootTracker
                 if ((10 - (Convert.ToInt32(PltVal.Text))) < 0)
                 {
                     p.Removeplt(10);
-                    
+
                 }
                 else
                 {
                     p.Removeplt(Convert.ToInt32(PltVal.Text));
-                    
+
                 }
             }
         }
@@ -758,7 +771,7 @@ namespace LootTracker
                 if ((Convert.ToInt32(textBox_gld_int.Text) > 0))
                 {
                     p.Addgld(Convert.ToInt32(textBox_gld_int.Text));
-                    
+
                     textBox_gld_int.Text = "0";
                 }
                 else if ((Convert.ToInt32(textBox_gld_int.Text) < 0))
@@ -791,7 +804,7 @@ namespace LootTracker
                     if (((Convert.ToInt32(textBox_gld_int.Text)) - (Convert.ToInt32(GldVal.Text))) < 0)
                     {
                         p.Removegld(Convert.ToInt32(textBox_gld_int.Text));
-                        
+
                         textBox_gld_int.Text = "0";
                     }
                     else if ((Convert.ToInt32(textBox_gld_int.Text) < 0))
@@ -801,7 +814,7 @@ namespace LootTracker
                     else
                     {
                         p.Removegld(Convert.ToInt32(GldVal.Text));
-                        
+
                         textBox_gld_int.Text = "0";
                     }
                 }
@@ -830,7 +843,7 @@ namespace LootTracker
             {
                 Player p = (comboBox_Player.SelectedItem as Player);
                 p.Addgld(10);
-                
+
             }
         }
         private void button_gld_dec_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
@@ -841,12 +854,12 @@ namespace LootTracker
                 if ((10 - (Convert.ToInt32(GldVal.Text))) < 0)
                 {
                     p.Removegld(10);
-                    
+
                 }
                 else
                 {
                     p.Removegld(Convert.ToInt32(GldVal.Text));
-                    
+
                 }
             }
         }
@@ -861,7 +874,6 @@ namespace LootTracker
                 }
             }
             catch { textBox_gld_int.Text = "0"; canclick = false; }
-
         }
         private void textBox_gld_int_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
@@ -877,7 +889,7 @@ namespace LootTracker
                 if ((Convert.ToInt32(textBox_sil_int.Text) > 0))
                 {
                     p.Addsil(Convert.ToInt32(textBox_sil_int.Text));
-                    
+
                     textBox_sil_int.Text = "0";
                 }
                 else if ((Convert.ToInt32(textBox_sil_int.Text) < 0))
@@ -910,7 +922,7 @@ namespace LootTracker
                     if (((Convert.ToInt32(textBox_sil_int.Text)) - (Convert.ToInt32(SilVal.Text))) < 0)
                     {
                         p.Removesil(Convert.ToInt32(textBox_sil_int.Text));
-                        
+
                         textBox_sil_int.Text = "0";
                     }
                     else if ((Convert.ToInt32(textBox_sil_int.Text) < 0))
@@ -920,7 +932,7 @@ namespace LootTracker
                     else
                     {
                         p.Removesil(Convert.ToInt32(SilVal.Text));
-                        
+
                         textBox_sil_int.Text = "0";
                     }
                 }
@@ -949,7 +961,7 @@ namespace LootTracker
             {
                 Player p = (comboBox_Player.SelectedItem as Player);
                 p.Addsil(10);
-                
+
             }
         }
         private void button_sil_dec_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
@@ -960,12 +972,12 @@ namespace LootTracker
                 if ((10 - (Convert.ToInt32(SilVal.Text))) < 0)
                 {
                     p.Removesil(10);
-                    
+
                 }
                 else
                 {
                     p.Removesil(Convert.ToInt32(SilVal.Text));
-                    
+
                 }
             }
         }
@@ -996,7 +1008,7 @@ namespace LootTracker
                 if ((Convert.ToInt32(textBox_cop_int.Text) > 0))
                 {
                     p.Addcop(Convert.ToInt32(textBox_cop_int.Text));
-                    
+
                     textBox_cop_int.Text = "0";
                 }
                 else if ((Convert.ToInt32(textBox_cop_int.Text) < 0))
@@ -1029,7 +1041,7 @@ namespace LootTracker
                     if (((Convert.ToInt32(textBox_cop_int.Text)) - (Convert.ToInt32(CopVal.Text))) < 0)
                     {
                         p.Removecop(Convert.ToInt32(textBox_cop_int.Text));
-                        
+
                         textBox_cop_int.Text = "0";
                     }
                     else if ((Convert.ToInt32(textBox_cop_int.Text) < 0))
@@ -1039,7 +1051,7 @@ namespace LootTracker
                     else
                     {
                         p.Removecop(Convert.ToInt32(CopVal.Text));
-                        
+
                         textBox_cop_int.Text = "0";
                     }
                 }
@@ -1068,7 +1080,7 @@ namespace LootTracker
             {
                 Player p = (comboBox_Player.SelectedItem as Player);
                 p.Addcop(10);
-                
+
             }
         }
         private void button_cop_dec_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
@@ -1079,12 +1091,12 @@ namespace LootTracker
                 if ((10 - (Convert.ToInt32(CopVal.Text))) < 0)
                 {
                     p.Removecop(10);
-                    
+
                 }
                 else
                 {
                     p.Removecop(Convert.ToInt32(CopVal.Text));
-                    
+
                 }
             }
         }
@@ -1104,29 +1116,6 @@ namespace LootTracker
         private void textBox_cop_int_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             (sender as System.Windows.Controls.TextBox).SelectAll();
-        }
-
-        //Greg code:
-        public event PropertyChangedEventHandler StringPropertyChanged;
-        private string _stringFilter;
-        public string StringFilter
-        {
-            get { return _stringFilter; }
-            set
-            {
-                if (value == _stringFilter)
-                    return;
-
-                _stringFilter = value;
-                StringPropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(StringFilter)));
-
-                PerformFiltering();
-            }
-        }
-        private void PerformFiltering()
-        {
-            try { view_items.Filter = ItemTypeLootFilter; view_items.Refresh(); }
-            catch { }
         }
     }
 }
