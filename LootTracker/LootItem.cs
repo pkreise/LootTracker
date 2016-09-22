@@ -206,5 +206,14 @@ namespace LootTracker
 
             _unassignedcount = _count - _assignedcount;
         }
+
+        //Combo method to perform all calculations.
+        public void CalculateAllValues()
+        {
+            CalculateTotalValue();
+            CalculateTotalWeight();
+            CalculateUnassignedCount();
+            CalculateUnassignedValue();
+        }
     }
 }

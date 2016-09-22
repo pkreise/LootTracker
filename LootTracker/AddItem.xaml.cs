@@ -27,7 +27,7 @@ namespace LootTracker
             typelookup.Add("Magic", 3);
             typelookup.Add("Misc", 4);
             typelookup.Add("Potion", 5);
-            typelookup.Add("AmWeaponmo", 6);
+            typelookup.Add("Weapon", 6);
 
 
             InitializeComponent();
