@@ -210,7 +210,7 @@ namespace LootTracker
             if (!window.cancelled)
             {
                 //Instantiate the player object
-                Player player = new Player(window.textBox_Player.Text, window.textBox_Character.Text);
+                Player player = new Player(window.textBox_Player.Text, window.textBox_Character.Text, 10); //10 = temp int strength
 
                 //Update the image if one was uploaded at player creation.
                 if (window.hasimage == true)

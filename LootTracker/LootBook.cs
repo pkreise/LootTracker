@@ -23,7 +23,7 @@ namespace LootTracker
         public LootBook()
         {
             //Add a default "party" player to the lootbook.
-            Player party = new Player("Party", "Party");
+            Player party = new Player("Party", "Party", 0);
 
             //Get the default party image.
             Uri uri = new Uri("pack://application:,,,/party2.jpg");
@@ -61,7 +61,6 @@ namespace LootTracker
             if (_playerlist.Contains(p))
             {
                 _playerlist.Remove(p);
-
             }
         }
         
@@ -79,8 +78,47 @@ namespace LootTracker
             {
                 _lootlist.Remove(l);
                 NotifyPropertyChanged("lootlist");
-
             }
         }
+        public decimal CalculateTotalWeight()
+        {
+            decimal _totalPartyWeight = 0;
+            foreach (LootItem loot in _lootlist)
+            {
+                _totalPartyWeight = _totalPartyWeight + (loot.count * loot.baseweight);
+            }
+            return _totalPartyWeight;
+        }
+
+        public int CalculateMaxLightLoad()
+        {
+            int _lightLoadTotal = 0;
+            foreach (Player Dude in _playerlist)
+            {
+                _lightLoadTotal += (Dude.LightLoadMax);
+            }
+            return _lightLoadTotal;
+        }
+
+        public int CalculateMaxMedLoad()
+        {
+            int _medLoadTotal = 0;
+            foreach (Player Dude in _playerlist)
+            {
+                _medLoadTotal += (Dude.MedLoadMax);
+            }
+            return _medLoadTotal;
+        }
+
+        public int CalculateMaxheavyLoad()
+        {
+            int _heavyLoadTotal = 0;
+            foreach (Player Dude in _playerlist)
+            {
+                _heavyLoadTotal += (Dude.HeavyLoadMax);
+            }
+            return _heavyLoadTotal;
+        }
+
     }
 }

@@ -18,6 +18,7 @@ namespace LootTracker
         int _gld;
         int _sil;
         int _cop;
+        int _strength;
         double _totalGP;
         bool _GPCarried;
         [field: NonSerialized]
@@ -36,6 +37,11 @@ namespace LootTracker
         public int sil { get { return _sil; } }
         public int cop { get { return _cop; } }
         public double totalGP { get { return _totalGP; } }
+        public int strength { get { return _strength; } }
+        public int LightLoadMax { get; }
+        public int MedLoadMax { get; }
+        public int HeavyLoadMax { get; }
+        public int[] MaxLoads = new int[20] { 0, 4, 6, 10, 13, 16, 20, 23, 26, 30, 33, 38, 43, 50, 58, 66, 76, 86, 100, 116 };
         public bool GPCarried
         {
             get { return _GPCarried; }
@@ -62,10 +68,11 @@ namespace LootTracker
         }
 
         //Constructor
-        public Player(string PlayerName, string CharachterName)
+        public Player(string PlayerName, string CharachterName, int Strength)
         {
             _playername = PlayerName;
             _charactername = CharachterName;
+            _strength = Strength;
             _equipmentvalue = 0;
             _wgtcarried = 0;
             _ast = 0;
@@ -74,6 +81,27 @@ namespace LootTracker
             _sil = 0;
             _cop = 0;
             CalculateGP();
+            
+            
+            // Calculate load based on strength value.
+            if (_strength < 20)
+            {
+                LightLoadMax = MaxLoads[(_strength)];
+                MedLoadMax = (2 * LightLoadMax);
+                HeavyLoadMax = (3 * LightLoadMax);
+            }
+            else if (_strength >= 20)
+            {
+                LightLoadMax = (4 * MaxLoads[(_strength - 10)] + 1);
+                MedLoadMax = (2 * LightLoadMax);
+                HeavyLoadMax = (3 * LightLoadMax);
+            }
+            else if (_strength >= 30)
+            {
+                LightLoadMax = (16 * MaxLoads[(_strength - 20)] + 2);
+                MedLoadMax = (2 * LightLoadMax);
+                HeavyLoadMax = (3 * LightLoadMax);
+            }
         }
 
         //NotifyPropertyChanged method.
@@ -163,6 +191,6 @@ namespace LootTracker
             _characterimage = Image;
             _hasimage = true;
             NotifyPropertyChanged("characterimage");
-        }
+        }                    
     }
 }
