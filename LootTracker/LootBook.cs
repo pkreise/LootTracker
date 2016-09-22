@@ -83,6 +83,46 @@ namespace LootTracker
             }
         }
 
+        public decimal CalculateTotalWeight()
+        {
+            decimal _totalPartyWeight = 0;
+            foreach (LootItem loot in _lootlist)
+            {
+                _totalPartyWeight = _totalPartyWeight + (loot.count * loot.baseweight);
+            }
+            return _totalPartyWeight;
+        }
+
+        public int CalculateMaxLightLoad()
+        {
+            int _lightLoadTotal = 0;
+            foreach (Player Dude in _playerlist)
+            {
+                _lightLoadTotal += (Dude.LightLoadMax);
+            }
+            return _lightLoadTotal;
+        }
+
+        public int CalculateMaxMedLoad()
+        {
+            int _medLoadTotal = 0;
+            foreach (Player Dude in _playerlist)
+            {
+                _medLoadTotal += (Dude.MedLoadMax);
+            }
+            return _medLoadTotal;
+        }
+
+        public int CalculateMaxheavyLoad()
+        {
+            int _heavyLoadTotal = 0;
+            foreach (Player Dude in _playerlist)
+            {
+                _heavyLoadTotal += (Dude.HeavyLoadMax);
+            }
+            return _heavyLoadTotal;
+        }
+
         public void lootlistChanged()
         {
             NotifyPropertyChanged("lootlist");
@@ -92,5 +132,7 @@ namespace LootTracker
         {
             NotifyPropertyChanged("playerlist");
         }
+
+
     }
 }
