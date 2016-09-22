@@ -57,13 +57,13 @@
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="65"/>
                         <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="150"/>
+                        <ColumnDefinition Width="60"/>
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="18*"/>
+                        <ColumnDefinition Width="19*"/>
                         <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="227*"/>
-                        <ColumnDefinition Width="386*"/>
+                        <ColumnDefinition Width="237*"/>
+                        <ColumnDefinition Width="403*"/>
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
                     <ListView x:Name="listView_Master" ButtonBase.Click="GridViewColumnHeader_Clicked"  BorderThickness="0" ItemContainerStyle="{StaticResource listViewItem_Dark}" SelectionChanged="listView_SelectionChanged" Grid.ColumnSpan="12" Grid.Row="1" MouseDoubleClick="button_Assignments_Click" Margin="0" ItemsSource="{Binding DataContext._book.lootlist}">
@@ -151,8 +151,8 @@
                     <Button x:Name="button_NewItem" Grid.Column="0" Grid.Row="0" Content="New" HorizontalAlignment="Center" VerticalAlignment="Center" Width="50" Height="30" Foreground="#FFDEDEDE" Style="{StaticResource button_Dark_Small}" Click="NewItem_Click" Margin="0,0,0,1"/>
                     <Button x:Name="button_Delete" Grid.Column="1" Grid.Row="0" Content="Delete" HorizontalAlignment="Center" VerticalAlignment="Center" Height="30" Foreground="#FFDEDEDE" Style="{StaticResource button_Dark_Small}" Click="DeleteItem_Click" IsEnabled="False" Margin="0,0,0,1" Width="65"/>
                     <Button x:Name="button_Assignments" Content="Equip" HorizontalAlignment="Center" Width="65" Height="30" Style="{StaticResource button_Dark_Small}" Foreground="#FFDEDEDE" IsEnabled="False" FontStyle="Italic" FontWeight="ExtraBlack" VerticalAlignment="Center" Click="button_Assignments_Click" Grid.Column="2" Grid.Row="0" Margin="0"/>
-                    <Label x:Name="label_Filter" Content="Filter by" HorizontalAlignment="Left" Grid.Column="5" Foreground="{DynamicResource lightgray_fore}" Padding="0" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Center" Width="51" Margin="0,0,10,0"/>
-                    <ComboBox x:Name="comboBox_Filter" Grid.Column="6" Margin="0,0,0,1" Height="30" VerticalContentAlignment="Center" SelectionChanged="comboBox_Filter_SelectionChanged" SelectedValuePath="Content" Width="110" ItemContainerStyle="{DynamicResource comboBoxItem_Dark_ItemType}" SelectedIndex="0" Foreground="{DynamicResource darkgray_back}">
+                    <Label x:Name="label_Filter" Content="Filter by" HorizontalAlignment="Left" Grid.Column="8" Foreground="{DynamicResource lightgray_fore}" Padding="0" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Center" Width="51" Margin="0,0,5,0"/>
+                    <ComboBox x:Name="comboBox_Filter" Grid.Column="9" Margin="0,0,0,1" Height="30" VerticalContentAlignment="Center" SelectionChanged="comboBox_Filter_SelectionChanged" SelectedValuePath="Content" Width="110" ItemContainerStyle="{DynamicResource comboBoxItem_Dark_ItemType}" SelectedIndex="0" Foreground="{DynamicResource darkgray_back}" HorizontalAlignment="Left">
                         <ComboBoxItem Content="All Items"/>
                         <ComboBoxItem Content="Ammo"/>
                         <ComboBoxItem Content="Armor"/>
@@ -162,8 +162,8 @@
                         <ComboBoxItem Content="Potion"/>
                         <ComboBoxItem Content="Weapon"/>
                     </ComboBox>
-                    <Label x:Name="label_Search" Content="Search" Foreground="{DynamicResource lightgray_fore}" Cursor="None" Grid.Column="8" HorizontalAlignment="Left" Width="52"/>
-                    <TextBox x:Name="textBox_Search" Margin="2,0,0,1" TextWrapping="Wrap" HorizontalAlignment="Left" Grid.Column="10" Width="170" Background="{DynamicResource lightgray_fore}" Foreground="{DynamicResource darkgray_back}" VerticalContentAlignment="Center" Text="{Binding DataContext.StringFilter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    <Label x:Name="label_Search" Content="Search" Foreground="{DynamicResource lightgray_fore}" Cursor="None" Grid.Column="5" HorizontalAlignment="Left" Width="52"/>
+                    <TextBox x:Name="textBox_Search" Margin="2,0,0,1" TextWrapping="Wrap" HorizontalAlignment="Left" Grid.Column="6" Width="170" Background="{DynamicResource lightgray_fore}" Foreground="{DynamicResource darkgray_back}" VerticalContentAlignment="Center" Text="{Binding DataContext.StringFilter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                     <Label x:Name="label_SellValue" HorizontalAlignment="Right" Foreground="{DynamicResource lightgray_fore}" FontSize="16" Grid.Column="10" Content="{Binding DataContext.lootlist, Converter={StaticResource s_converter}, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:MainWindow}}}" Margin="0,1,14,0" VerticalContentAlignment="Stretch" Padding="0,1,0,0"/>
                     <Button x:Name="button_Sell" Content="Sell" HorizontalAlignment="Center" Width="45" Height="30" Style="{StaticResource button_Dark_Small}" Foreground="#FFDEDEDE" FontStyle="Italic" FontWeight="ExtraBlack" VerticalAlignment="Center" Click="button_Sell_Click" Grid.Column="11" Grid.Row="0" Margin="0,0,0,1" ToolTip="Left Click:  Sells the unequipped instances of all items. &#x0a;Right Click:  Sells the unequipped instances of the selected items."/>
                     <Button x:Name="button_Edit" Content="Edit" Grid.Column="3" HorizontalAlignment="Left" Margin="0" VerticalAlignment="Top" Width="52" Style="{DynamicResource button_Dark_Small}" Foreground="{DynamicResource lightgray_fore}" Height="30" Click="button_Edit_Click"/>

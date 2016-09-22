@@ -23,7 +23,7 @@ namespace LootTracker
         public LootBook()
         {
             //Add a default "party" player to the lootbook.
-            Player party = new Player("Party", "Party");
+            Player party = new Player("Party", "Party", 0);
 
             //Get the default party image.
             Uri uri = new Uri("pack://application:,,,/party2.jpg");
