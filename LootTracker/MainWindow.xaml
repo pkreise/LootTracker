@@ -165,8 +165,8 @@
                     </ComboBox>
                     <Label x:Name="label_Search" Content="Search" Foreground="{DynamicResource lightgray_fore}" Cursor="None" Grid.Column="5" HorizontalAlignment="Left" Width="52"/>
                     <TextBox x:Name="textBox_Search" Margin="0,0,0,2" TextWrapping="Wrap" HorizontalAlignment="Left" Grid.Column="6" Width="170" Background="{DynamicResource lightgray_fore}" Foreground="{DynamicResource darkgray_back}" VerticalContentAlignment="Center" Text="{Binding DataContext.StringFilter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                    <Label x:Name="label_SellValue" HorizontalAlignment="Right" Foreground="{DynamicResource lightgray_fore}" FontSize="16" Grid.Column="10" Content="{Binding book.lootlist, Converter={StaticResource s_converter}}" Margin="0,15,14,17" VerticalContentAlignment="Center" Padding="0" HorizontalContentAlignment="Center" VerticalAlignment="Center" Height="0" Width="0"/>
-                    <Button x:Name="button_Sell" Content="Sell" HorizontalAlignment="Center" Width="45" Height="30" Style="{StaticResource button_Dark_Small}" Foreground="#FFDEDEDE" FontStyle="Italic" FontWeight="ExtraBlack" VerticalAlignment="Center" Click="button_Sell_Click" Grid.Column="11" Grid.Row="0" Margin="0,0,0,2" ToolTip="Left Click:  Sells the unequipped instances of all items. &#xA;Right Click:  Sells the unequipped instances of the selected items."/>
+                    <Label x:Name="label_SellValue" HorizontalAlignment="Right" Foreground="{DynamicResource lightgray_fore}" FontSize="16" Grid.Column="10" Content="{Binding book.lootlist, Converter={StaticResource s_converter}}" Margin="0,0,0,1" VerticalContentAlignment="Center" Padding="0,0,0,3" HorizontalContentAlignment="Stretch" Height="30"/>
+                    <Button x:Name="button_Sell" Content="Sell" Width="45" Height="30" Style="{StaticResource button_Dark_Small}" Foreground="#FFDEDEDE" FontStyle="Italic" FontWeight="ExtraBlack" Click="button_Sell_Click" Grid.Column="11" Grid.Row="0" Margin="0,0,0,2" ToolTip="Left Click:  Sells the unequipped instances of all items. &#xA;Right Click:  Sells the unequipped instances of the selected items." VerticalContentAlignment="Center" Padding="1" HorizontalAlignment="Center"/>
                 </Grid>
             </TabItem>
             <TabItem Header="Roster" Width="80" Foreground="{DynamicResource darkgray_back}" Background="{DynamicResource lightgray_fore}">
@@ -270,6 +270,13 @@
                             </TextBlock.Text>
                         </TextBlock>
                     </Grid>
+                    <TextBox x:Name="textBox_Notes" TextWrapping="Wrap" Margin="0,40,32,18" Grid.Column="4" Grid.Row="1" Foreground="{DynamicResource darkgray_back}" FontFamily="Segoe UI" AcceptsReturn="True" HorizontalAlignment="Right" Width="503" VerticalScrollBarVisibility="Auto" ScrollViewer.CanContentScroll="True" Height="212">
+                        <TextBox.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Header="Send to new LootItem" Click="NewItemFromNotes_Click"/>
+                            </ContextMenu>
+                        </TextBox.ContextMenu>
+                    </TextBox>
                     <ListView x:Name="listView_Player" ButtonBase.Click="GridViewColumnHeader_Clicked" BorderThickness="0" SelectionMode="Single" ItemContainerStyle="{StaticResource listViewItem_Dark}" SelectionChanged="listView_SelectionChanged" Grid.Row="2" Grid.ColumnSpan="5">
                         <ListView.ContextMenu>
                             <ContextMenu>
@@ -357,6 +364,7 @@
                             </GridView>
                         </ListView.View>
                     </ListView>
+                    <Label x:Name="label1" Content="Notes&#xD;&#xA;" Grid.Column="4" HorizontalAlignment="Left" Margin="297,7,0,0" Grid.Row="1" VerticalAlignment="Top" Foreground="{DynamicResource lightgray_fore}" FontStyle="Italic" Width="63" Height="29" FontFamily="Segoe UI" FontSize="18"/>
                 </Grid>
             </TabItem>
         </TabControl>

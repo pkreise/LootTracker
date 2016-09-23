@@ -122,7 +122,7 @@ namespace LootTracker
             }    
         }
         
-        //Set bindings/sources when _book is re-instatiated.
+        //Set bindings/sources when _book is re-instantiated.
         private void rebuildBindings()
         {
             //Items Sources and associated settings.
@@ -270,6 +270,7 @@ namespace LootTracker
         //Event handler for clicking the new item menu item.
         private void NewItem_Click(object sender, RoutedEventArgs e)
         {
+            
             //Instantiate a new AddItem window.
             AddItem window = new AddItem();
 
@@ -1151,6 +1152,28 @@ namespace LootTracker
         private void textBox_cop_int_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             (sender as System.Windows.Controls.TextBox).SelectAll();
+        }
+
+        private void NewItemFromNotes_Click(object sender, RoutedEventArgs e)
+        {
+
+            if (textBox_Notes.SelectedText.Length > 0)
+            {
+                //Instantiate a new AddItem window.
+                AddItem window = new AddItem(textBox_Notes.SelectedText);
+
+                //Show the window.
+                window.ShowDialog();
+
+                if (!window.canceled)
+                {
+                    LootItem item = new LootItem(window.textBox_Name.Text, window.comboBox_Type.Text, (Convert.ToInt32(window.textBox_Count.Text)), (Convert.ToInt32(window.textBox_BaseValue.Text)), (Convert.ToDecimal(window.textBox_BaseWeight.Text)));
+                    _book.AddLootItem(item);
+                }
+
+                view_items.Refresh();
+            }
+            
         }
     }
 }

@@ -39,6 +39,12 @@ namespace LootTracker
             textBox_BaseWeight.Text = i.baseweight.ToString();
         }
 
+        public AddItem(string itemName)
+        {
+            InitializeComponent();
+            textBox_Name.Text = itemName;
+        }
+
         private void button_OK_Click(object sender, RoutedEventArgs e)
         {
             bool namevalid = false;
