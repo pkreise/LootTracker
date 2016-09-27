@@ -278,4 +278,33 @@ namespace LootTracker
             throw new NotImplementedException();
         }
     }
+
+    //Item sell value converter.
+    public sealed class ItemSellValue_Converter : IMultiValueConverter
+    {
+        public object Convert(object[] values, Type targettype, object parameter, CultureInfo culture)
+        {
+            LootItem l = values[0] as LootItem;
+            int p;
+            try { p = System.Convert.ToInt32(values[1]); }
+            catch { p = 0; }
+            
+            if (l != null)
+            {
+                return l.unassignedvalue * (p * .01);
+            }
+            else
+            {
+                return 0;
+            }
+
+            
+        }
+
+        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
 }

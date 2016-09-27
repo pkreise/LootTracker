@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:LootTracker"
         mc:Ignorable="d"
-        Title="SellItems" Height="115" AllowsTransparency="True" WindowStyle="None" MouseDown="Window_MouseDown" Width="270" WindowStartupLocation="CenterScreen">
+        Title="SellItems" AllowsTransparency="True" WindowStyle="None" MouseDown="Window_MouseDown" WindowStartupLocation="CenterScreen" HorizontalAlignment="Center" VerticalAlignment="Center" SizeToContent="WidthAndHeight" Loaded="Window_Loaded">
 
     <Window.Resources>
         <ResourceDictionary>
@@ -15,24 +15,49 @@
         </ResourceDictionary>
     </Window.Resources>
 
-    <Grid Background="{DynamicResource darkgray_back}">
+    <Grid Background="{DynamicResource darkgray_back}" HorizontalAlignment="Left" VerticalAlignment="Top">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="30"/>
-            <ColumnDefinition Width="143"/>
+            <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="30"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="35"/>
-            <RowDefinition/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <Button x:Name="button_Close" Content="X" VerticalAlignment="Top" Width="30" Foreground="{DynamicResource lightgray_fore}" Style="{DynamicResource button_Dark_Menu}" Height="35" Grid.Column="4" HorizontalAlignment="Right" Click="button_Cancel_Click"/>
-        <Label x:Name="label" Content="Sell selected items at " HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Top" Foreground="{DynamicResource lightgray_fore}" FontSize="14" Height="25" Grid.Column="1" Margin="1,0,0,0" Width="143"/>
-        <Label x:Name="label1" Content="%" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="{DynamicResource lightgray_fore}" FontSize="14" Height="25" Grid.Column="3" Width="21" Grid.Row="1" Margin="3,0,0,0"/>
-        <TextBox x:Name="textBox" HorizontalAlignment="Left" Height="25" Grid.Row="1" Text="50" VerticalAlignment="Top" Width="40" Background="{DynamicResource darkgray_back}" Foreground="{DynamicResource lightgray_fore}" FontSize="16" BorderThickness="0" Grid.Column="2" Margin="0,3,0,0" Cursor="IBeam" FontWeight="Bold" HorizontalContentAlignment="Center"/>
-        <Button x:Name="button" Content="OK" HorizontalAlignment="Center" Margin="71,0,10,10" VerticalAlignment="Bottom" Width="74" Style="{DynamicResource button_Dark_Small}" Height="30" Foreground="{DynamicResource lightgray_fore}" Grid.Row="1" Click="button_OK_Click" Grid.Column="1"/>
-        <Label x:Name="label_Title" Content="Sell Items" HorizontalAlignment="Center" Margin="69,0,8,0" VerticalAlignment="Top" Height="35" Foreground="{DynamicResource lightgray_fore}" FontSize="16" Grid.Column="1" Width="78"/>
+        <Label x:Name="label" Content="Sell selected items at " HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Top" Foreground="{DynamicResource lightgray_fore}" FontSize="14" Height="25" Grid.Column="1" Margin="0,10" Width="143"/>
+        <Label x:Name="label1" Content="%" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="{DynamicResource lightgray_fore}" FontSize="14" Height="25" Grid.Column="3" Width="21" Grid.Row="1" Margin="0,10"/>
+        <TextBox x:Name="textBox_SellPercent" HorizontalAlignment="Left" Height="25" Grid.Row="1" Text="{Binding sellPercent, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="40" Background="{DynamicResource darkgray_back}" Foreground="{DynamicResource lightgray_fore}" FontSize="16" BorderThickness="0" Grid.Column="2" Margin="0,10" Cursor="IBeam" FontWeight="Bold" HorizontalContentAlignment="Center"/>
+        <Button x:Name="button" Content="OK" HorizontalAlignment="Center" Margin="0,10" VerticalAlignment="Center" Width="74" Style="{DynamicResource button_Dark_Small}" Height="30" Foreground="{DynamicResource lightgray_fore}" Grid.Row="3" Click="button_OK_Click" Grid.ColumnSpan="5"/>
+        <Label x:Name="label_Title" Content="Sell Unequipped Items" HorizontalAlignment="Center" Margin="0" VerticalAlignment="Top" Height="35" Foreground="{DynamicResource lightgray_fore}" FontSize="16" Grid.ColumnSpan="5"/>
+        <ListView x:Name="listView_ItemToSell" HorizontalAlignment="Center" Margin="15,10" Grid.Row="2" VerticalAlignment="Center" Grid.ColumnSpan="5" Foreground="{DynamicResource darkgray_back}" Background="{DynamicResource lightgray_fore}" MaxHeight="200">
+            <ListView.View>
+                <GridView x:Name="gridview_ItemsToSell" ColumnHeaderContainerStyle="{DynamicResource headers_Dark}">
+                    <GridViewColumn Width="Auto" Header="Name" DisplayMemberBinding="{Binding itemname}"/>
+                    <GridViewColumn Width="Auto" Header="Sell Value">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock TextAlignment="Center">
+                                    <TextBlock.Text>
+                                        <MultiBinding StringFormat=" {0} GP" Converter="{StaticResource itemsellvalue_Converter}">
+                                            <Binding Path="."/>
+                                            <Binding ElementName="textBox_SellPercent" Path="Text"/>
+                                        </MultiBinding>
+                                    </TextBlock.Text>
+                                </TextBlock>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                </GridView>
+
+            </ListView.View>
+
+        </ListView>
 
     </Grid>
 </Window>

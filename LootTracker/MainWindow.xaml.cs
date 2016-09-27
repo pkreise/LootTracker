@@ -9,6 +9,7 @@ using System.IO;
 using System.Windows.Media.Imaging;
 using System.Windows.Forms;
 using System.Text.RegularExpressions;
+using System.Collections.ObjectModel;
 
 namespace LootTracker
 {
@@ -20,8 +21,8 @@ namespace LootTracker
         //Class fields.
         private string _stringFilter;
         private string savefilepath;
-        private int _saveHash;
-        private LootBook _book = new LootBook();
+        private LootBook _book;
+        private LootBook _bookClone;
         private bool windowLoaded;
         private bool canclick = true;
         private GridViewColumnHeader _lastHeaderClicked = null;
@@ -136,7 +137,13 @@ namespace LootTracker
             b.Converter = new S_Converter();
             b.Path = new PropertyPath("book.lootlist");
             label_SellValue.SetBinding(System.Windows.Controls.Label.ContentProperty, b);
-            
+
+            System.Windows.Data.Binding b_notes = new System.Windows.Data.Binding();
+            b_notes.Path = new PropertyPath("book.notes");
+            b_notes.Mode = BindingMode.TwoWay;
+            b_notes.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
+            textBox_Notes.SetBinding(System.Windows.Controls.TextBox.TextProperty, b_notes);
+
             //Set the view and filter.
             view_items = (CollectionView)CollectionViewSource.GetDefaultView(book.lootlist);
             view_items.Filter = LootFilter;
@@ -197,7 +204,7 @@ namespace LootTracker
             try
             {
                 _book = handler.ReadData();
-                int bookhash = _book.GetHashCode();
+                _bookClone = _book.Clone();
                 savefilepath = handler.filepath;
                 rebuildBindings();
             }
@@ -208,8 +215,10 @@ namespace LootTracker
         //Event Handler for window loaded.
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            _book = new LootBook();
+            _bookClone = _book.Clone();
             rebuildBindings();
-            _saveHash = _book.GetHashCode();
+            
             windowLoaded = true;
         }
 
@@ -225,9 +234,9 @@ namespace LootTracker
         private void MenuItem_New_Click(object sender, RoutedEventArgs e)
         {
             _book = new LootBook();
+            _bookClone = _book.Clone();
             rebuildBindings();
-            _saveHash = _book.GetHashCode();
-        }
+         }
 
         //Event Handler for adding a new player to the roster.
         private void button_AddPlayer_Click(object sender, RoutedEventArgs e)
@@ -279,7 +288,7 @@ namespace LootTracker
 
             if (!window.canceled)
             {
-                LootItem item = new LootItem(window.textBox_Name.Text, window.comboBox_Type.Text, (Convert.ToInt32(window.textBox_Count.Text)), (Convert.ToInt32(window.textBox_BaseValue.Text)), (Convert.ToDecimal(window.textBox_BaseWeight.Text)));
+                LootItem item = new LootItem(window.textBox_Name.Text, window.comboBox_Type.Text, (Convert.ToInt32(window.textBox_Count.Text)), (Convert.ToInt32(window.textBox_BaseValue.Text)), (Convert.ToDecimal(window.textBox_BaseWeight.Text)), window.textBox_Notes.Text);
                 _book.AddLootItem(item);
             }
 
@@ -289,7 +298,16 @@ namespace LootTracker
         //Event handler for clicking the close button.
         private void button_Click(object sender, RoutedEventArgs e)
         {
-            App.Current.Shutdown();
+
+            //if (!_book.Equals(_bookClone))
+            //{
+            //    return;
+            //}
+            //else
+            //{
+                App.Current.Shutdown();
+            //}
+            
         }
         
         //Event handler for clicking the item delete button.
@@ -460,7 +478,12 @@ namespace LootTracker
         //Event handler for clicking the Sell button.
         private void button_Sell_Click(object sender, RoutedEventArgs e)
         {
-            SellItems sellItemWindow = new SellItems();
+            ObservableCollection<LootItem> items = new ObservableCollection<LootItem>();
+            foreach (LootItem i in listView_Master.SelectedItems)
+            {
+                items.Add(i);
+            }
+            SellItems sellItemWindow = new SellItems(items);
             sellItemWindow.ShowDialog();
 
             decimal totalvalue = 0;
@@ -469,7 +492,7 @@ namespace LootTracker
 
             if (!sellItemWindow.isCancelled)
             {
-                foreach (LootItem i in _book.lootlist)
+                foreach (LootItem i in items)
                 {
                     if (i.unassignedcount > 0)
                     {
@@ -480,7 +503,7 @@ namespace LootTracker
 
                 if (totalvalue > 0)
                 {
-                    sellvalue = Math.Round((totalvalue * (Convert.ToDecimal(sellItemWindow.textBox.Text) / 100)), 2);
+                    sellvalue = Math.Round((totalvalue * (Convert.ToDecimal(sellItemWindow.textBox_SellPercent  .Text) / 100)), 2);
                     int gld = 0;
                     int sil = 0;
                     int cop = 0;
@@ -1167,12 +1190,17 @@ namespace LootTracker
 
                 if (!window.canceled)
                 {
-                    LootItem item = new LootItem(window.textBox_Name.Text, window.comboBox_Type.Text, (Convert.ToInt32(window.textBox_Count.Text)), (Convert.ToInt32(window.textBox_BaseValue.Text)), (Convert.ToDecimal(window.textBox_BaseWeight.Text)));
+                    LootItem item = new LootItem(window.textBox_Name.Text, window.comboBox_Type.Text, (Convert.ToInt32(window.textBox_Count.Text)), (Convert.ToInt32(window.textBox_BaseValue.Text)), (Convert.ToDecimal(window.textBox_BaseWeight.Text)), textBox_Notes.Text);
                     _book.AddLootItem(item);
                 }
 
                 view_items.Refresh();
             }
+            
+        }
+
+        private void window_Closing(object sender, CancelEventArgs e)
+        {
             
         }
     }

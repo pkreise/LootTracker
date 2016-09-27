@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:LootTracker"
         mc:Ignorable="d"
-        Title="Enter Item Details" Height="351" Topmost="True" ResizeMode="NoResize" WindowStyle="None" AllowsTransparency="True" WindowStartupLocation="CenterScreen" MouseDown="Window_MouseDown" BorderThickness="1" MinWidth="300" SizeToContent="WidthAndHeight">
+        Title="Enter Item Details" Topmost="True" ResizeMode="NoResize" WindowStyle="None" AllowsTransparency="True" WindowStartupLocation="CenterScreen" MouseDown="Window_MouseDown" BorderThickness="1" MinWidth="300" SizeToContent="WidthAndHeight">
 
     <Window.Resources>
         <ResourceDictionary>
@@ -26,7 +26,7 @@
         </EventTrigger>
     </Window.Triggers>
 
-    <Grid x:Name="Grid_Main" Background="#FF464646" MinWidth="300">
+    <Grid x:Name="Grid_Main" Background="#FF464646" MinWidth="300" Width="323">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="Auto"/>
@@ -34,6 +34,7 @@
         <Grid.RowDefinitions>
             <RowDefinition/>
             <RowDefinition Height="15"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
@@ -56,11 +57,12 @@
         <TextBox x:Name="textBox_Count" Grid.Column="1" Grid.Row="4" HorizontalAlignment="Left" Height="25" TextWrapping="Wrap" VerticalAlignment="Center" Width="140" FontSize="14" Background="#FF464646" BorderThickness="0,0,1,1" Foreground="#FFDEDEDE" Margin="25,10" BorderBrush="{DynamicResource lightgray_fore}"/>
         <TextBox x:Name="textBox_BaseWeight" Grid.Column="1" Grid.Row="5" HorizontalAlignment="Left" Height="25" TextWrapping="Wrap" VerticalAlignment="Center" Width="140" FontSize="14" Background="#FF464646" BorderThickness="0,0,1,1" Foreground="#FFDEDEDE" Margin="25,10" BorderBrush="{DynamicResource lightgray_fore}"/>
         <TextBox x:Name="textBox_BaseValue" Grid.Column="1" Grid.Row="6" HorizontalAlignment="Left" Height="25" TextWrapping="Wrap" VerticalAlignment="Center" Width="140" FontSize="14" Background="#FF464646" BorderThickness="0,0,1,1" Foreground="#FFDEDEDE" Margin="25,10" BorderBrush="{DynamicResource lightgray_fore}"/>
-        <Button x:Name="button_OK" Content="OK" Grid.ColumnSpan="2" Grid.Row="7" Height="30" VerticalAlignment="Center" Width="140" Click="button_OK_Click" Style="{StaticResource button_Dark_Menu}" Foreground="#FFDEDEDE" HorizontalAlignment="Center"/>
+        <Button x:Name="button_OK" Content="OK" Grid.ColumnSpan="2" Grid.Row="8" Height="30" VerticalAlignment="Center" Width="140" Click="button_OK_Click" Style="{StaticResource button_Dark_Menu}" Foreground="#FFDEDEDE" HorizontalAlignment="Center"/>
         <Label x:Name="label_Name" Content="Name" HorizontalAlignment="Center" Grid.Row="2" VerticalAlignment="Center" Foreground="{DynamicResource lightgray_fore}" FontSize="14" FontFamily="Segoe UI Semibold" Height="30" Margin="35,10,0,10"/>
         <Label x:Name="label_Type" Content="Type" HorizontalAlignment="Center" Grid.Row="3" VerticalAlignment="Center" Foreground="{DynamicResource lightgray_fore}" FontSize="14" FontFamily="Segoe UI Semibold" Height="30" Margin="35,10,0,10"/>
         <Label x:Name="label_Count" Content="Count" HorizontalAlignment="Center" Grid.Row="4" VerticalAlignment="Center" Foreground="{DynamicResource lightgray_fore}" FontSize="14" FontFamily="Segoe UI Semibold" Height="30" Margin="35,10,0,10"/>
         <Label x:Name="label_BaseWgt" Content="Base Weight" HorizontalAlignment="Center" Grid.Row="5" VerticalAlignment="Center" Foreground="{DynamicResource lightgray_fore}" FontSize="14" FontFamily="Segoe UI Semibold" Height="30" Margin="35,10,0,10"/>
         <Label x:Name="label_BaseVal" Content="Base Value" HorizontalAlignment="Center" Grid.Row="6" VerticalAlignment="Center" Foreground="{DynamicResource lightgray_fore}" FontSize="14" FontFamily="Segoe UI Semibold" Height="30" Margin="35,10,0,10"/>
+        <TextBox x:Name="textBox_Notes" HorizontalAlignment="Center" Height="100" Margin="0,11,0,10" Grid.Row="7" TextWrapping="Wrap" VerticalAlignment="Center" Width="254" Grid.ColumnSpan="2" AcceptsReturn="True" Foreground="{DynamicResource darkgray_back}" Background="{DynamicResource lightgray_fore}"/>
     </Grid>
 </Window>

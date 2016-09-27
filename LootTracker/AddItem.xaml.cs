@@ -37,6 +37,7 @@ namespace LootTracker
             textBox_Count.Text = i.count.ToString();
             textBox_BaseValue.Text = i.basevalue.ToString();
             textBox_BaseWeight.Text = i.baseweight.ToString();
+            textBox_Notes.Text = i.notes;
         }
 
         public AddItem(string itemName)

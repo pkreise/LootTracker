@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:LootTracker"
         xmlns:System="clr-namespace:System;assembly=mscorlib" xmlns:Properties="clr-namespace:LootTracker.Properties" x:Name="window" x:Class="LootTracker.MainWindow"
         mc:Ignorable="d"
-        Title="WoTR Loot Tracker" Height="700" Width="1305" WindowStartupLocation="CenterScreen" Loaded="Window_Loaded" AllowsTransparency="True" WindowStyle="None" ResizeMode="CanResizeWithGrip">
+        Title="WoTR Loot Tracker" Height="700" Width="1305" WindowStartupLocation="CenterScreen" Loaded="Window_Loaded" AllowsTransparency="True" WindowStyle="None" ResizeMode="CanResizeWithGrip" Closing="window_Closing">
 
     <Window.Resources>
         <ResourceDictionary>
@@ -57,7 +57,7 @@
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="60"/>
+                        <ColumnDefinition Width="31"/>
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="13"/>
@@ -152,7 +152,7 @@
                     <Button x:Name="button_Delete" Grid.Column="1" Grid.Row="0" Content="Delete" HorizontalAlignment="Center" VerticalAlignment="Center" Height="30" Foreground="#FFDEDEDE" Style="{StaticResource button_Dark_Small}" Click="DeleteItem_Click" IsEnabled="False" Margin="0,0,0,2" Width="65"/>
                     <Button x:Name="button_Edit" Content="Edit" Grid.Column="2" HorizontalAlignment="Center" Margin="0,0,0,2" VerticalAlignment="Center" Width="52" Style="{DynamicResource button_Dark_Small}" Foreground="{DynamicResource lightgray_fore}" Height="30" Click="button_Edit_Click" VerticalContentAlignment="Center"/>
                     <Button x:Name="button_Assignments" Content="Equip" HorizontalAlignment="Center" Width="61" Height="30" Style="{StaticResource button_Dark_Small}" Foreground="#FFDEDEDE" IsEnabled="False" FontStyle="Italic" FontWeight="ExtraBlack" VerticalAlignment="Center" Click="button_Assignments_Click" Grid.Column="3" Grid.Row="0" Margin="0,0,0,2"/>
-                    <Label x:Name="label_Filter" Content="Filter by" HorizontalAlignment="Left" Grid.Column="8" Foreground="{DynamicResource lightgray_fore}" Padding="0" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Center" Width="51" Margin="0,0,6,0"/>
+                    <Label x:Name="label_Filter" Content="Filter by" HorizontalAlignment="Left" Grid.Column="8" Foreground="{DynamicResource lightgray_fore}" Padding="0" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Center" Width="51" Margin="0,0,10,0"/>
                     <ComboBox x:Name="comboBox_Filter" Grid.Column="9" Margin="0,0,0,2" VerticalContentAlignment="Center" SelectionChanged="comboBox_Filter_SelectionChanged" SelectedValuePath="Content" Width="110" ItemContainerStyle="{DynamicResource comboBoxItem_Dark_ItemType}" SelectedIndex="0" Foreground="{DynamicResource darkgray_back}" HorizontalAlignment="Left">
                         <ComboBoxItem Content="All Items"/>
                         <ComboBoxItem Content="Ammo"/>
@@ -163,10 +163,10 @@
                         <ComboBoxItem Content="Potion"/>
                         <ComboBoxItem Content="Weapon"/>
                     </ComboBox>
-                    <Label x:Name="label_Search" Content="Search" Foreground="{DynamicResource lightgray_fore}" Cursor="None" Grid.Column="5" HorizontalAlignment="Left" Width="52"/>
+                    <Label x:Name="label_Search" Content="Search" Foreground="{DynamicResource lightgray_fore}" Cursor="None" Grid.Column="5" HorizontalAlignment="Left" Width="52" Margin="0,0,5,0"/>
                     <TextBox x:Name="textBox_Search" Margin="0,0,0,2" TextWrapping="Wrap" HorizontalAlignment="Left" Grid.Column="6" Width="170" Background="{DynamicResource lightgray_fore}" Foreground="{DynamicResource darkgray_back}" VerticalContentAlignment="Center" Text="{Binding DataContext.StringFilter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                    <Label x:Name="label_SellValue" HorizontalAlignment="Right" Foreground="{DynamicResource lightgray_fore}" FontSize="16" Grid.Column="10" Content="{Binding book.lootlist, Converter={StaticResource s_converter}}" Margin="0,0,0,1" VerticalContentAlignment="Center" Padding="0,0,0,3" HorizontalContentAlignment="Stretch" Height="30"/>
-                    <Button x:Name="button_Sell" Content="Sell" Width="45" Height="30" Style="{StaticResource button_Dark_Small}" Foreground="#FFDEDEDE" FontStyle="Italic" FontWeight="ExtraBlack" Click="button_Sell_Click" Grid.Column="11" Grid.Row="0" Margin="0,0,0,2" ToolTip="Left Click:  Sells the unequipped instances of all items. &#xA;Right Click:  Sells the unequipped instances of the selected items." VerticalContentAlignment="Center" Padding="1" HorizontalAlignment="Center"/>
+                    <Label x:Name="label_SellValue" HorizontalAlignment="Right" Foreground="{DynamicResource lightgray_fore}" FontSize="16" Grid.Column="10" Content="{Binding book.lootlist, Converter={StaticResource s_converter}}" Margin="0,0,15,2" VerticalContentAlignment="Center" Padding="0,0,0,3" HorizontalContentAlignment="Stretch"/>
+                    <Button x:Name="button_Sell" Content="Sell" Width="45" Style="{StaticResource button_Dark_Small}" Foreground="#FFDEDEDE" FontStyle="Italic" FontWeight="ExtraBlack" Click="button_Sell_Click" Grid.Column="11" Grid.Row="0" Margin="0,0,0,2" ToolTip="Left Click:  Sells the unequipped instances of all items. &#xA;Right Click:  Sells the unequipped instances of the selected items." VerticalContentAlignment="Center" Padding="1" HorizontalAlignment="Center"/>
                 </Grid>
             </TabItem>
             <TabItem Header="Roster" Width="80" Foreground="{DynamicResource darkgray_back}" Background="{DynamicResource lightgray_fore}">
@@ -207,6 +207,7 @@
                             <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition Width="50"/>
                             <ColumnDefinition Width="110"/>
+                            <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
                         <Label x:Name="label_Character" Content="{Binding SelectedItem.charactername, ElementName=comboBox_Player}" HorizontalAlignment="Center" Margin="0" VerticalAlignment="Center" Foreground="{DynamicResource lightgray_fore}" FontStyle="Italic" FontSize="18" FontFamily="Segoe UI"/>
@@ -269,14 +270,17 @@
                                 </MultiBinding>
                             </TextBlock.Text>
                         </TextBlock>
+                        <Label x:Name="label_Notes" Content="Notes&#xD;&#xA;" Grid.Column="9" HorizontalAlignment="Left" Margin="30,0,0,0" VerticalAlignment="Top" Foreground="{DynamicResource lightgray_fore}" FontStyle="Italic" Width="63" Height="29" FontFamily="Segoe UI" FontSize="18"/>
+                        <TextBox x:Name="textBox_Notes" TextWrapping="Wrap" Margin="30,0,0,0" Grid.Column="9" Grid.Row="1" Foreground="{DynamicResource darkgray_back}" FontFamily="Segoe UI" AcceptsReturn="True" HorizontalAlignment="Center" Width="503" VerticalScrollBarVisibility="Auto" ScrollViewer.CanContentScroll="True" Height="209" Grid.RowSpan="6" VerticalAlignment="Center" Text="{Binding DataContext.book.notes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                            <TextBox.ContextMenu>
+                                <ContextMenu>
+                                    <MenuItem Header="Send to new LootItem" Click="NewItemFromNotes_Click"/>
+                                </ContextMenu>
+                            </TextBox.ContextMenu>
+                        </TextBox>
+                        <Button x:Name="button_NewFromSelected" Content="New LootItem" Grid.Column="9" HorizontalAlignment="Center" Grid.Row="7" VerticalAlignment="Bottom" Width="120" Margin="30,0,0,0" Height="30" Style="{DynamicResource button_Dark_Small}" Foreground="{DynamicResource lightgray_fore}" Click="NewItemFromNotes_Click"/>
                     </Grid>
-                    <TextBox x:Name="textBox_Notes" TextWrapping="Wrap" Margin="0,40,32,18" Grid.Column="4" Grid.Row="1" Foreground="{DynamicResource darkgray_back}" FontFamily="Segoe UI" AcceptsReturn="True" HorizontalAlignment="Right" Width="503" VerticalScrollBarVisibility="Auto" ScrollViewer.CanContentScroll="True" Height="212">
-                        <TextBox.ContextMenu>
-                            <ContextMenu>
-                                <MenuItem Header="Send to new LootItem" Click="NewItemFromNotes_Click"/>
-                            </ContextMenu>
-                        </TextBox.ContextMenu>
-                    </TextBox>
+
                     <ListView x:Name="listView_Player" ButtonBase.Click="GridViewColumnHeader_Clicked" BorderThickness="0" SelectionMode="Single" ItemContainerStyle="{StaticResource listViewItem_Dark}" SelectionChanged="listView_SelectionChanged" Grid.Row="2" Grid.ColumnSpan="5">
                         <ListView.ContextMenu>
                             <ContextMenu>
@@ -364,7 +368,7 @@
                             </GridView>
                         </ListView.View>
                     </ListView>
-                    <Label x:Name="label1" Content="Notes&#xD;&#xA;" Grid.Column="4" HorizontalAlignment="Left" Margin="297,7,0,0" Grid.Row="1" VerticalAlignment="Top" Foreground="{DynamicResource lightgray_fore}" FontStyle="Italic" Width="63" Height="29" FontFamily="Segoe UI" FontSize="18"/>
+
                 </Grid>
             </TabItem>
         </TabControl>

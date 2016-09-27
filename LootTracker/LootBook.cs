@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Windows;
 
 namespace LootTracker
@@ -10,14 +11,24 @@ namespace LootTracker
     public class LootBook : INotifyPropertyChanged
     {
         //Class Fields.
-        ObservableCollection<Player> _playerlist = new ObservableCollection<Player>();
-        ObservableCollection<LootItem> _lootlist = new ObservableCollection<LootItem>();
+        private ObservableCollection<Player> _playerlist = new ObservableCollection<Player>();
+        private ObservableCollection<LootItem> _lootlist = new ObservableCollection<LootItem>();
+        private string _notes;
         [field: NonSerialized]
         public event PropertyChangedEventHandler PropertyChanged;
 
         //Class properties.
         public ObservableCollection<Player> playerlist { get { return _playerlist; } }
         public ObservableCollection<LootItem> lootlist { get { return _lootlist; } }
+        public string notes
+        {
+            get { return _notes; }
+            set
+            {
+                _notes = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(notes)));
+            }
+        }
 
         //Constructor
         public LootBook()
@@ -46,9 +57,23 @@ namespace LootTracker
             {
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
             }
-
         }
-     
+
+        //Method for cloning a loot book (deeeeeeeep clone).
+        public LootBook Clone()
+        {
+            MemoryStream ms = new MemoryStream();
+            BinaryFormatter bf = new BinaryFormatter();
+
+            bf.Serialize(ms, this);
+
+            ms.Position = 0;
+            object obj = bf.Deserialize(ms);
+            ms.Close();
+
+            return obj as LootBook;
+        }
+
         //Method to add a player to a player roster object.
         public void AddPlayer(Player p)
         {

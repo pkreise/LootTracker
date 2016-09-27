@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Input;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 
 namespace LootTracker
 {
@@ -11,14 +14,27 @@ namespace LootTracker
     {
         //Class fields.
         bool _isCancelled;
+        private event PropertyChangedEventHandler PropertyChanged;
+        int _sellPercent = 50;
 
         //Class properties.
         public bool isCancelled { get { return _isCancelled; } }
+        public int sellPercent
+        {
+            get { return _sellPercent; }
+            set
+            {
+                _sellPercent = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(sellPercent)));
+            }
+        }
 
         //Constructor
-        public SellItems()
+        public SellItems(ObservableCollection<LootItem> items)
         {
+            DataContext = this;
             InitializeComponent();
+            listView_ItemToSell.ItemsSource = items;
         }
 
         //Event handler for clicking the OK button.
@@ -27,7 +43,7 @@ namespace LootTracker
             //We need to validate the value in the textBox is an interger b/w 0-100.
             int percent;
             bool isValid = false;
-            try { percent = Convert.ToInt32(textBox.Text); if (percent > 0 && percent <= 100) { isValid = true; } }
+            try { percent = Convert.ToInt32(textBox_SellPercent.Text); if (percent > 0 && percent <= 100) { isValid = true; } }
             catch { isValid = false; }
             
             if (isValid)
@@ -37,7 +53,7 @@ namespace LootTracker
             }
            else
             {
-                textBox.Text = "50";
+                textBox_SellPercent.Text = "50";
             }
         }
 
@@ -53,6 +69,11 @@ namespace LootTracker
         {
             if (e.ChangedButton == MouseButton.Left)
                 DragMove();
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

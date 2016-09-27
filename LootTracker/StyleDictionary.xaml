@@ -13,6 +13,8 @@
     <local:S_Converter x:Key="s_converter"/>
     <local:TtlWgt_Converter x:Key="ttlwgt_converter"/>
     <local:TtlVal_Converter x:Key="ttlval_converter"/>
+    <local:ItemSellValue_Converter x:Key="itemsellvalue_Converter"/>
+    
 
     
 

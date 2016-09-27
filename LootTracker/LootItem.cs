@@ -21,6 +21,7 @@ namespace LootTracker
         int _basevalue = 0;
         int _totalvalue = 0;
         int _charges = 0;
+        private string _notes;
         Dictionary<string, int> _assignments = new Dictionary<string, int>();
         [field: NonSerialized]
         public event PropertyChangedEventHandler PropertyChanged;
@@ -57,7 +58,16 @@ namespace LootTracker
                 return s_out;
             }
         }
-        
+        public string notes
+        {
+            get { return _notes; }
+            set
+            {
+                _notes = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(notes)));
+            }
+        }
+
         //Constructor
         public LootItem()
         {
@@ -73,7 +83,7 @@ namespace LootTracker
         }
 
         //Constructor
-        public LootItem(string ItemName, string LootType, int Count, int BaseValue, decimal BaseWeight)
+        public LootItem(string ItemName, string LootType, int Count, int BaseValue, decimal BaseWeight, string Notes)
         {
             _itemname = ItemName;
             _loottype = LootType;
@@ -81,6 +91,7 @@ namespace LootTracker
             _basevalue = BaseValue;
             _unassignedcount = Count;
             _baseweight = BaseWeight;
+            notes = Notes;
             CalculateTotalValue();
             CalculateTotalWeight();
             CalculateUnassignedCount();
