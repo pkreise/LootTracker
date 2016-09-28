@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:LootTracker"
         xmlns:System="clr-namespace:System;assembly=mscorlib" xmlns:Properties="clr-namespace:LootTracker.Properties" x:Name="window" x:Class="LootTracker.MainWindow"
         mc:Ignorable="d"
-        Title="WoTR Loot Tracker" Height="700" Width="1305" WindowStartupLocation="CenterScreen" Loaded="Window_Loaded" AllowsTransparency="True" WindowStyle="None" ResizeMode="CanResizeWithGrip" Closing="window_Closing">
+        Title="WoTR Loot Tracker" Height="700" Width="1305" WindowStartupLocation="CenterScreen" Loaded="Window_Loaded" AllowsTransparency="True" WindowStyle="None" ResizeMode="CanResizeWithGrip">
 
     <Window.Resources>
         <ResourceDictionary>

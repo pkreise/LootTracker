@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:LootTracker"
         mc:Ignorable="d"
-        Title="RemovePlayer_Conf" Height="150" Width="460" AllowsTransparency="True" WindowStyle="None" MouseDown="Window_MouseDown" WindowStartupLocation="CenterScreen" BorderThickness="2" BorderBrush="{DynamicResource lightgray_fore}">
+        Title="RemovePlayer_Conf" Height="150" Width="460" AllowsTransparency="True" WindowStyle="None" MouseDown="Window_MouseDown" WindowStartupLocation="CenterScreen" BorderThickness="0" BorderBrush="{DynamicResource lightgray_fore}">
 
     <Window.Resources>
         <ResourceDictionary>
@@ -15,7 +15,7 @@
         </ResourceDictionary>
     </Window.Resources>
 
-    <Grid Background="{DynamicResource darkgray_back}">
+    <Grid Background="{DynamicResource semiblack_back}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="3*"/>
             <ColumnDefinition Width="20*"/>
@@ -24,10 +24,10 @@
             <RowDefinition Height="35"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <Button x:Name="button" Content="X" HorizontalAlignment="Right" VerticalAlignment="Top" Width="30" Height="35" Style="{DynamicResource button_Dark_Menu}" Foreground="{DynamicResource lightgray_fore}" Grid.Column="1" Click="button_Cancel_Click"/>
+        <Button x:Name="button" Content="X" HorizontalAlignment="Right" VerticalAlignment="Top" Width="30" Height="35" Style="{DynamicResource button_Dark_Menu}" Foreground="{DynamicResource lightgray_fore}" Grid.Column="1" Click="button_Cancel_Click" Background="{DynamicResource semiblack_back}"/>
         <Label x:Name="label" Content="!" HorizontalAlignment="Left" VerticalAlignment="Center" Height="80" Width="55" Foreground="{DynamicResource lightgray_fore}" FontFamily="Segoe UI Semibold" FontSize="48" HorizontalContentAlignment="Center" Margin="0,20,0,50" Grid.RowSpan="2"/>
         <TextBlock x:Name="textBlock" Grid.Column="1" HorizontalAlignment="Left" Grid.Row="1" TextWrapping="Wrap" Text="Are you sure you want to delete this player?  All GP and equipped items will be returned to the party." VerticalAlignment="Top" Height="60" Width="360" Foreground="{DynamicResource lightgray_fore}" Margin="10,5,0,0" FontSize="14"/>
-        <Button x:Name="button_Cancel" Content="Cancel" Grid.Column="1" HorizontalAlignment="Left" Margin="90,65,0,0" Grid.Row="1" VerticalAlignment="Top" Width="75" Height="30" Style="{DynamicResource button_Dark_Small}" Foreground="{DynamicResource lightgray_fore}" Click="button_Cancel_Click"/>
-        <Button x:Name="button_OK" Content="OK" Grid.Column="1" HorizontalAlignment="Left" Margin="181,65,0,0" Grid.Row="1" VerticalAlignment="Top" Width="75" Height="30" Style="{DynamicResource button_Dark_Small}" Foreground="{DynamicResource lightgray_fore}" Click="button_OK_Click"/>
+        <Button x:Name="button_Cancel" Content="Cancel" Grid.Column="1" HorizontalAlignment="Left" Margin="90,65,0,0" Grid.Row="1" VerticalAlignment="Top" Width="75" Height="30" Style="{DynamicResource button_Dark_Small}" Foreground="{DynamicResource lightgray_fore}" Click="button_Cancel_Click" Background="{DynamicResource semiblack_back}"/>
+        <Button x:Name="button_OK" Content="OK" Grid.Column="1" HorizontalAlignment="Left" Margin="181,65,0,0" Grid.Row="1" VerticalAlignment="Top" Width="75" Height="30" Style="{DynamicResource button_Dark_Small}" Foreground="{DynamicResource lightgray_fore}" Click="button_OK_Click" Background="{DynamicResource semiblack_back}"/>
     </Grid>
 </Window>

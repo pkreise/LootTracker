@@ -13,9 +13,9 @@ namespace LootTracker
     public partial class AddPlayer : Window
     {
         //Class fields.
-        byte[] _imagearray;
-        bool _cancelled;
-        bool _hasimage;
+        private byte[] _imagearray;
+        private bool _cancelled;
+        private bool _hasimage;
 
         //public properties.
         public byte[] imagearray { get { return _imagearray; } }

@@ -26,7 +26,7 @@
         </EventTrigger>
     </Window.Triggers>
 
-    <Grid Background="{DynamicResource darkgray_back}">
+    <Grid Background="{DynamicResource semiblack_back}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="15"/>
@@ -42,17 +42,17 @@
         </Grid.ColumnDefinitions>
         <Label x:Name="label_Item" Margin="40,0" VerticalAlignment="Bottom" Foreground="{DynamicResource lightgray_fore}" FontSize="16" Grid.ColumnSpan="2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
 
-        <Button x:Name="button_Close" Content="X" VerticalAlignment="Top" Height="35" Style="{DynamicResource button_Dark_Menu}" Foreground="{DynamicResource lightgray_fore}" Click="button_Close_Click" HorizontalAlignment="Right" Width="30" Grid.Column="1"/>
-        <ComboBox x:Name="combobox_Player" HorizontalAlignment="Left" VerticalAlignment="Center" Width="126" Height="30" ItemContainerStyle="{DynamicResource comboBoxItem_Dark_Player_2}" Style="{DynamicResource comboBox_Dark_ItemType}" Foreground="{DynamicResource lightgray_fore}" SelectionChanged="combobox_Player_SelectionChanged" Grid.Column="1" Grid.Row="2" Margin="15,8,0,7" DisplayMemberPath="playername" SelectedIndex="0"/>
+        <Button x:Name="button_Close" Content="X" VerticalAlignment="Top" Height="35" Style="{DynamicResource button_ExtraDark_Small}" Foreground="{DynamicResource lightgray_fore}" Click="button_Close_Click" HorizontalAlignment="Right" Width="30" Grid.Column="1"/>
+        <ComboBox x:Name="combobox_Player" HorizontalAlignment="Left" VerticalAlignment="Center" Width="126" Height="30" ItemContainerStyle="{DynamicResource comboBoxItem_Dark_Player_2}" Style="{DynamicResource comboBox_Dark_ItemType}" Foreground="{DynamicResource lightgray_fore}" SelectionChanged="combobox_Player_SelectionChanged" Grid.Column="1" Grid.Row="2" Margin="15,8,0,7" DisplayMemberPath="playername" SelectedIndex="0" Background="{DynamicResource semiblack_back}"/>
 
-        <TextBox x:Name="textBox_Count" HorizontalAlignment="Left" Height="30" Text="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Cursor="IBeam" VerticalAlignment="Center" Width="36" Background="{DynamicResource darkgray_back}" Foreground="{DynamicResource lightgray_fore}" BorderThickness="0" LostFocus="textBox_LostFocus" FontSize="16" Grid.Column="1" Grid.Row="4" Margin="80,6,0,9"/>
-        <Button x:Name="button_inc" Content="+" HorizontalAlignment="Left" Margin="116,8,0,7" VerticalAlignment="Center" Width="25" Height="30" Foreground="{DynamicResource lightgray_fore}" Style="{DynamicResource button_Dark_Small}" Click="button_inc_Click" Grid.Column="1" Grid.Row="4"/>
-        <Button x:Name="button_OK" Content="OK" HorizontalAlignment="Center" VerticalAlignment="Top" Width="177" Height="30" Style="{DynamicResource button_Dark_Small}" Foreground="{DynamicResource lightgray_fore}" Click="button_OK_Click" Grid.ColumnSpan="2" Grid.Row="6" Margin="0,0,0,1"/>
+        <TextBox x:Name="textBox_Count" HorizontalAlignment="Left" Height="30" Text="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Cursor="IBeam" VerticalAlignment="Center" Width="36" Background="{DynamicResource semiblack_back}" Foreground="{DynamicResource lightgray_fore}" BorderThickness="0" LostFocus="textBox_LostFocus" FontSize="16" Grid.Column="1" Grid.Row="4" Margin="80,6,0,9"/>
+        <Button x:Name="button_inc" Content="+" HorizontalAlignment="Left" Margin="116,8,0,7" VerticalAlignment="Center" Width="25" Height="30" Foreground="{DynamicResource lightgray_fore}" Style="{DynamicResource button_Dark_Small}" Click="button_inc_Click" Grid.Column="1" Grid.Row="4" Background="{DynamicResource semiblack_back}"/>
+        <Button x:Name="button_OK" Content="OK" HorizontalAlignment="Center" VerticalAlignment="Top" Width="177" Height="30" Style="{DynamicResource button_ExtraDark_Small}" Foreground="{DynamicResource lightgray_fore}" Click="button_OK_Click" Grid.ColumnSpan="2" Grid.Row="6" Margin="0,0,0,1"/>
         <TextBlock x:Name="textBlock_AssignedVal" HorizontalAlignment="Left" Text="0" VerticalAlignment="Center" Height="30" Width="66" FontSize="16" Foreground="{DynamicResource lightgray_fore}" Grid.Column="1" Grid.Row="3" Margin="15,8,88,7"/>
         <TextBlock x:Name="textBlock_Player" HorizontalAlignment="Right" TextWrapping="Wrap" Text="Player" VerticalAlignment="Center" Foreground="{DynamicResource lightgray_fore}" FontSize="16" Height="30" Grid.Row="2" Margin="15,10,25,10"/>
         <TextBlock x:Name="textBlock_Assigned" HorizontalAlignment="Right" TextWrapping="Wrap" Text="Equipped" VerticalAlignment="Center" Foreground="{DynamicResource lightgray_fore}" FontSize="16" Height="30" Grid.Row="3" Margin="15,10,25,10"/>
         <TextBlock x:Name="textBlock_Available" HorizontalAlignment="Right" TextWrapping="Wrap" Text="Available" VerticalAlignment="Center" Foreground="{DynamicResource lightgray_fore}" FontSize="16" Height="30" Grid.Row="4" Margin="15,10,25,10"/>
-        <Button x:Name="button_dec" Content="-" HorizontalAlignment="Left" VerticalAlignment="Center" Width="24" Height="30" Foreground="{DynamicResource lightgray_fore}" Style="{DynamicResource button_Dark_Small}" Click="button_dec_Click" Grid.Column="1" Grid.Row="4" Margin="57,8,0,7"/>
+        <Button x:Name="button_dec" Content="-" HorizontalAlignment="Left" VerticalAlignment="Center" Width="24" Height="30" Foreground="{DynamicResource lightgray_fore}" Style="{DynamicResource button_Dark_Small}" Click="button_dec_Click" Grid.Column="1" Grid.Row="4" Margin="57,8,0,7" Background="{DynamicResource semiblack_back}"/>
         <TextBlock x:Name="textBlock_AvailableVal" HorizontalAlignment="Left" Margin="15,12,0,8" Text="0" VerticalAlignment="Center" Height="30" Width="46" FontSize="16" Foreground="{DynamicResource lightgray_fore}" Grid.Column="1" Grid.Row="4"/>
         <Label x:Name="label"  VerticalAlignment="Bottom" Grid.ColumnSpan="2" Foreground="{DynamicResource lightgray_fore}" FontSize="16" FontFamily="Segoe UI Semibold" Margin="40,0" Padding="40,5" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
 

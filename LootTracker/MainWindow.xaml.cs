@@ -572,6 +572,7 @@ namespace LootTracker
                    
                     i.basevalue = (Convert.ToInt32(window.textBox_BaseValue.Text));
                     i.baseweight = (Convert.ToDecimal(window.textBox_BaseWeight.Text));
+                    i.notes = window.textBox_Notes.Text;
 
                     //Refresh the values and notify the UI that the lootlist has updated.
                     i.CalculateAllValues();
@@ -580,6 +581,29 @@ namespace LootTracker
 
                 view_items.Refresh();
             }
+        }
+
+        //Event Handler for creating a new lootitem from highlighted notes text.
+        private void NewItemFromNotes_Click(object sender, RoutedEventArgs e)
+        {
+
+            if (textBox_Notes.SelectedText.Length > 0)
+            {
+                //Instantiate a new AddItem window.
+                AddItem window = new AddItem(textBox_Notes.SelectedText);
+
+                //Show the window.
+                window.ShowDialog();
+
+                if (!window.canceled)
+                {
+                    LootItem item = new LootItem(window.textBox_Name.Text, window.comboBox_Type.Text, (Convert.ToInt32(window.textBox_Count.Text)), (Convert.ToInt32(window.textBox_BaseValue.Text)), (Convert.ToDecimal(window.textBox_BaseWeight.Text)), window.textBox_Notes.Text);
+                    _book.AddLootItem(item);
+                }
+
+                view_items.Refresh();
+            }
+
         }
 
         //Event Handlers for astral buttons.
@@ -1175,33 +1199,6 @@ namespace LootTracker
         private void textBox_cop_int_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             (sender as System.Windows.Controls.TextBox).SelectAll();
-        }
-
-        private void NewItemFromNotes_Click(object sender, RoutedEventArgs e)
-        {
-
-            if (textBox_Notes.SelectedText.Length > 0)
-            {
-                //Instantiate a new AddItem window.
-                AddItem window = new AddItem(textBox_Notes.SelectedText);
-
-                //Show the window.
-                window.ShowDialog();
-
-                if (!window.canceled)
-                {
-                    LootItem item = new LootItem(window.textBox_Name.Text, window.comboBox_Type.Text, (Convert.ToInt32(window.textBox_Count.Text)), (Convert.ToInt32(window.textBox_BaseValue.Text)), (Convert.ToDecimal(window.textBox_BaseWeight.Text)), textBox_Notes.Text);
-                    _book.AddLootItem(item);
-                }
-
-                view_items.Refresh();
-            }
-            
-        }
-
-        private void window_Closing(object sender, CancelEventArgs e)
-        {
-            
         }
     }
 }

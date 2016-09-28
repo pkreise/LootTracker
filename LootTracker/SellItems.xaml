@@ -15,12 +15,14 @@
         </ResourceDictionary>
     </Window.Resources>
 
-    <Grid Background="{DynamicResource darkgray_back}" HorizontalAlignment="Left" VerticalAlignment="Top">
+    <Grid Background="{DynamicResource semiblack_back}" HorizontalAlignment="Left" VerticalAlignment="Top">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="30"/>
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="30"/>
+            <ColumnDefinition Width="30"/>
             <ColumnDefinition Width="30"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
@@ -29,22 +31,23 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <Button x:Name="button_Close" Content="X" VerticalAlignment="Top" Width="30" Foreground="{DynamicResource lightgray_fore}" Style="{DynamicResource button_Dark_Menu}" Height="35" Grid.Column="4" HorizontalAlignment="Right" Click="button_Cancel_Click"/>
+        <Button x:Name="button_Close" Content="X" VerticalAlignment="Top" Width="30" Foreground="{DynamicResource lightgray_fore}" Style="{DynamicResource button_Dark_Menu}" Height="35" Grid.Column="6" HorizontalAlignment="Right" Click="button_Cancel_Click" Background="{DynamicResource semiblack_back}"/>
         <Label x:Name="label" Content="Sell selected items at " HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Top" Foreground="{DynamicResource lightgray_fore}" FontSize="14" Height="25" Grid.Column="1" Margin="0,10" Width="143"/>
         <Label x:Name="label1" Content="%" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="{DynamicResource lightgray_fore}" FontSize="14" Height="25" Grid.Column="3" Width="21" Grid.Row="1" Margin="0,10"/>
-        <TextBox x:Name="textBox_SellPercent" HorizontalAlignment="Left" Height="25" Grid.Row="1" Text="{Binding sellPercent, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="40" Background="{DynamicResource darkgray_back}" Foreground="{DynamicResource lightgray_fore}" FontSize="16" BorderThickness="0" Grid.Column="2" Margin="0,10" Cursor="IBeam" FontWeight="Bold" HorizontalContentAlignment="Center"/>
-        <Button x:Name="button" Content="OK" HorizontalAlignment="Center" Margin="0,10" VerticalAlignment="Center" Width="74" Style="{DynamicResource button_Dark_Small}" Height="30" Foreground="{DynamicResource lightgray_fore}" Grid.Row="3" Click="button_OK_Click" Grid.ColumnSpan="5"/>
-        <Label x:Name="label_Title" Content="Sell Unequipped Items" HorizontalAlignment="Center" Margin="0" VerticalAlignment="Top" Height="35" Foreground="{DynamicResource lightgray_fore}" FontSize="16" Grid.ColumnSpan="5"/>
-        <ListView x:Name="listView_ItemToSell" HorizontalAlignment="Center" Margin="15,10" Grid.Row="2" VerticalAlignment="Center" Grid.ColumnSpan="5" Foreground="{DynamicResource darkgray_back}" Background="{DynamicResource lightgray_fore}" MaxHeight="200">
+        <TextBox x:Name="textBox_SellPercent" HorizontalAlignment="Left" Height="25" Grid.Row="1" Text="{Binding sellPercent, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="40" Background="{DynamicResource semiblack_back}" Foreground="{DynamicResource lightgray_fore}" FontSize="16" BorderThickness="0" Grid.Column="2" Margin="0,10" Cursor="IBeam" FontWeight="Bold" HorizontalContentAlignment="Center"/>
+        <Button x:Name="button" Content="OK" HorizontalAlignment="Center" Margin="0,10" VerticalAlignment="Center" Width="74" Style="{DynamicResource button_Dark_Small}" Height="30" Foreground="{DynamicResource lightgray_fore}" Grid.Row="3" Click="button_OK_Click" Grid.ColumnSpan="7" Background="{DynamicResource semiblack_back}"/>
+        <Label x:Name="label_Title" Content="Sell Unequipped Items" HorizontalAlignment="Center" Margin="0" VerticalAlignment="Top" Height="35" Foreground="{DynamicResource lightgray_fore}" FontSize="16" Grid.ColumnSpan="7"/>
+        <ListView x:Name="listView_ItemToSell" HorizontalAlignment="Center" Margin="15,10" Grid.Row="2" VerticalAlignment="Center" Grid.ColumnSpan="7" Foreground="{DynamicResource darkgray_back}" Background="{DynamicResource lightgray_fore}" MaxHeight="200">
             <ListView.View>
                 <GridView x:Name="gridview_ItemsToSell" ColumnHeaderContainerStyle="{DynamicResource headers_Dark}">
                     <GridViewColumn Width="Auto" Header="Name" DisplayMemberBinding="{Binding itemname}"/>
+                    <GridViewColumn Width="Auto" Header="#" DisplayMemberBinding="{Binding unassignedcount}"/>
                     <GridViewColumn Width="Auto" Header="Sell Value">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock TextAlignment="Center">
                                     <TextBlock.Text>
-                                        <MultiBinding StringFormat=" {0} GP" Converter="{StaticResource itemsellvalue_Converter}">
+                                        <MultiBinding StringFormat=" {0} GP" Converter="{StaticResource itemsellvalue_converter}">
                                             <Binding Path="."/>
                                             <Binding ElementName="textBox_SellPercent" Path="Text"/>
                                         </MultiBinding>
@@ -58,6 +61,14 @@
             </ListView.View>
 
         </ListView>
+        <TextBox x:Name="textBox_TotalSellValue" Grid.Column="4" HorizontalAlignment="Left" Margin="10,0,0,0" Grid.Row="1" VerticalAlignment="Center" Grid.ColumnSpan="2" Panel.ZIndex="-1" Foreground="{DynamicResource lightgray_fore}" Background="{DynamicResource semiblack_back}">
+            <TextBox.Text>
+                <MultiBinding StringFormat="for {0} GP" Converter="{StaticResource ttlitemsellvalue_converter}">
+                    <Binding ElementName="listView_ItemToSell" Path="items"/>
+                    <Binding ElementName="textBox_SellPercent" Path="Text"/>
+                </MultiBinding>
+            </TextBox.Text>
+        </TextBox>
 
     </Grid>
 </Window>

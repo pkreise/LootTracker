@@ -307,4 +307,36 @@ namespace LootTracker
         }
     }
 
+    //Total Item sell value converter.
+    public sealed class TtlItemSellValue_Converter : IMultiValueConverter
+    {
+        public object Convert(object[] values, Type targettype, object parameter, CultureInfo culture)
+        {
+            List<LootItem> items = values[0] as List<LootItem>;
+            int p;
+            double ttlsellvalue = 0;
+            try { p = System.Convert.ToInt32(values[1]); }
+            catch { p = 0; }
+
+            if (items != null)
+            {
+                foreach (LootItem i in items)
+                {
+                    ttlsellvalue += i.unassignedvalue;
+                }
+                return ttlsellvalue * (p * .01);
+            }
+            else
+            {
+                return 0;
+            }
+
+
+        }
+
+        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
 }

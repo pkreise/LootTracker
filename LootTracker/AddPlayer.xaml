@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:LootTracker"
         mc:Ignorable="d"
-        Title="AddPlayer" Height="386" Width="326" AllowsTransparency="True" WindowStyle="None" MouseDown="Window_MouseDown" BorderThickness="1" BorderBrush="Black" WindowStartupLocation="CenterScreen">
+        Title="AddPlayer" AllowsTransparency="True" WindowStyle="None" MouseDown="Window_MouseDown" BorderThickness="1" BorderBrush="Black" WindowStartupLocation="CenterScreen" SizeToContent="WidthAndHeight">
 
     <Window.Resources>
         <ResourceDictionary>
@@ -15,33 +15,33 @@
         </ResourceDictionary>
     </Window.Resources>
 
-    <Grid Background="{DynamicResource darkgray_back}">
+    <Grid Background="{DynamicResource semiblack_back}" Width="308">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="6*"/>
-            <ColumnDefinition Width="8*"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="35"/>
             <RowDefinition Height="15"/>
-            <RowDefinition Height="1.1*"/>
-            <RowDefinition Height="1.1*"/>
-            <RowDefinition Height="5.5*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="35"/>
         </Grid.RowDefinitions>
-        <TextBlock x:Name="textBlock_Title" HorizontalAlignment="Center" Grid.Row="0" Grid.ColumnSpan="2" TextWrapping="Wrap" Text="Add Player" Foreground="{DynamicResource lightgray_fore}" FontSize="20" FontFamily="Segoe UI Semibold" Margin="108,0" VerticalAlignment="Bottom"/>
-        <Button x:Name="button_Close" Content="X" Grid.ColumnSpan="2" HorizontalAlignment="Right" VerticalAlignment="Top" Width="25" Height="35" FontSize="16" FontFamily="Segoe UI Semibold" BorderThickness="0" Click="button_Close_Click" TabIndex="5" Style="{DynamicResource button_Dark_Menu}" Foreground="{DynamicResource lightgray_fore}"/>
-        <Label x:Name="label_Player" Content="Player Name" HorizontalAlignment="Left" Margin="25,0,0,0" Grid.Row="2" VerticalAlignment="Center" Foreground="{DynamicResource lightgray_fore}" FontSize="14" FontFamily="Segoe UI Semibold"/>
-        <TextBox x:Name="textBox_Player" Grid.Column="1" Grid.Row="2" HorizontalAlignment="Center" Height="25" TextWrapping="Wrap" VerticalAlignment="Center" Width="120" TabIndex="0" FontSize="14" Background="{DynamicResource darkgray_back}" BorderThickness="0,0,1,1" Foreground="{DynamicResource lightgray_fore}"/>
-        <Label x:Name="label_Character" Content="Character Name" HorizontalAlignment="Left" Margin="25,0,0,0" Grid.Row="3" VerticalAlignment="Center" Foreground="{DynamicResource lightgray_fore}" FontSize="14" FontFamily="Segoe UI Semibold"/>
-        <TextBox x:Name="textBox_Character" Grid.Column="1" Grid.Row="3" HorizontalAlignment="Center" Height="25" TextWrapping="Wrap" VerticalAlignment="Center" Width="120" TabIndex="1" FontSize="14" Background="{DynamicResource darkgray_back}" BorderThickness="0,0,1,1" Foreground="{DynamicResource lightgray_fore}"/>
-        <Label x:Name="label_Image" Content="Character Image" HorizontalAlignment="Left" Margin="25,0,0,0" Grid.Row="4" VerticalAlignment="Center" Foreground="{DynamicResource lightgray_fore}" FontSize="14" FontFamily="Segoe UI Semibold"/>
-        <Border BorderBrush="Black" Grid.Column="1" Grid.Row="4" BorderThickness="1" HorizontalAlignment="Center" Height="120" VerticalAlignment="Center" Width="120" Margin="25,25,25,69">
-            <Border BorderBrush="#FFABADB3" BorderThickness="1" Margin="-1" Background="{DynamicResource darkgray_back}">
+        <TextBlock x:Name="textBlock_Title" HorizontalAlignment="Center" Grid.Row="0" Grid.ColumnSpan="2" TextWrapping="Wrap" Text="Add Player" Foreground="{DynamicResource lightgray_fore}" FontSize="20" FontFamily="Segoe UI Semibold" Margin="108,0" VerticalAlignment="Bottom" Background="{DynamicResource semiblack_back}"/>
+        <Button x:Name="button_Close" Content="X" Grid.ColumnSpan="2" HorizontalAlignment="Right" VerticalAlignment="Top" Width="25" Height="35" FontSize="16" FontFamily="Segoe UI Semibold" BorderThickness="0" Click="button_Close_Click" TabIndex="5" Style="{DynamicResource button_ExtraDark_Small}" Foreground="{DynamicResource lightgray_fore}" Background="{DynamicResource semiblack_back}"/>
+        <Label x:Name="label_Player" Content="Player Name" HorizontalAlignment="Left" Margin="25,10,0,10" Grid.Row="2" VerticalAlignment="Center" Foreground="{DynamicResource lightgray_fore}" FontSize="14" FontFamily="Segoe UI Semibold" Background="{DynamicResource semiblack_back}"/>
+        <TextBox x:Name="textBox_Player" Grid.Column="1" Grid.Row="2" HorizontalAlignment="Center" Height="25" TextWrapping="Wrap" VerticalAlignment="Center" Width="120" TabIndex="0" FontSize="14" Background="{DynamicResource semiblack_back}" BorderThickness="0,0,1,1" Foreground="{DynamicResource lightgray_fore}"/>
+        <Label x:Name="label_Character" Content="Character Name" HorizontalAlignment="Left" Margin="25,10,0,10" Grid.Row="3" VerticalAlignment="Center" Foreground="{DynamicResource lightgray_fore}" FontSize="14" FontFamily="Segoe UI Semibold" Background="{DynamicResource semiblack_back}"/>
+        <TextBox x:Name="textBox_Character" Grid.Column="1" Grid.Row="3" HorizontalAlignment="Center" Height="25" TextWrapping="Wrap" VerticalAlignment="Center" Width="120" TabIndex="1" FontSize="14" Background="{DynamicResource semiblack_back}" BorderThickness="0,0,1,1" Foreground="{DynamicResource lightgray_fore}"/>
+        <Label x:Name="label_Image" Content="Character Image" HorizontalAlignment="Left" Margin="25,10,0,10" Grid.Row="4" VerticalAlignment="Center" Foreground="{DynamicResource lightgray_fore}" FontSize="14" FontFamily="Segoe UI Semibold" Background="{DynamicResource semiblack_back}"/>
+        <Border BorderBrush="Black" Grid.Column="1" Grid.Row="4" BorderThickness="1" HorizontalAlignment="Center" Height="120" VerticalAlignment="Center" Width="120" Margin="25,25,25,69" Background="{DynamicResource semiblack_back}">
+            <Border BorderBrush="#FFABADB3" BorderThickness="1" Margin="-1" Background="{DynamicResource semiblack_back}">
                 <Image x:Name="playerImage" Margin="-1" Stretch="UniformToFill" Height="120" Width="120"/>
             </Border>
         </Border>
-        <Button x:Name="button_Browse"  Grid.Column="1" Grid.Row="4" Content="Browse" HorizontalAlignment="Left" VerticalAlignment="Top" Width="54" Height="25" Click="button_Browse_Click" FontSize="16" FontFamily="Segoe UI Semibold" TabIndex="2" BorderThickness="0" Foreground="{DynamicResource lightgray_fore}" Margin="33,165,0,0" Style="{DynamicResource button_Dark_Small}"/>
-        <Button x:Name="button_Clear"  Grid.Column="1" Grid.Row="4" Content="Clear" HorizontalAlignment="Left" VerticalAlignment="Top" Width="56" Height="25" Click="button_Clear_Click" FontSize="16" FontFamily="Segoe UI Semibold" TabIndex="3" BorderThickness="0" Foreground="{DynamicResource lightgray_fore}" Margin="105,165,0,0" Style="{DynamicResource button_Dark_Small}"/>
-        <Button x:Name="button_OK"  Grid.ColumnSpan="2" Grid.Row="5" Content="OK" HorizontalAlignment="Center" VerticalAlignment="Top" Width="55" Height="25" Click="button_OK_Click" FontSize="16" FontFamily="Segoe UI Semibold" TabIndex="4" BorderThickness="0" Foreground="{DynamicResource lightgray_fore}" Style="{DynamicResource button_Dark_Small}"/>
+        <Button x:Name="button_Browse"  Grid.Column="1" Grid.Row="4" Content="Browse" HorizontalAlignment="Left" VerticalAlignment="Top" Width="54" Height="25" Click="button_Browse_Click" FontSize="16" FontFamily="Segoe UI Semibold" TabIndex="2" BorderThickness="0" Foreground="{DynamicResource lightgray_fore}" Margin="33,165,0,0" Style="{DynamicResource button_ExtraDark_Small}" Background="{DynamicResource semiblack_back}"/>
+        <Button x:Name="button_Clear"  Grid.Column="1" Grid.Row="4" Content="Clear" HorizontalAlignment="Left" VerticalAlignment="Top" Width="56" Height="25" Click="button_Clear_Click" FontSize="16" FontFamily="Segoe UI Semibold" TabIndex="3" BorderThickness="0" Foreground="{DynamicResource lightgray_fore}" Margin="105,165,0,0" Style="{DynamicResource button_ExtraDark_Small}" Background="{DynamicResource semiblack_back}"/>
+        <Button x:Name="button_OK"  Grid.ColumnSpan="2" Grid.Row="5" Content="OK" HorizontalAlignment="Center" VerticalAlignment="Top" Width="55" Height="25" Click="button_OK_Click" FontSize="16" FontFamily="Segoe UI Semibold" TabIndex="4" BorderThickness="0" Foreground="{DynamicResource lightgray_fore}" Style="{DynamicResource button_ExtraDark_Small}" Background="{DynamicResource semiblack_back}"/>
     </Grid>
 </Window>
