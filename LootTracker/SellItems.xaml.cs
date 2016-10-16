@@ -16,6 +16,7 @@ namespace LootTracker
         bool _isCancelled;
         private event PropertyChangedEventHandler PropertyChanged;
         int _sellPercent = 50;
+        ObservableCollection<LootItem> _items;
 
         //Class properties.
         public bool isCancelled { get { return _isCancelled; } }
@@ -28,13 +29,22 @@ namespace LootTracker
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(sellPercent)));
             }
         }
+        public ObservableCollection<LootItem> items
+        {
+            get { return _items; }
+            set
+            {
+                _items = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(items)));
+            }
+        }
 
         //Constructor
-        public SellItems(ObservableCollection<LootItem> items)
+        public SellItems(ObservableCollection<LootItem> i)
         {
             DataContext = this;
-            InitializeComponent();
-            listView_ItemToSell.ItemsSource = items;
+            items = i;
+            InitializeComponent();            
         }
 
         //Event handler for clicking the OK button.

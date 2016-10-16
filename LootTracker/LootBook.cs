@@ -18,8 +18,8 @@ namespace LootTracker
         public event PropertyChangedEventHandler PropertyChanged;
 
         //Class properties.
-        public ObservableCollection<Player> playerlist { get { return _playerlist; } }
-        public ObservableCollection<LootItem> lootlist { get { return _lootlist; } }
+        public ObservableCollection<Player> playerlist { get { return _playerlist; } set { _playerlist = value; } }
+        public ObservableCollection<LootItem> lootlist { get { return _lootlist; } set { _lootlist = value; } }
         public string notes
         {
             get { return _notes; }
@@ -86,7 +86,13 @@ namespace LootTracker
             if (_playerlist.Contains(p))
             {
                 _playerlist.Remove(p);
+                NotifyPropertyChanged("playerlist");
 
+                foreach (LootItem i in _lootlist)
+                {
+                    i.RemoveAssignment(p.playername);
+                }
+                NotifyPropertyChanged("lootlist");
             }
         }
         
@@ -108,6 +114,7 @@ namespace LootTracker
             }
         }
 
+        //Method to calculate the total weight of items (# * basewgt)
         public decimal CalculateTotalWeight()
         {
             decimal _totalPartyWeight = 0;
@@ -118,6 +125,7 @@ namespace LootTracker
             return _totalPartyWeight;
         }
 
+        //Method to calculate a players light load threshold.
         public int CalculateMaxLightLoad()
         {
             int _lightLoadTotal = 0;
@@ -128,6 +136,7 @@ namespace LootTracker
             return _lightLoadTotal;
         }
 
+        //Method to calculate a players medium load threshold.
         public int CalculateMaxMedLoad()
         {
             int _medLoadTotal = 0;
@@ -138,6 +147,7 @@ namespace LootTracker
             return _medLoadTotal;
         }
 
+        //Method to calculate a players heavy load threshold.
         public int CalculateMaxheavyLoad()
         {
             int _heavyLoadTotal = 0;
@@ -147,17 +157,5 @@ namespace LootTracker
             }
             return _heavyLoadTotal;
         }
-
-        public void lootlistChanged()
-        {
-            NotifyPropertyChanged("lootlist");
-        }
-
-        public void playerlistChanged()
-        {
-            NotifyPropertyChanged("playerlist");
-        }
-
-
     }
 }

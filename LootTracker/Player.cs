@@ -13,14 +13,14 @@ namespace LootTracker
         bool _hasimage;
         int _equipmentvalue;
         int _wgtcarried;
-        int _ast;
-        int _plt;
-        int _gld;
-        int _sil;
-        int _cop;
         int _strength;
-        double _totalGP;
         bool _GPCarried;
+        int Ast;
+        int Plt;
+        int Gld;
+        int Sil;
+        int Cop;
+        double TotalGP;
         [field: NonSerialized]
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -31,16 +31,16 @@ namespace LootTracker
         public bool hasimage { get { return _hasimage; } set { _hasimage = value; } }
         public int equipmentvalue { get { return _equipmentvalue; } }
         public decimal wgtcarried { get { return _wgtcarried; } }
-        public int ast { get { return _ast; } }
-        public int gld { get { return _gld; } }
-        public int plt { get { return _plt; } }
-        public int sil { get { return _sil; } }
-        public int cop { get { return _cop; } }
-        public double totalGP { get { return _totalGP; } }
+        public int ast { get { return Ast; } set { Ast = value; NotifyPropertyChanged("ast"); } }
+        public int plt { get { return Plt; } set { Plt = value; NotifyPropertyChanged("plt"); } }
+        public int gld { get { return Gld; } set { Gld = value; NotifyPropertyChanged("gld"); } }
+        public int sil { get { return Sil; } set { Sil = value; NotifyPropertyChanged("sil"); } }
+        public int cop { get { return Cop; } set { Cop = value; NotifyPropertyChanged("cop"); } }
+        public double totalGP { get { return TotalGP; } set { TotalGP = value; NotifyPropertyChanged("totalGP"); } }
         public int strength { get { return _strength; } }
-        public int LightLoadMax { get; }
-        public int MedLoadMax { get; }
-        public int HeavyLoadMax { get; }
+        public int LightLoadMax { get; set; }
+        public int MedLoadMax { get; set; }
+        public int HeavyLoadMax { get; set; }
         public int[] MaxLoads = new int[20] { 0, 4, 6, 10, 13, 16, 20, 23, 26, 30, 33, 38, 43, 50, 58, 66, 76, 86, 100, 116 };
         public bool GPCarried
         {
@@ -51,7 +51,7 @@ namespace LootTracker
                 NotifyPropertyChanged("GPCarried");
             }
         }
-
+        
         //Constructor
         public Player()
         {
@@ -59,11 +59,11 @@ namespace LootTracker
             _charactername = null;
             _equipmentvalue = 0;
             _wgtcarried = 0;
-            _ast = 0;
-            _plt = 0;
-            _gld = 0;
-            _sil = 0;
-            _cop = 0;
+            ast = 0;
+            plt = 0;
+            gld = 0;
+            sil = 0;
+            cop = 0;
             CalculateGP();
         }
 
@@ -75,14 +75,13 @@ namespace LootTracker
             _strength = Strength;
             _equipmentvalue = 0;
             _wgtcarried = 0;
-            _ast = 0;
-            _plt = 0;
-            _gld = 0;
-            _sil = 0;
-            _cop = 0;
+            ast = 0;
+            plt = 0;
+            gld = 0;
+            sil = 0;
+            cop = 0;
             CalculateGP();
-            
-            
+
             // Calculate load based on strength value.
             if (_strength < 20)
             {
@@ -111,78 +110,26 @@ namespace LootTracker
             {
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
             }
-
         }
 
         //Currency add methods.
-        public void Addast(int Astral)
+        public void modifyCurrency(CurrencyType t, int i)
         {
-            _ast += Astral;
-            CalculateGP();
-            NotifyPropertyChanged("ast");
-        }
-        public void Addplt(int Platinum)
-        {
-            _plt += Platinum;
-            CalculateGP();
-            NotifyPropertyChanged("plt");
-        }
-        public void Addgld(int Gold)
-        {
-            _gld += Gold;
-            CalculateGP();
-            NotifyPropertyChanged("gld");
-        }
-        public void Addsil(int Silver)
-        {
-            _sil += Silver;
-            CalculateGP();
-            NotifyPropertyChanged("sil");
-        }
-        public void Addcop(int Copper)
-        {
-            _cop += Copper;
-            CalculateGP();
-            NotifyPropertyChanged("cop");
-        }
-
-        //Currency remove methods.
-        public void Removeast(int Astral)
-        {
-            _ast -= Astral;
-            CalculateGP();
-            NotifyPropertyChanged("ast");
-        }
-        public void Removeplt(int Platinum)
-        {
-            _plt -= Platinum;
-            CalculateGP();
-            NotifyPropertyChanged("plt");
-        }
-        public void Removegld(int Gold)
-        {
-            _gld -= Gold;
-            CalculateGP();
-            NotifyPropertyChanged("gld");
-        }
-        public void Removesil(int Silver)
-        {
-            _sil -= Silver;
-            CalculateGP();
-            NotifyPropertyChanged("sil");
-        }
-        public void Removecop(int Copper)
-        {
-            _cop -= Copper;
-            CalculateGP();
-            NotifyPropertyChanged("cop");
+            switch (t)
+            {
+                case CurrencyType.Ast: ast += i; break;
+                case CurrencyType.Plt: plt += i; break;
+                case CurrencyType.Gld: gld += i; break;
+                case CurrencyType.Sil: sil += i; break;
+                case CurrencyType.Cop: cop += i; break;
+            }            
+            CalculateGP();            
         }
 
         //TotalGP calculation method.
         private void CalculateGP()
         {
-            _totalGP = ((_cop * .01) + (_sil * .1) + _gld + (_plt * 10) + (_ast * 100));
-            NotifyPropertyChanged("totalGP");
+            totalGP = ((cop * .01) + (sil * .1) + gld + (plt * 10) + (ast * 100));
         }
 
         //Update Image method.

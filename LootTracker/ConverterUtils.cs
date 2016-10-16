@@ -74,6 +74,11 @@ namespace LootTracker
             LootItem i = values[0] as LootItem;
             Player p = values[1] as Player;
 
+            if (p == null)
+            {
+                return 0;
+            }
+
             if (i.assignments.ContainsKey(p.playername))
             {
                 return (i.assignments[(p.playername)]);
@@ -101,7 +106,12 @@ namespace LootTracker
         {
             LootItem i = values[0] as LootItem;
             Player p = values[1] as Player;
-                       
+
+            if (p == null)
+            {
+                return 0;
+            }
+
             if (i.assignments.ContainsKey(p.playername))
             {
                 return i.assignments[(p.playername)] * i.baseweight;
@@ -130,6 +140,10 @@ namespace LootTracker
 
             LootItem i = values[0] as LootItem;
             Player p = values[1] as Player;
+            if (p == null)
+            {
+                return 0;
+            }
 
             if (i.assignments.ContainsKey(p.playername))
             {
@@ -312,13 +326,14 @@ namespace LootTracker
     {
         public object Convert(object[] values, Type targettype, object parameter, CultureInfo culture)
         {
-            List<LootItem> items = values[0] as List<LootItem>;
+            ObservableCollection<LootItem> items = values[0] as ObservableCollection<LootItem>;
             int p;
             double ttlsellvalue = 0;
+            
             try { p = System.Convert.ToInt32(values[1]); }
             catch { p = 0; }
 
-            if (items != null)
+            if (items.Count > 0)
             {
                 foreach (LootItem i in items)
                 {
@@ -330,8 +345,6 @@ namespace LootTracker
             {
                 return 0;
             }
-
-
         }
 
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
