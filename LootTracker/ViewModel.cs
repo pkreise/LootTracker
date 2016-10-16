@@ -26,8 +26,7 @@ namespace LootTracker
         private int SelectedTabIndex;
         private Player SelectedPlayer;
         private ComboBoxItem SelectedItemFilter;
-
-
+        
         public ObservableCollection<LootItem> LootList { get { return book.lootlist; } set { book.lootlist = value; PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(LootList))); } }
         public ObservableCollection<Player> PlayerList { get { return book.playerlist; } set { book.playerlist = value; PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(PlayerList))); } }
         public int selectedTabIndex { get { return SelectedTabIndex; } set { SelectedTabIndex = value; view_items.Refresh(); } }
@@ -156,31 +155,37 @@ namespace LootTracker
             }
         }
 
+        //Adds a player instance to the lootbook.
         public void AddPlayerToModel(Player p)
         {
             book.AddPlayer(p);
         }
 
+        //Removes a player instace from the lootbook.
         public void RemovePlayerFromModel(Player p)
         {
             book.RemovePlayer(p);
         }
 
+        //Adds an item instance to the lootbook.
         public void AddItemToModel(LootItem i)
         {
             book.AddLootItem(i);
         }
 
+        //Removes an item instance from the lootbook.
         public void RemoveItemFromModel(LootItem i)
         {
             book.RemoveLootItem(i);
         }
 
+        //Refreshes the view of the listView.
         public void RefreshView()
         {
             view_items.Refresh();
         }
 
+        //Opens an existing lootbook.
         public void OpenLootBook()
         {
             DataHandler handler = new DataHandler();
@@ -189,6 +194,7 @@ namespace LootTracker
             view_items.Filter = LootFilter;
         }
 
+        //Creates a new lootbook.
         public void NewLootBook()
         {
             book = new LootBook();
@@ -196,12 +202,14 @@ namespace LootTracker
             view_items.Filter = LootFilter;
         }
 
+        //Saves the existing lootbook.
         public void SaveLootBook()
         {
             DataHandler handler = new DataHandler();
             handler.WriteData(book);
         }
 
+        //Implementation of the iNotifyPropertyChanged interface.
         public void NotifyPropertyChanged(string propertyName)
         {
             if (PropertyChanged != null)
@@ -210,6 +218,7 @@ namespace LootTracker
             }
         }
 
+        //Modifies the currecy of a given player instance.
         public void ModifyCurrency(Player p, CurrencyType t, int i)
         {
             p.modifyCurrency(t, i);                    
