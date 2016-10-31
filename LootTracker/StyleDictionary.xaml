@@ -172,7 +172,6 @@
         </Setter>
     </Style>
 
-    
     <!--Style definition for dark combo box (Items).-->
     <Style x:Key="comboBox_Dark_ItemType" TargetType="{x:Type ComboBox}">
         <Setter Property="VerticalAlignment" Value="Center"/>

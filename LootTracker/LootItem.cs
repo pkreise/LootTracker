@@ -10,34 +10,23 @@ namespace LootTracker
     public class LootItem : INotifyPropertyChanged
     {
         //Class Fields.
-        string _itemname = null;
-        string _loottype = null;
-        int _count = 0;
-        int _unassignedcount = 0;
-        int _unassignedvalue = 0;
-        int _assignedcount = 0;
-        decimal _baseweight = 0;
-        decimal _totalweight = 0;
-        int _basevalue = 0;
-        int _totalvalue = 0;
-        int _charges = 0;
         private string _notes;
         Dictionary<string, int> _assignments = new Dictionary<string, int>();
         [field: NonSerialized]
         public event PropertyChangedEventHandler PropertyChanged;
 
         //Class properties.
-        public string itemname { get {return _itemname; } set { _itemname = value; } }
-        public string loottype { get { return _loottype; } set { _loottype = value; } }
-        public int count { get { return _count; } set { _count = value; } }
-        public int unassignedcount { get { return _unassignedcount; } set { _unassignedcount = value; } }
-        public int assignedcount { get { return _assignedcount; } set { _assignedcount = value; } }
-        public int unassignedvalue { get { return _unassignedvalue; } set { _unassignedvalue = value; } }
-        public decimal baseweight { get { return _baseweight; } set { _baseweight = value; } }
-        public decimal totalweight { get { return _totalweight; } set { _totalweight = value; } }
-        public int basevalue { get { return _basevalue; } set { _basevalue = value; } }
-        public int totalvalue { get { return _totalvalue; } set { _baseweight = value; } }
-        public int charges { get { return _charges; } }
+        public string itemname { get; set; }
+        public string loottype { get; set; }
+        public int count { get; set; }
+        public int unassignedcount { get; set; }
+        public int assignedcount { get; set; }
+        public int unassignedvalue { get; set; }
+        public decimal baseweight { get; set; }
+        public decimal totalweight { get; set; }
+        public int basevalue { get; set; }
+        public int totalvalue { get; set; }
+        public int charges { get; set; }
         public Dictionary<string, int> assignments { get { return _assignments; } set { _assignments = value; NotifyPropertyChanged("assignments"); } }
         public string assignmentsstring
         {
@@ -71,13 +60,13 @@ namespace LootTracker
         //Constructor
         public LootItem()
         {
-            _itemname = null;
-            _loottype = null;
-            _count = 0;
-            _basevalue = 0;
-            _unassignedcount = 0;
-            _baseweight = 0;
-            _assignments = null;
+            itemname = null;
+            loottype = null;
+            count = 0;
+            basevalue = 0;
+            unassignedcount = 0;
+            baseweight = 0;
+            assignments = null;
             CalculateTotalValue();
             CalculateTotalWeight();
         }
@@ -85,12 +74,12 @@ namespace LootTracker
         //Constructor
         public LootItem(string ItemName, string LootType, int Count, int BaseValue, decimal BaseWeight, string Notes)
         {
-            _itemname = ItemName;
-            _loottype = LootType;
-            _count = Count;
-            _basevalue = BaseValue;
-            _unassignedcount = Count;
-            _baseweight = BaseWeight;
+            itemname = ItemName;
+            loottype = LootType;
+            count = Count;
+            basevalue = BaseValue;
+            unassignedcount = Count;
+            baseweight = BaseWeight;
             notes = Notes;
             CalculateTotalValue();
             CalculateTotalWeight();
@@ -126,25 +115,25 @@ namespace LootTracker
         //Method to calculate total value of a loot item.
         public void CalculateTotalValue()
         {
-            _totalvalue = _count * _basevalue;
+            totalvalue = count * basevalue;
         }
 
         //Method to calculate total value of a loot item.
         public void CalculateUnassignedValue()
         {
-            _unassignedvalue = _unassignedcount * _basevalue;
+            unassignedvalue = unassignedcount * basevalue;
         }
 
         //Method to calculate total weight of a loot item.
         public void CalculateTotalWeight()
         {
-            _totalweight = _count * _baseweight;
+            totalweight = count * baseweight;
         }
 
         //Method to increment the count of a loot item.
         public void IncrementCount(int Count)
         {
-            _count += Count;
+            count += Count;
             CalculateTotalValue();
             CalculateTotalWeight();
             CalculateUnassignedCount();
@@ -155,13 +144,13 @@ namespace LootTracker
         //Method to decrement the count of a loot item.
         public void DecrementCount(int Count)
         {
-            if (_count <= Count)
+            if (count <= Count)
             {
-                _count = 0;
+                count = 0;
             }
             else
             {
-                _count -= Count;
+                count -= Count;
             }
             CalculateTotalValue();
             CalculateTotalWeight();
@@ -209,13 +198,13 @@ namespace LootTracker
         //Method to calculate the unassigned count after item assignment.
         public void CalculateUnassignedCount()
         {
-            _assignedcount = 0;
+            assignedcount = 0;
             foreach (KeyValuePair<string, int> entry in _assignments)
             {
-                _assignedcount += Convert.ToInt32(entry.Value);
+                assignedcount += Convert.ToInt32(entry.Value);
             }
 
-            _unassignedcount = _count - _assignedcount;
+            unassignedcount = count - assignedcount;
         }
 
         //Combo method to perform all calculations.

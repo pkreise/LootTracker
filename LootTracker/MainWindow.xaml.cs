@@ -1,16 +1,13 @@
 ﻿using System.Windows;
 using System;
 using System.Windows.Input;
-using System.Windows.Data;
 using System.ComponentModel;
 using System.Windows.Controls;
 using System.Collections.Generic;
 using System.IO;
-using System.Windows.Media.Imaging;
 using System.Windows.Forms;
 using System.Text.RegularExpressions;
 using System.Collections.ObjectModel;
-using System.Windows.Media.Animation;
 
 namespace LootTracker
 {

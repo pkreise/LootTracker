@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Data;
 
@@ -27,33 +23,12 @@ namespace LootTracker
         private Player SelectedPlayer;
         private ComboBoxItem SelectedItemFilter;
         
-        public ObservableCollection<LootItem> LootList { get { return book.lootlist; } set { book.lootlist = value; PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(LootList))); } }
-        public ObservableCollection<Player> PlayerList { get { return book.playerlist; } set { book.playerlist = value; PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(PlayerList))); } }
+        public ObservableCollection<LootItem> LootList { get { return book.lootlist; } set { book.lootlist = value; } }
+        public ObservableCollection<Player> PlayerList { get { return book.playerlist; } set { book.playerlist = value; } }
         public int selectedTabIndex { get { return SelectedTabIndex; } set { SelectedTabIndex = value; view_items.Refresh(); } }
         public Player selectedPlayer { get { return SelectedPlayer; } set { SelectedPlayer = value; view_items.Refresh(); } }
         public ComboBoxItem selectedItemFilter { get { return SelectedItemFilter; } set { SelectedItemFilter = value; view_items.Refresh(); } }
-        public string stringFilter
-        {
-            get { return StringFilter; }
-            set
-            {
-                if (value == StringFilter)
-                {
-                    return;
-                }
-                else
-                {
-                    StringFilter = value;
-
-                    GCLatencyMode oldMode = GCSettings.LatencyMode;
-                    GCSettings.LatencyMode = GCLatencyMode.LowLatency;
-                    view_items.Refresh();
-                    GCSettings.LatencyMode = oldMode;
-
-                    
-                }                
-            }
-        }
+        public string stringFilter { get { return StringFilter; } set { StringFilter = value; view_items.Refresh(); } }
 
         //cTor.
         public ViewModel()
@@ -137,9 +112,7 @@ namespace LootTracker
                 }
                 else
                 {
-                    bool playerexists = false;
-                    playerexists = i.assignments.ContainsKey(SelectedPlayer.playername);
-                    if (playerexists)
+                    if (i.assignments.ContainsKey(SelectedPlayer.playername))
                     {
                         return true;
                     }

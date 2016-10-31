@@ -75,10 +75,7 @@
                         <ColumnDefinition/>
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
-                    <ListView x:Name="listView_Master" ButtonBase.Click="GridViewColumnHeader_Clicked"  BorderThickness="0" ItemContainerStyle="{StaticResource listViewItem_Dark}" SelectionChanged="listView_SelectionChanged" Grid.ColumnSpan="12" Grid.Row="1" MouseDoubleClick="button_Assignments_Click" Margin="0" ItemsSource="{Binding LootList}">
-                        <ListView.GroupStyle>
-                            <GroupStyle/>
-                        </ListView.GroupStyle>
+                    <ListView x:Name="listView_Master" ButtonBase.Click="GridViewColumnHeader_Clicked"  BorderThickness="0" SelectionChanged="listView_SelectionChanged" Grid.ColumnSpan="12" Grid.Row="1" MouseDoubleClick="button_Assignments_Click" Margin="0" ItemsSource="{Binding LootList}">
                         <ListView.ContextMenu>
                             <ContextMenu>
                                 <MenuItem Header="Add" Click="NewItem_Click"/>
@@ -90,8 +87,17 @@
                             </ContextMenu>
                         </ListView.ContextMenu>
                         <ListView.View>
-                            <GridView ColumnHeaderContainerStyle="{DynamicResource headers_Dark}">
-                                <GridViewColumn Width="Auto" Header="Name">
+                            <GridView >
+                                <GridViewColumn DisplayMemberBinding="{Binding Path=itemname}" Width="100"/>
+                                <GridViewColumn DisplayMemberBinding="{Binding Path=loottype}" Width="100"/>
+                                <GridViewColumn DisplayMemberBinding="{Binding Path=count}" Width="100"/>
+                                <GridViewColumn DisplayMemberBinding="{Binding Path=unassignedcount}" Width="100"/>
+                                <GridViewColumn DisplayMemberBinding="{Binding Path=baseweight}" Width="100"/>
+                                <GridViewColumn DisplayMemberBinding="{Binding Path=totalweight}" Width="100"/>
+                                <GridViewColumn DisplayMemberBinding="{Binding Path=basevalue}" Width="100"/>
+                                <GridViewColumn DisplayMemberBinding="{Binding Path=totalvalue}" Width="100"/>
+                                <GridViewColumn DisplayMemberBinding="{Binding Path=assignmentsstring}" Width="100"/>
+                                <!--<GridViewColumn Width="Auto" Header="Name">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock TextAlignment="Left" Text="{Binding itemname}"/>
@@ -153,7 +159,7 @@
                                             <TextBlock TextAlignment="Left" Text="{Binding assignmentsstring}"/>
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
-                                </GridViewColumn>
+                                </GridViewColumn>-->
                             </GridView>
                         </ListView.View>
                     </ListView>
@@ -258,8 +264,8 @@
                         <TextBlock x:Name="textBlock_TtlWgt" Grid.Column="8" HorizontalAlignment="Left" Margin="0,8" Grid.Row="1" TextWrapping="NoWrap" VerticalAlignment="Center" Foreground="{DynamicResource lightgray_fore}" Height="19">
                             <TextBlock.Text>
                                 <MultiBinding StringFormat=" {0} Lbs" Converter="{StaticResource ttlwgt_converter}" NotifyOnTargetUpdated="True">
-                                    <Binding ElementName="listView_Player" Path="ItemsSource"/>
-                                    <Binding ElementName="listView_Player" Path="ItemsSource/assignments"/>
+                                    <!--<Binding ElementName="listView_Player" Path="ItemsSource"/>
+                                    <Binding ElementName="listView_Player" Path="ItemsSource/assignments"/>-->
                                     <Binding ElementName="comboBox_Player" Path="SelectedItem"/>
                                     <Binding ElementName="comboBox_Player" Path="SelectedItem.ast"/>
                                     <Binding ElementName="comboBox_Player" Path="SelectedItem.plt"/>
@@ -272,13 +278,7 @@
                         </TextBlock>
                         <Label x:Name="label_TtlVal" Content="Total Value" Grid.Column="7" Grid.Row="2" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="{DynamicResource lightgray_fore}" Margin="0,4,0,2" Height="29" Width="79"/>
                         <TextBlock x:Name="textBlock_TtlVal" Grid.Column="8" HorizontalAlignment="Left" Margin="0,9,0,7" Grid.Row="2" TextWrapping="NoWrap" VerticalAlignment="Center" Foreground="{DynamicResource lightgray_fore}" Height="19">
-                            <TextBlock.Text>
-                                <MultiBinding StringFormat=" {0} GP" Converter="{StaticResource ttlval_converter}">
-                                    <Binding ElementName="listView_Player" Path="ItemsSource"/>
-                                    <Binding ElementName="listView_Player" Path="ItemsSource/assignments"/>
-                                    <Binding ElementName="comboBox_Player" Path="SelectedItem"/>
-                                </MultiBinding>
-                            </TextBlock.Text>
+                            
                         </TextBlock>
                         <Label x:Name="label_Notes" Content="Notes&#xD;&#xA;" Grid.Column="9" HorizontalAlignment="Left" Margin="30,0,0,0" VerticalAlignment="Top" Foreground="{DynamicResource lightgray_fore}" FontStyle="Italic" Width="63" Height="29" FontFamily="Segoe UI" FontSize="18"/>
                         <TextBox x:Name="textBox_Notes" TextWrapping="Wrap" Margin="30,1,0,1" Grid.Column="9" Grid.Row="1" Foreground="{DynamicResource darkgray_back}" FontFamily="Segoe UI" AcceptsReturn="True" HorizontalAlignment="Center" Width="503" VerticalScrollBarVisibility="Auto" ScrollViewer.CanContentScroll="True" Height="208" Grid.RowSpan="6" VerticalAlignment="Center" Text="{Binding DataContext.book.notes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">

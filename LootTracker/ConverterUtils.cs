@@ -3,13 +3,10 @@ using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Media;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 
 namespace LootTracker
-{   
+{
     //Background color converter.
     public sealed class B_Converter : IValueConverter
     {
