@@ -282,7 +282,7 @@ namespace LootTracker
                if (listView_Master.SelectedItems.Count > 1)
                 {
                     button_Assignments.IsEnabled = false;
-                  button_Edit.IsEnabled = false;
+                    button_Edit.IsEnabled = false;
 
                 }
                 else if (listView_Master.SelectedItems.Count == 1)

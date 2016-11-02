@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime;
+using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Data;
 
@@ -28,7 +30,7 @@ namespace LootTracker
         public int selectedTabIndex { get { return SelectedTabIndex; } set { SelectedTabIndex = value; view_items.Refresh(); } }
         public Player selectedPlayer { get { return SelectedPlayer; } set { SelectedPlayer = value; view_items.Refresh(); } }
         public ComboBoxItem selectedItemFilter { get { return SelectedItemFilter; } set { SelectedItemFilter = value; view_items.Refresh(); } }
-        public string stringFilter { get { return StringFilter; } set { StringFilter = value; view_items.Refresh(); } }
+        public string stringFilter { get { return StringFilter; } set {StringFilter = value; view_items.Refresh(); } }
 
         //cTor.
         public ViewModel()
@@ -77,13 +79,13 @@ namespace LootTracker
             if (SelectedTabIndex == 0)
             {
                 string typeFilterValue = SelectedItemFilter.Content.ToString();
-                //string NonCaseSensitiveFilter = StringFilter.ToLower();
+                string NonCaseSensitiveFilter = StringFilter.ToLower();
 
-                if (typeFilterValue == "All Items" && i.itemname.ToLower().Contains(StringFilter))
+                if (typeFilterValue == "All Items" && i.itemname.ToLower().Contains(NonCaseSensitiveFilter))
                 {
                     return true;
                 }
-                else if (i.loottype == typeFilterValue && i.itemname.ToLower().Contains(StringFilter))
+                else if (i.loottype == typeFilterValue && i.itemname.ToLower().Contains(NonCaseSensitiveFilter))
                 {
                     return true;
                 }
@@ -128,6 +130,11 @@ namespace LootTracker
             }
         }
 
+        public void RefreshView()
+        {
+            view_items.Refresh();
+        }
+
         //Adds a player instance to the lootbook.
         public void AddPlayerToModel(Player p)
         {
@@ -150,12 +157,6 @@ namespace LootTracker
         public void RemoveItemFromModel(LootItem i)
         {
             book.RemoveLootItem(i);
-        }
-
-        //Refreshes the view of the listView.
-        public void RefreshView()
-        {
-            view_items.Refresh();
         }
 
         //Opens an existing lootbook.

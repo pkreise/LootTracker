@@ -35,7 +35,7 @@
             <BeginStoryboard x:Name="ImageFade_BeginStoryboard" Storyboard="{StaticResource ImageFade}"/>
         </EventTrigger>
     </Window.Triggers>
-    <Grid Background="{DynamicResource darkgray_back}" Margin="0">
+    <Grid Background="{StaticResource darkgray_back}" Margin="0">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="Auto"/>
@@ -75,20 +75,10 @@
                         <ColumnDefinition/>
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
-                    <ListView x:Name="listView_Master" ButtonBase.Click="GridViewColumnHeader_Clicked"  BorderThickness="0" SelectionChanged="listView_SelectionChanged" Grid.ColumnSpan="12" Grid.Row="1" MouseDoubleClick="button_Assignments_Click" Margin="0" ItemsSource="{Binding LootList}">
-                        <ListView.ContextMenu>
-                            <ContextMenu>
-                                <MenuItem Header="Add" Click="NewItem_Click"/>
-                                <MenuItem Header="Remove" Click="DeleteItem_Click"/>
-                                <Separator/>
-                                <MenuItem Header="Increment"/>
-                                <MenuItem Header="Decrement"/>
-                                <MenuItem Header="Assign"/>
-                            </ContextMenu>
-                        </ListView.ContextMenu>
+                    <ListView x:Name="listView_Master" ButtonBase.Click="GridViewColumnHeader_Clicked"  BorderThickness="0" SelectionChanged="listView_SelectionChanged" Grid.ColumnSpan="12" Grid.Row="1" MouseDoubleClick="button_Assignments_Click" Margin="0" ItemsSource="{Binding LootList, IsAsync=True}" ItemContainerStyle="{StaticResource listViewItem_Dark}">
                         <ListView.View>
-                            <GridView >
-                                <GridViewColumn DisplayMemberBinding="{Binding Path=itemname}" Width="100"/>
+                            <GridView ColumnHeaderContainerStyle="{StaticResource headers_Dark}" >
+                                <!--<GridViewColumn DisplayMemberBinding="{Binding Path=itemname}" Width="100"/>
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=loottype}" Width="100"/>
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=count}" Width="100"/>
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=unassignedcount}" Width="100"/>
@@ -96,8 +86,8 @@
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=totalweight}" Width="100"/>
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=basevalue}" Width="100"/>
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=totalvalue}" Width="100"/>
-                                <GridViewColumn DisplayMemberBinding="{Binding Path=assignmentsstring}" Width="100"/>
-                                <!--<GridViewColumn Width="Auto" Header="Name">
+                                <GridViewColumn DisplayMemberBinding="{Binding Path=assignmentsstring}" Width="100"/>-->
+                                <GridViewColumn Width="Auto" Header="Name">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock TextAlignment="Left" Text="{Binding itemname}"/>
@@ -159,16 +149,16 @@
                                             <TextBlock TextAlignment="Left" Text="{Binding assignmentsstring}"/>
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
-                                </GridViewColumn>-->
+                                </GridViewColumn>
                             </GridView>
                         </ListView.View>
                     </ListView>
                     <Button x:Name="button_NewItem" Grid.Column="0" Grid.Row="0" Content="New" HorizontalAlignment="Center" VerticalAlignment="Center" Width="50" Height="30" Foreground="#FFDEDEDE" Style="{StaticResource button_Dark_Small}" Click="NewItem_Click" Margin="0" Cursor="Hand"/>
                     <Button x:Name="button_Delete" Grid.Column="1" Grid.Row="0" Content="Delete" HorizontalAlignment="Center" VerticalAlignment="Center" Height="30" Foreground="#FFDEDEDE" Style="{StaticResource button_Dark_Small}" Click="DeleteItem_Click" IsEnabled="False" Margin="0" Width="65" Cursor="Hand"/>
-                    <Button x:Name="button_Edit" Content="Edit" Grid.Column="2" HorizontalAlignment="Center" Margin="0" VerticalAlignment="Center" Width="52" Style="{DynamicResource button_Dark_Small}" Foreground="{DynamicResource lightgray_fore}" Height="30" Click="button_Edit_Click" VerticalContentAlignment="Center" IsEnabled="False" Cursor="Hand"/>
+                    <Button x:Name="button_Edit" Content="Edit" Grid.Column="2" HorizontalAlignment="Center" Margin="0" VerticalAlignment="Center" Width="52" Style="{StaticResource button_Dark_Small}" Foreground="{DynamicResource lightgray_fore}" Height="30" Click="button_Edit_Click" VerticalContentAlignment="Center" IsEnabled="False" Cursor="Hand"/>
                     <Button x:Name="button_Assignments" Content="Equip" HorizontalAlignment="Center" Width="61" Height="30" Style="{StaticResource button_Dark_Small}" Foreground="#FFDEDEDE" IsEnabled="False" FontStyle="Italic" FontWeight="ExtraBlack" VerticalAlignment="Center" Click="button_Assignments_Click" Grid.Column="3" Grid.Row="0" Margin="0" VerticalContentAlignment="Stretch" Cursor="Hand"/>
-                    <Label x:Name="label_Filter" Content="Filter by" HorizontalAlignment="Left" Grid.Column="8" Foreground="{DynamicResource lightgray_fore}" Padding="0,0,0,5" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Center" Margin="0,0,10,0" FontSize="16"/>
-                    <ComboBox x:Name="comboBox_Filter" Grid.Column="9" Margin="0,0,0,2" VerticalContentAlignment="Center" SelectedValuePath="Content" Width="110" ItemContainerStyle="{DynamicResource comboBoxItem_Dark_ItemType}" SelectedIndex="0" Foreground="{DynamicResource darkgray_back}" HorizontalAlignment="Left" SelectedItem="{Binding selectedItemFilter}">
+                    <Label x:Name="label_Filter" Content="Filter by" HorizontalAlignment="Left" Grid.Column="8" Foreground="{StaticResource lightgray_fore}" Padding="0,0,0,5" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Center" Margin="0,0,10,0" FontSize="16"/>
+                    <ComboBox x:Name="comboBox_Filter" Grid.Column="9" Margin="0,0,0,2" VerticalContentAlignment="Center" SelectedValuePath="Content" Width="110" ItemContainerStyle="{StaticResource comboBoxItem_Dark_ItemType}" SelectedIndex="0" Foreground="{StaticResource darkgray_back}" HorizontalAlignment="Left" SelectedItem="{Binding selectedItemFilter}">
                         <ComboBoxItem Content="All Items"/>
                         <ComboBoxItem Content="Ammo"/>
                         <ComboBoxItem Content="Armor"/>
@@ -178,13 +168,13 @@
                         <ComboBoxItem Content="Potion"/>
                         <ComboBoxItem Content="Weapon"/>
                     </ComboBox>
-                    <Label x:Name="label_Search" Content="Search" Foreground="{DynamicResource lightgray_fore}" Grid.Column="5" Width="52" Margin="0,0,5,0" Padding="0,0,0,5" FontSize="16" VerticalContentAlignment="Center" HorizontalAlignment="Left"/>
-                    <TextBox x:Name="textBox_Search" Margin="0,0,0,2" TextWrapping="Wrap" HorizontalAlignment="Left" Grid.Column="6" Width="170" Background="{DynamicResource lightgray_fore}" Foreground="{DynamicResource darkgray_back}" VerticalContentAlignment="Center" Text="{Binding stringFilter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                    <Label x:Name="label_SellValue" HorizontalAlignment="Right" Foreground="{DynamicResource lightgray_fore}" FontSize="16" Grid.Column="10" Content="{Binding LootList, Converter={StaticResource s_converter}}" Margin="0,0,15,0" VerticalContentAlignment="Center" Padding="0,0,0,5" HorizontalContentAlignment="Stretch"/>
+                    <Label x:Name="label_Search" Content="Search" Foreground="{StaticResource lightgray_fore}" Grid.Column="5" Width="52" Margin="0,0,5,0" Padding="0,0,0,5" FontSize="16" VerticalContentAlignment="Center" HorizontalAlignment="Left"/>
+                    <TextBox x:Name="textBox_Search" Margin="0,0,0,2" TextWrapping="Wrap" HorizontalAlignment="Left" Grid.Column="6" Width="170" Background="{StaticResource lightgray_fore}" Foreground="{StaticResource darkgray_back}" VerticalContentAlignment="Center" Text="{Binding stringFilter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    <Label x:Name="label_SellValue" HorizontalAlignment="Right" Foreground="{StaticResource lightgray_fore}" FontSize="16" Grid.Column="10" Content="{Binding LootList, Converter={StaticResource s_converter}}" Margin="0,0,15,0" VerticalContentAlignment="Center" Padding="0,0,0,5" HorizontalContentAlignment="Stretch"/>
                     <Button x:Name="button_Sell" Content="Sell" Width="45" Style="{StaticResource button_Dark_Small}" Foreground="#FFDEDEDE" FontStyle="Italic" FontWeight="ExtraBlack" Click="button_Sell_Click" Grid.Column="11" Grid.Row="0" Margin="0" ToolTip="Left Click:  Sells the unequipped instances of all items. &#xA;Right Click:  Sells the unequipped instances of the selected items." VerticalContentAlignment="Center" Padding="1" HorizontalAlignment="Center" IsEnabled="False" Cursor="Hand"/>
                 </Grid>
             </TabItem>
-            <TabItem Header="Roster" Width="80" Foreground="{DynamicResource darkgray_back}" Background="{DynamicResource lightgray_fore}">
+            <TabItem Header="Roster" Width="80" Foreground="{StaticResource darkgray_back}" Background="{StaticResource lightgray_fore}">
                 <Grid >
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
@@ -198,9 +188,9 @@
                         <RowDefinition Height="Auto"/>
                         <RowDefinition/>
                     </Grid.RowDefinitions>
-                    <Button x:Name="button_AddPlayer" Content="New" HorizontalAlignment="Left" VerticalAlignment="Top" Click="button_AddPlayer_Click" Style="{StaticResource button_Dark_Small}" Foreground="#FFDEDEDE" Height="30" Margin="0" BorderBrush="{DynamicResource lightgray_fore}" Grid.Row="0" Width="50" Cursor="Hand"/>
+                    <Button x:Name="button_AddPlayer" Content="New" HorizontalAlignment="Left" VerticalAlignment="Top" Click="button_AddPlayer_Click" Style="{StaticResource button_Dark_Small}" Foreground="#FFDEDEDE" Height="30" Margin="0" BorderBrush="{StaticResource lightgray_fore}" Grid.Row="0" Width="50" Cursor="Hand"/>
                     <Button x:Name="button_RemovePlayer" Content="Delete" HorizontalAlignment="Center" VerticalAlignment="Center" Click="button_RemovePlayer_Click" Style="{StaticResource button_Dark_Small}" Foreground="#FFDEDEDE" Height="30" Grid.Row="0" Grid.Column="1" Width="65" IsEnabled="False" Cursor="Hand"/>
-                    <ComboBox x:Name="comboBox_Player" HorizontalAlignment="Center" VerticalAlignment="Center" Height="30" Style="{StaticResource comboBox_Dark_Player}" ItemContainerStyle="{StaticResource comboBoxItem_Dark_Player}" Foreground="{DynamicResource lightgray_fore}" FontWeight="Bold" Grid.Row="0" Grid.Column="2" BorderBrush="{DynamicResource lightgray_fore}" Width="110" SelectionChanged="comboBox_Player_SelectionChanged" SelectedItem="{Binding selectedPlayer}" ItemsSource="{Binding PlayerList}"/>
+                    <ComboBox x:Name="comboBox_Player" HorizontalAlignment="Center" VerticalAlignment="Center" Height="30" Style="{StaticResource comboBox_Dark_Player}" ItemContainerStyle="{StaticResource comboBoxItem_Dark_Player}" Foreground="{StaticResource lightgray_fore}" FontWeight="Bold" Grid.Row="0" Grid.Column="2" BorderBrush="{StaticResource lightgray_fore}" Width="110" SelectionChanged="comboBox_Player_SelectionChanged" SelectedItem="{Binding selectedPlayer}" ItemsSource="{Binding PlayerList}"/>
                     <Grid HorizontalAlignment="Left" Margin="0" VerticalAlignment="Top" Grid.Row="1" Grid.ColumnSpan="5" Width="Auto">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
@@ -225,11 +215,11 @@
                             <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
-                        <Label x:Name="label_Character" Content="{Binding SelectedItem.charactername, ElementName=comboBox_Player}" HorizontalAlignment="Center" Margin="110,10,110,9" VerticalAlignment="Center" Foreground="{DynamicResource lightgray_fore}" FontStyle="Italic" FontSize="18" FontFamily="Segoe UI" Height="10" Width="10"/>
+                        <Label x:Name="label_Character" Content="{Binding SelectedItem.charactername, ElementName=comboBox_Player}" HorizontalAlignment="Center" Margin="110,10,110,9" VerticalAlignment="Center" Foreground="{StaticResource lightgray_fore}" FontStyle="Italic" FontSize="18" FontFamily="Segoe UI" Height="10" Width="10"/>
                         <Border BorderBrush="{StaticResource lightgray_fore}" BorderThickness="1" HorizontalAlignment="Center" Height="209" VerticalAlignment="Top" Width="210" Grid.RowSpan="6" Grid.Column="0" Grid.Row="1" Margin="10,0">
                             <Image x:Name="image_PlayerImage" Margin="0" Stretch="UniformToFill" Source="{Binding SelectedItem.characterimage, ElementName=comboBox_Player}" HorizontalAlignment="Left"/>
                         </Border>
-                        <Button x:Name="button_Browse" Content="Browse" HorizontalAlignment="Center" Grid.Row="7" VerticalAlignment="Top" Width="74" Style="{DynamicResource button_Dark_Small}" Foreground="{DynamicResource lightgray_fore}" Height="30" Margin="78,0" Click="button_Browse_Click" Cursor="Hand" />
+                        <Button x:Name="button_Browse" Content="Browse" HorizontalAlignment="Center" Grid.Row="7" VerticalAlignment="Top" Width="74" Style="{StaticResource button_Dark_Small}" Foreground="{StaticResource lightgray_fore}" Height="30" Margin="78,0" Click="button_Browse_Click" Cursor="Hand" />
                         <Button x:Name="button_ast_inc" Content="+" Width="24" Height="30" Style="{StaticResource button_Dark_Menu}" Foreground="#FFDEDEDE" HorizontalAlignment="Center" VerticalAlignment="Center" Click="button_CurrencyModification_Click" MouseRightButtonUp="button_CurrencyModification_Click" Grid.Column="4" Margin="0,2,5,3" Grid.Row="1" Cursor="Hand"/>
                         <Button x:Name="button_ast_dec" Content="-" Width="24" BorderThickness="0" Style="{StaticResource button_Dark_Menu}" Foreground="#FFDEDEDE" FontFamily="Segoe UI Black" FontWeight="Bold" FontSize="20" Height="30" HorizontalAlignment="Center" VerticalAlignment="Center" MouseRightButtonUp="button_CurrencyModification_Click" Grid.Column="2" Margin="5,2,0,3" Grid.Row="1" Cursor="Hand" Click="button_CurrencyModification_Click"/>
                         <Button x:Name="button_plt_inc" Content="+" Width="24" Height="30" Style="{StaticResource button_Dark_Menu}" Foreground="#FFDEDEDE" HorizontalAlignment="Center" VerticalAlignment="Top" Click="button_CurrencyModification_Click" MouseRightButtonUp="button_CurrencyModification_Click" Grid.Column="4" Grid.Row="2" Margin="0,3,5,0" Cursor="Hand"/>
@@ -245,23 +235,23 @@
                         <TextBox x:Name="textBox_gld_int" Text="0" SpellCheck.IsEnabled="True" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FFDEDEDE" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="#FF464646" BorderThickness="0" Cursor="IBeam" LostFocus="textBox_Currency_LostFocus" Grid.Column="3" Grid.Row="3" Margin="8,7,8,8" Height="20"/>
                         <TextBox x:Name="textBox_sil_int" Text="0" SpellCheck.IsEnabled="True" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FFDEDEDE" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="#FF464646" BorderThickness="0" Cursor="IBeam" LostFocus="textBox_Currency_LostFocus" Grid.Column="3" Grid.Row="4" Margin="8,8,8,7" Height="20"/>
                         <TextBox x:Name="textBox_cop_int" Text="0" SpellCheck.IsEnabled="True" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FFDEDEDE" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="#FF464646" BorderThickness="0" Cursor="IBeam" LostFocus="textBox_Currency_LostFocus" Grid.Column="3" Grid.Row="5" Margin="8,7,8,8" Height="20"/>
-                        <Label x:Name="label_Ast" Content="Astral" Grid.Column="1" Grid.Row="1" Foreground="{DynamicResource lightgray_fore}" HorizontalAlignment="Center" VerticalAlignment="Center" Height="29" Margin="10,3" Width="47"/>
-                        <Label x:Name="label_Plt" Content="Platinum" Grid.Column="1" Grid.Row="2" Foreground="{DynamicResource lightgray_fore}" HorizontalAlignment="Center" VerticalAlignment="Center" Height="29" Margin="0,3" Width="67" />
-                        <Label x:Name="label_Gld" Content="Gold" Grid.Column="1" Grid.Row="3" Foreground="{DynamicResource lightgray_fore}" HorizontalAlignment="Center" VerticalAlignment="Center" Height="29" Margin="14,3,13,3" Width="40" />
-                        <Label x:Name="label_Sil" Content="Silver" Grid.Column="1" Grid.Row="4" Foreground="{DynamicResource lightgray_fore}" HorizontalAlignment="Center" VerticalAlignment="Center" Height="29" Margin="11,3" Width="45" />
-                        <Label x:Name="label_Cop" Content="Copper" Grid.Column="1" Grid.Row="5" Foreground="{DynamicResource lightgray_fore}" HorizontalAlignment="Center" VerticalAlignment="Center" Height="29" Margin="5,3" Width="57" />
-                        <Label x:Name="label_TtlGP" Content="Total" Grid.Column="1" Grid.Row="6" Foreground="{DynamicResource lightgray_fore}" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" Height="29" Margin="13,3" Width="41" />
+                        <Label x:Name="label_Ast" Content="Astral" Grid.Column="1" Grid.Row="1" Foreground="{StaticResource lightgray_fore}" HorizontalAlignment="Center" VerticalAlignment="Center" Height="29" Margin="10,3" Width="47"/>
+                        <Label x:Name="label_Plt" Content="Platinum" Grid.Column="1" Grid.Row="2" Foreground="{StaticResource lightgray_fore}" HorizontalAlignment="Center" VerticalAlignment="Center" Height="29" Margin="0,3" Width="67" />
+                        <Label x:Name="label_Gld" Content="Gold" Grid.Column="1" Grid.Row="3" Foreground="{StaticResource lightgray_fore}" HorizontalAlignment="Center" VerticalAlignment="Center" Height="29" Margin="14,3,13,3" Width="40" />
+                        <Label x:Name="label_Sil" Content="Silver" Grid.Column="1" Grid.Row="4" Foreground="{StaticResource lightgray_fore}" HorizontalAlignment="Center" VerticalAlignment="Center" Height="29" Margin="11,3" Width="45" />
+                        <Label x:Name="label_Cop" Content="Copper" Grid.Column="1" Grid.Row="5" Foreground="{StaticResource lightgray_fore}" HorizontalAlignment="Center" VerticalAlignment="Center" Height="29" Margin="5,3" Width="57" />
+                        <Label x:Name="label_TtlGP" Content="Total" Grid.Column="1" Grid.Row="6" Foreground="{StaticResource lightgray_fore}" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" Height="29" Margin="13,3" Width="41" />
                         <TextBlock x:Name="AstVal" VerticalAlignment="Bottom" Height="30" Foreground="#FFDEDEDE" LineHeight="22" Text="{Binding SelectedItem.ast, ElementName=comboBox_Player}" Grid.Column="5" Grid.Row="1" HorizontalAlignment="Center" Margin="15,0,15,-3"/>
                         <TextBlock x:Name="PltVal" Text="{Binding SelectedItem.plt, ElementName=comboBox_Player}" VerticalAlignment="Bottom" Height="30" Foreground="#FFDEDEDE" LineHeight="22" Grid.Column="5" Grid.Row="2" HorizontalAlignment="Center" Margin="15,7,15,0" />
                         <TextBlock x:Name="GldVal" Text="{Binding SelectedItem.gld, ElementName=comboBox_Player}" VerticalAlignment="Bottom" Height="30" Foreground="#FFDEDEDE" LineHeight="22" Grid.Column="5" Grid.Row="3" HorizontalAlignment="Center" Margin="15,7,15,0"/>
                         <TextBlock x:Name="SilVal" Text="{Binding SelectedItem.sil, ElementName=comboBox_Player}" VerticalAlignment="Bottom" Height="30" Foreground="#FFDEDEDE" LineHeight="22" Grid.Column="5" Grid.Row="4" HorizontalAlignment="Center" Margin="15,7,15,0"/>
                         <TextBlock x:Name="CopVal" Text="{Binding SelectedItem.cop, ElementName=comboBox_Player}" VerticalAlignment="Bottom" Height="30" Foreground="#FFDEDEDE" LineHeight="22" Grid.Column="5" Grid.Row="5" HorizontalAlignment="Center" Margin="15,7,15,0"/>
                         <TextBlock x:Name="TtlVal" Text="{Binding SelectedItem.totalGP, ElementName=comboBox_Player}" VerticalAlignment="Bottom" Height="30" Foreground="#FFDEDEDE" LineHeight="22" FontFamily="Segoe UI Black" Grid.Column="5" Grid.Row="6" HorizontalAlignment="Center" Margin="15,7,15,0"/>
-                        <CheckBox x:Name="checkBox" Content="GP Carried?" Grid.Column="7" HorizontalAlignment="Right" Grid.Row="3" Foreground="{DynamicResource lightgray_fore}" FontFamily="Segoe UI Semibold" FontSize="14" IsChecked="{Binding SelectedItem.GPCarried, ElementName=comboBox_Player}" VerticalAlignment="Center" Margin="0,10,0,7" VerticalContentAlignment="Center" ToolTip="Indicates whether the player's GP is carried by the character, or stored in another container." Height="18" Width="103"/>
+                        <CheckBox x:Name="checkBox" Content="GP Carried?" Grid.Column="7" HorizontalAlignment="Right" Grid.Row="3" Foreground="{StaticResource lightgray_fore}" FontFamily="Segoe UI Semibold" FontSize="14" IsChecked="{Binding SelectedItem.GPCarried, ElementName=comboBox_Player}" VerticalAlignment="Center" Margin="0,10,0,7" VerticalContentAlignment="Center" ToolTip="Indicates whether the player's GP is carried by the character, or stored in another container." Height="18" Width="103"/>
                         <GridSplitter x:Name="gridSplitter1" Width="1" Margin="0" Grid.Row="1" Grid.RowSpan="6" Grid.Column="2" HorizontalAlignment="Left"/>
-                        <GridSplitter x:Name="gridSplitter" Grid.Column="1" Height="1" Grid.Row="6" VerticalAlignment="Top" Grid.ColumnSpan="5" Cursor="Arrow" IsEnabled="False" Background="{DynamicResource lightgray_fore}" HorizontalAlignment="Stretch" Margin="5,0,0,0"/>
-                        <Label x:Name="label_TtlWgt" Content="Total Weight" Grid.Column="7" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="{DynamicResource lightgray_fore}" Height="29" Margin="0,3" Width="91"/>
-                        <TextBlock x:Name="textBlock_TtlWgt" Grid.Column="8" HorizontalAlignment="Left" Margin="0,8" Grid.Row="1" TextWrapping="NoWrap" VerticalAlignment="Center" Foreground="{DynamicResource lightgray_fore}" Height="19">
+                        <GridSplitter x:Name="gridSplitter" Grid.Column="1" Height="1" Grid.Row="6" VerticalAlignment="Top" Grid.ColumnSpan="5" Cursor="Arrow" IsEnabled="False" Background="{StaticResource lightgray_fore}" HorizontalAlignment="Stretch" Margin="5,0,0,0"/>
+                        <Label x:Name="label_TtlWgt" Content="Total Weight" Grid.Column="7" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="{StaticResource lightgray_fore}" Height="29" Margin="0,3" Width="91"/>
+                        <TextBlock x:Name="textBlock_TtlWgt" Grid.Column="8" HorizontalAlignment="Left" Margin="0,8" Grid.Row="1" TextWrapping="NoWrap" VerticalAlignment="Center" Foreground="{StaticResource lightgray_fore}" Height="19">
                             <TextBlock.Text>
                                 <MultiBinding StringFormat=" {0} Lbs" Converter="{StaticResource ttlwgt_converter}" NotifyOnTargetUpdated="True">
                                     <!--<Binding ElementName="listView_Player" Path="ItemsSource"/>
@@ -276,19 +266,19 @@
                                 </MultiBinding>
                             </TextBlock.Text>
                         </TextBlock>
-                        <Label x:Name="label_TtlVal" Content="Total Value" Grid.Column="7" Grid.Row="2" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="{DynamicResource lightgray_fore}" Margin="0,4,0,2" Height="29" Width="79"/>
-                        <TextBlock x:Name="textBlock_TtlVal" Grid.Column="8" HorizontalAlignment="Left" Margin="0,9,0,7" Grid.Row="2" TextWrapping="NoWrap" VerticalAlignment="Center" Foreground="{DynamicResource lightgray_fore}" Height="19">
+                        <Label x:Name="label_TtlVal" Content="Total Value" Grid.Column="7" Grid.Row="2" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="{StaticResource lightgray_fore}" Margin="0,4,0,2" Height="29" Width="79"/>
+                        <TextBlock x:Name="textBlock_TtlVal" Grid.Column="8" HorizontalAlignment="Left" Margin="0,9,0,7" Grid.Row="2" TextWrapping="NoWrap" VerticalAlignment="Center" Foreground="{StaticResource lightgray_fore}" Height="19">
                             
                         </TextBlock>
-                        <Label x:Name="label_Notes" Content="Notes&#xD;&#xA;" Grid.Column="9" HorizontalAlignment="Left" Margin="30,0,0,0" VerticalAlignment="Top" Foreground="{DynamicResource lightgray_fore}" FontStyle="Italic" Width="63" Height="29" FontFamily="Segoe UI" FontSize="18"/>
-                        <TextBox x:Name="textBox_Notes" TextWrapping="Wrap" Margin="30,1,0,1" Grid.Column="9" Grid.Row="1" Foreground="{DynamicResource darkgray_back}" FontFamily="Segoe UI" AcceptsReturn="True" HorizontalAlignment="Center" Width="503" VerticalScrollBarVisibility="Auto" ScrollViewer.CanContentScroll="True" Height="208" Grid.RowSpan="6" VerticalAlignment="Center" Text="{Binding DataContext.book.notes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                        <Label x:Name="label_Notes" Content="Notes&#xD;&#xA;" Grid.Column="9" HorizontalAlignment="Left" Margin="30,0,0,0" VerticalAlignment="Top" Foreground="{StaticResource lightgray_fore}" FontStyle="Italic" Width="63" Height="29" FontFamily="Segoe UI" FontSize="18"/>
+                        <TextBox x:Name="textBox_Notes" TextWrapping="Wrap" Margin="30,1,0,1" Grid.Column="9" Grid.Row="1" Foreground="{StaticResource darkgray_back}" FontFamily="Segoe UI" AcceptsReturn="True" HorizontalAlignment="Center" Width="503" VerticalScrollBarVisibility="Auto" ScrollViewer.CanContentScroll="True" Height="208" Grid.RowSpan="6" VerticalAlignment="Center" Text="{Binding DataContext.book.notes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                             <TextBox.ContextMenu>
                                 <ContextMenu>
                                     <MenuItem Header="Send to new LootItem" Click="NewItemFromNotes_Click"/>
                                 </ContextMenu>
                             </TextBox.ContextMenu>
                         </TextBox>
-                        <Button x:Name="button_NewFromSelected" Content="New LootItem" Grid.Column="9" HorizontalAlignment="Center" Grid.Row="7" VerticalAlignment="Bottom" Width="120" Margin="221,0,192,0" Height="30" Style="{DynamicResource button_Dark_Small}" Foreground="{DynamicResource lightgray_fore}" Click="NewItemFromNotes_Click" Cursor="Hand"/>
+                        <Button x:Name="button_NewFromSelected" Content="New LootItem" Grid.Column="9" HorizontalAlignment="Center" Grid.Row="7" VerticalAlignment="Bottom" Width="120" Margin="221,0,192,0" Height="30" Style="{StaticResource button_Dark_Small}" Foreground="{StaticResource lightgray_fore}" Click="NewItemFromNotes_Click" Cursor="Hand"/>
                         <GridSplitter x:Name="gridSplitter1_Copy" Width="1" Margin="0" Grid.Row="1" Grid.RowSpan="6" Grid.Column="5" HorizontalAlignment="Left"/>
                     </Grid>
 
@@ -304,7 +294,7 @@
                             </ContextMenu>
                         </ListView.ContextMenu>
                         <ListView.View>
-                            <GridView x:Name="gridview_Player" ColumnHeaderContainerStyle="{DynamicResource headers_Dark}">
+                            <GridView x:Name="gridview_Player" ColumnHeaderContainerStyle="{StaticResource headers_Dark}">
                                 <GridViewColumn Width="Auto" Header="Name" DisplayMemberBinding="{Binding itemname}"/>
                                 <GridViewColumn Width="100" Header="Type">
                                     <GridViewColumn.CellTemplate>
